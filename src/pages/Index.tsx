@@ -1,12 +1,22 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import StarBackground from '@/components/StarBackground';
+import Hero from '@/components/Hero';
+import WhyUs from '@/components/WhyUs';
+import BentoGrid from '@/components/BentoGrid';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div id="top" className="relative min-h-screen bg-background overflow-hidden">
+      {/* Animated star background */}
+      <StarBackground />
+      
+      {/* Main content */}
+      <main className="relative z-10">
+        <Hero />
+        <WhyUs />
+        <BentoGrid />
+        <Footer />
+      </main>
     </div>
   );
 };

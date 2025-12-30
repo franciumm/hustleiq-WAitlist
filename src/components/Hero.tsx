@@ -1,0 +1,137 @@
+import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import businessModelImage from '@/assets/business-model.png';
+import hustleiqLogo from '@/assets/hustleiq-logo.png';
+
+const Hero = () => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setEmail('');
+    }, 1000);
+  };
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center px-6 py-20 lg:py-0">
+      <div className="container max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left side - Text content */}
+          <div className="space-y-8 text-center lg:text-left order-2 lg:order-1">
+            {/* Logo badge */}
+            <div 
+              className="inline-flex items-center gap-3 glass-card px-4 py-2 opacity-0"
+              style={{ animation: 'fade-in-up 0.6s ease-out 0.2s forwards' }}
+            >
+              <img src={hustleiqLogo} alt="HustleIQ" className="w-8 h-8" />
+              <span className="text-sm font-medium text-muted-foreground">
+                AI-Powered Business Coaching
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-tight opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 0.4s forwards' }}
+            >
+              Stop Guessing.{' '}
+              <span className="gradient-text">Start Executing.</span>
+            </h1>
+
+            {/* Subheadline */}
+            <p 
+              className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 0.6s forwards' }}
+            >
+              The AI that finds your perfect business model and holds you accountable until you hit{' '}
+              <span className="text-primary font-semibold">$1k</span>.
+            </p>
+
+            {/* CTA Form */}
+            <form 
+              onSubmit={handleSubmit} 
+              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto lg:mx-0 opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 0.8s forwards' }}
+            >
+              {submitted ? (
+                <div className="glass-card px-6 py-4 text-center w-full">
+                  <p className="text-primary font-medium">🎉 You're on the list!</p>
+                  <p className="text-sm text-muted-foreground mt-1">We'll notify you when we launch.</p>
+                </div>
+              ) : (
+                <>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 px-5 py-4 bg-secondary/50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="group px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isSubmitting ? (
+                      <span className="animate-pulse">Joining...</span>
+                    ) : (
+                      <>
+                        Get Early Access
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
+            </form>
+
+            {/* Social proof */}
+            <p 
+              className="text-sm text-muted-foreground opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 1s forwards' }}
+            >
+              🚀 <span className="text-foreground font-medium">500+</span> ambitious founders already on the waitlist
+            </p>
+          </div>
+
+          {/* Right side - Phone mockup */}
+          <div 
+            className="relative flex justify-center order-1 lg:order-2 opacity-0"
+            style={{ animation: 'scale-in 1s ease-out 0.5s forwards' }}
+          >
+            {/* Glow effect behind phone */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse-glow" />
+            </div>
+            
+            {/* Phone mockup */}
+            <div className="phone-mockup float relative z-10">
+              <div className="phone-screen">
+                <img 
+                  src={businessModelImage} 
+                  alt="HustleIQ App showing SMMA Business Model recommendation" 
+                  className="w-[280px] sm:w-[320px] h-auto"
+                />
+              </div>
+              
+              {/* Notch */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
