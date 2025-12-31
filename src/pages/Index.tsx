@@ -1,6 +1,5 @@
 import StarBackground from '@/components/StarBackground';
 import Header from '@/components/Header';
-import DynamicIsland from '@/components/DynamicIsland';
 import Hero from '@/components/Hero';
 import FloatingSteps from '@/components/FloatingSteps';
 import WhyUs from '@/components/WhyUs';
@@ -23,11 +22,6 @@ const Index = () => {
       
       {/* Header */}
       <Header />
-      
-      {/* Dynamic Island - positioned below header */}
-      <div className="hidden lg:block">
-        <DynamicIsland />
-      </div>
       
       {/* Main content */}
       <main className="relative z-10">
