@@ -1,12 +1,14 @@
 import StarBackground from '@/components/StarBackground';
+import DynamicIsland from '@/components/DynamicIsland';
 import Hero from '@/components/Hero';
+import FloatingSteps from '@/components/FloatingSteps';
 import WhyUs from '@/components/WhyUs';
 import BentoGrid from '@/components/BentoGrid';
 import NetworkSection from '@/components/NetworkSection';
 import AppPreview from '@/components/AppPreview';
 import ComingSoon from '@/components/ComingSoon';
-import TwoPaths from '@/components/TwoPaths';
 import UrgencyBanner from '@/components/UrgencyBanner';
+import TwoPaths from '@/components/TwoPaths';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
@@ -16,9 +18,13 @@ const Index = () => {
       {/* Animated star background */}
       <StarBackground />
       
+      {/* Dynamic Island */}
+      <DynamicIsland />
+      
       {/* Main content */}
       <main className="relative z-10">
         <Hero />
+        <FloatingSteps />
         <WhyUs />
         <BentoGrid />
         <NetworkSection />
