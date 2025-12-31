@@ -23,11 +23,11 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-xl border p-4 pr-8 shadow-xl transition-all duration-500 data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-100 data-[state=closed]:duration-1000 data-[state=closed]:slide-out-to-left-full data-[state=open]:slide-in-from-left-full data-[state=open]:fade-in-0 data-[state=open]:duration-400",
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-xl border-2 p-4 pr-8 shadow-xl transition-all duration-500 data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-100 data-[state=closed]:duration-1000 data-[state=closed]:slide-out-to-left-full data-[state=open]:slide-in-from-left-full data-[state=open]:fade-in-0 data-[state=open]:duration-400",
   {
     variants: {
       variant: {
-        default: "border-white/10 bg-black/80 backdrop-blur-xl text-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
+        default: "border-primary/50 bg-black/85 backdrop-blur-xl text-white/90 shadow-[0_0_20px_rgba(74,222,128,0.3),0_8px_32px_rgba(0,0,0,0.4)]",
         destructive: "destructive group border-destructive bg-destructive text-destructive-foreground",
       },
     },
@@ -82,7 +82,7 @@ const ToastTitle = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
 >(({ className, ...props }, ref) => (
-  <ToastPrimitives.Title ref={ref} className={cn("text-sm font-semibold", className)} {...props} />
+  <ToastPrimitives.Title ref={ref} className={cn("text-sm font-semibold text-primary", className)} {...props} />
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
 
