@@ -1,4 +1,5 @@
 import StarBackground from '@/components/StarBackground';
+import Header from '@/components/Header';
 import DynamicIsland from '@/components/DynamicIsland';
 import Hero from '@/components/Hero';
 import FloatingSteps from '@/components/FloatingSteps';
@@ -11,6 +12,8 @@ import UrgencyBanner from '@/components/UrgencyBanner';
 import TwoPaths from '@/components/TwoPaths';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import SignupToast from '@/components/SignupToast';
+import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   return (
@@ -18,8 +21,13 @@ const Index = () => {
       {/* Animated star background */}
       <StarBackground />
       
-      {/* Dynamic Island */}
-      <DynamicIsland />
+      {/* Header */}
+      <Header />
+      
+      {/* Dynamic Island - positioned below header */}
+      <div className="hidden lg:block">
+        <DynamicIsland />
+      </div>
       
       {/* Main content */}
       <main className="relative z-10">
@@ -35,6 +43,10 @@ const Index = () => {
         <FAQ />
         <Footer />
       </main>
+
+      {/* Toast notifications */}
+      <SignupToast />
+      <Toaster />
     </div>
   );
 };

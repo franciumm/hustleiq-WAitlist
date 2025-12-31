@@ -23,7 +23,7 @@ const features = [
 
 const BentoGrid = () => {
   return (
-    <section className="relative py-24 px-6">
+    <section id="features" className="relative py-24 px-6">
       <div className="container max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -72,13 +72,16 @@ const BentoGrid = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center">
+        <div className="mt-16 text-center space-y-4">
           <a
             href="#top"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105"
+            className="btn-primary inline-flex"
           >
-            Start your journey →
+            Join the Waitlist →
           </a>
+          <p className="text-sm text-muted-foreground">
+            Secure your free trial (7 days · no credit card)
+          </p>
         </div>
       </div>
     </section>

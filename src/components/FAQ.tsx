@@ -7,34 +7,34 @@ import {
 
 const faqs = [
   {
-    question: 'What is HustleIQ?',
-    answer: 'HustleIQ is an AI-guided execution platform that helps you find your ideal business model based on your personality, skills, and lifestyle — then holds you accountable until you hit your first income milestones.',
+    question: 'Is this for beginners?',
+    answer: 'Yes. HustleIQ guides you from zero — step by step.',
   },
   {
-    question: 'Who is HustleIQ for?',
-    answer: 'HustleIQ is for aspiring entrepreneurs who are tired of planning and want to start executing. Whether you\'re completely new or have tried and failed before, HustleIQ meets you where you are.',
+    question: "Does my age really not matter?",
+    answer: 'Age matters far less than execution speed and consistency.',
   },
   {
-    question: 'How does the AI matching work?',
-    answer: 'We analyze your personality, available time, risk tolerance, skills, and lifestyle to recommend business models that align with who you are — not just what\'s trending.',
+    question: 'How is this different from courses?',
+    answer: 'Courses give information. HustleIQ enforces execution with a plan that adapts as you act.',
   },
   {
-    question: 'What kind of businesses does HustleIQ support?',
-    answer: 'We support a wide range of online business models including SMMA, e-commerce, dropshipping, AI automation, copywriting, and more. The AI matches you with the best fit.',
+    question: "I know nothing about the skills you teach. Is that a problem?",
+    answer: 'No. We start at your level and build the skills you need as you go.',
   },
   {
     question: 'Is there a free trial?',
-    answer: 'Yes. When we launch, you\'ll get 7 days free — no credit card required.',
+    answer: 'Yes — 7 days. No credit card required.',
   },
   {
-    question: 'How is HustleIQ different from courses?',
-    answer: 'Courses give you information. HustleIQ gives you execution. We tell you exactly what to do, when to do it, and adapt your plan based on your progress.',
+    question: 'Do I need money once I joined the program?',
+    answer: "Not necessarily. Many paths start with execution, not capital.",
   },
 ];
 
 const FAQ = () => {
   return (
-    <section className="relative py-24 px-6">
+    <section id="faq" className="relative py-24 px-6">
       <div className="container max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
@@ -58,6 +58,13 @@ const FAQ = () => {
             </AccordionItem>
           ))}
         </Accordion>
+
+        {/* CTA */}
+        <div className="mt-12 text-center">
+          <a href="#top" className="btn-primary inline-flex">
+            Join the Waitlist →
+          </a>
+        </div>
       </div>
     </section>
   );

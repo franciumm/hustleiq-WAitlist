@@ -1,6 +1,6 @@
 const AppPreview = () => {
   return (
-    <section className="relative py-24 px-6">
+    <section id="use-cases" className="relative py-24 px-6">
       <div className="container max-w-4xl mx-auto">
         <div className="glass-card p-12 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
@@ -14,11 +14,17 @@ const AppPreview = () => {
               Progress is visible. Focus is enforced. Momentum compounds.
             </p>
           </div>
+
+          {/* Placeholder for Main UI Page image */}
+          <div className="w-full h-64 sm:h-80 rounded-2xl bg-secondary/30 border border-border/50 flex items-center justify-center mb-8">
+            <p className="text-muted-foreground text-sm">Main UI Preview Coming Soon</p>
+          </div>
+
           <a
             href="#top"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105"
+            className="btn-primary inline-flex"
           >
-            Join the waitlist →
+            Start your journey →
           </a>
         </div>
       </div>

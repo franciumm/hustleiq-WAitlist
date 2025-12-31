@@ -22,7 +22,7 @@ const DynamicIsland = () => {
   }, []);
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-30">
       <div className="glass-card px-6 py-2 rounded-full border-primary/20 backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
