@@ -45,8 +45,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-border/30 text-center">
+        {/* Disclaimer */}
+        <div className="mt-12 pt-8 border-t border-border/30 text-center space-y-4">
+          <p className="text-xs text-muted-foreground/70 max-w-xl mx-auto">
+            Results vary. No guarantees. HustleIQ focuses on execution, not promises.
+          </p>
           <p className="text-sm text-muted-foreground">
             © {currentYear} HustleIQ. All rights reserved.
           </p>

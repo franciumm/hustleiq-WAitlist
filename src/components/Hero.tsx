@@ -34,7 +34,7 @@ const Hero = () => {
             >
               <img src={hustleiqLogo} alt="HustleIQ" className="w-8 h-8" />
               <span className="text-sm font-medium text-muted-foreground">
-                AI-Powered Business Coaching
+                AI-Guided Business Execution
               </span>
             </div>
 
@@ -48,13 +48,13 @@ const Hero = () => {
             </h1>
 
             {/* Subheadline */}
-            <p 
-              className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 opacity-0"
+            <div 
+              className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 opacity-0 space-y-1"
               style={{ animation: 'fade-in-up 0.8s ease-out 0.6s forwards' }}
             >
-              The AI that finds your perfect business model and holds you accountable until you hit{' '}
-              <span className="text-primary font-semibold">$1k</span>.
-            </p>
+              <p>From 0 to your first <span className="text-primary font-semibold">$10K/month</span> business.</p>
+              <p>Your first milestone starts with execution.</p>
+            </div>
 
             {/* CTA Form */}
             <form 
@@ -86,8 +86,7 @@ const Hero = () => {
                       <span className="animate-pulse">Joining...</span>
                     ) : (
                       <>
-                        Get Early Access
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        Join the Waitlist →
                       </>
                     )}
                   </button>
@@ -95,12 +94,20 @@ const Hero = () => {
               )}
             </form>
 
-            {/* Social proof */}
+            {/* Secondary text */}
             <p 
               className="text-sm text-muted-foreground opacity-0"
               style={{ animation: 'fade-in-up 0.8s ease-out 1s forwards' }}
             >
-              🚀 <span className="text-foreground font-medium">500+</span> ambitious founders already on the waitlist
+              Secure your free trial (7 days · no credit card)
+            </p>
+
+            {/* Social proof */}
+            <p 
+              className="text-sm text-muted-foreground opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 1.2s forwards' }}
+            >
+              Join <span className="text-foreground font-medium">2,400+</span> founders already on the waitlist
             </p>
           </div>
 

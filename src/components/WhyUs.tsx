@@ -14,7 +14,8 @@ const WhyUs = () => {
             <span className="gradient-text">Execution is everything.</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Most people know what to do. Few actually do it. HustleIQ bridges the gap.
+            Most people know what to do. Few actually do it.<br />
+            HustleIQ bridges the gap between intention and consistent execution.
           </p>
         </div>
 
