@@ -4,19 +4,19 @@ const features = [
   {
     icon: Brain,
     title: 'Psychographic Matching',
-    description: 'We analyze your personality, skills, and lifestyle to find a business model you won\'t quit after 2 weeks.',
+    description: 'We analyze your personality, skills, and lifestyle to match you with a business you won\'t quit after two weeks.',
     highlight: 'Built for your DNA',
   },
   {
     icon: MousePointer,
     title: 'The "Do-This-Next" Button',
-    description: 'Eliminate decision fatigue with single-task focus. One action. One button. Zero overwhelm.',
+    description: 'One clear action at a time. No overwhelm. No decision fatigue.',
     highlight: 'Zero guesswork',
   },
   {
     icon: MessageCircle,
     title: 'Daily Accountability',
-    description: 'WhatsApp/Telegram integration that checks on you daily. Celebrate wins. Course-correct slips.',
+    description: 'Stay consistent with daily execution and automatic course correction.',
     highlight: 'Never feel alone',
   },
 ];
@@ -28,8 +28,8 @@ const BentoGrid = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Everything you need to{' '}
-            <span className="gradient-text">hit $1k</span>
+            Everything you need to build your first{' '}
+            <span className="gradient-text">$10K/month</span> business
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             No fluff. No 47-step frameworks. Just intelligent execution.
@@ -73,15 +73,11 @@ const BentoGrid = () => {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <p className="text-muted-foreground mb-6">
-            Ready to stop planning and start earning?
-          </p>
           <a
             href="#top"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105"
           >
-            Join the Waitlist
-            <span className="text-lg">→</span>
+            Start your journey →
           </a>
         </div>
       </div>
