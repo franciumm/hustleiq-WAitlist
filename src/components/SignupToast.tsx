@@ -2,26 +2,26 @@ import { useEffect, useState, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const names = [
-  { name: 'Marcus', country: 'USA' },
-  { name: 'Priya', country: 'India' },
-  { name: 'Hiroshi', country: 'Japan' },
-  { name: 'Emma', country: 'UK' },
-  { name: 'Carlos', country: 'Brazil' },
-  { name: 'Fatima', country: 'UAE' },
-  { name: 'Johan', country: 'Sweden' },
-  { name: 'Mei', country: 'China' },
-  { name: 'Ahmed', country: 'Egypt' },
-  { name: 'Sofia', country: 'Spain' },
-  { name: 'Liam', country: 'Ireland' },
-  { name: 'Yuki', country: 'Japan' },
-  { name: 'Alex', country: 'Canada' },
-  { name: 'Nina', country: 'Germany' },
-  { name: 'Kofi', country: 'Ghana' },
-  { name: 'Daniel', country: 'Germany' },
-  { name: 'Isabella', country: 'Italy' },
-  { name: 'Olga', country: 'Russia' },
-  { name: 'Chen', country: 'Taiwan' },
-  { name: 'Amara', country: 'Nigeria' },
+  { name: 'Marcus', country: 'USA', flag: '🇺🇸' },
+  { name: 'Priya', country: 'India', flag: '🇮🇳' },
+  { name: 'Hiroshi', country: 'Japan', flag: '🇯🇵' },
+  { name: 'Emma', country: 'UK', flag: '🇬🇧' },
+  { name: 'Carlos', country: 'Brazil', flag: '🇧🇷' },
+  { name: 'Fatima', country: 'UAE', flag: '🇦🇪' },
+  { name: 'Johan', country: 'Sweden', flag: '🇸🇪' },
+  { name: 'Mei', country: 'China', flag: '🇨🇳' },
+  { name: 'Ahmed', country: 'Egypt', flag: '🇪🇬' },
+  { name: 'Sofia', country: 'Spain', flag: '🇪🇸' },
+  { name: 'Liam', country: 'Ireland', flag: '🇮🇪' },
+  { name: 'Yuki', country: 'Japan', flag: '🇯🇵' },
+  { name: 'Alex', country: 'Canada', flag: '🇨🇦' },
+  { name: 'Nina', country: 'Germany', flag: '🇩🇪' },
+  { name: 'Kofi', country: 'Ghana', flag: '🇬🇭' },
+  { name: 'Daniel', country: 'Germany', flag: '🇩🇪' },
+  { name: 'Isabella', country: 'Italy', flag: '🇮🇹' },
+  { name: 'Olga', country: 'Russia', flag: '🇷🇺' },
+  { name: 'Chen', country: 'Taiwan', flag: '🇹🇼' },
+  { name: 'Amara', country: 'Nigeria', flag: '🇳🇬' },
 ];
 
 const SignupToast = () => {
@@ -48,8 +48,9 @@ const SignupToast = () => {
     visibleCount.current += 1;
 
     toast({
-      description: `${person.name} from ${person.country} joined the waitlist`,
-      duration: 10000, // 10 seconds display
+      title: "Welcome to HustleIQ",
+      description: `${person.name} from ${person.country} joined the waitlist ${person.flag}`,
+      duration: 10000,
       className: 'signup-toast',
     });
 
