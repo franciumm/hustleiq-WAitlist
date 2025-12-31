@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
 import businessModelImage from '@/assets/business-model.png';
 import hustleiqLogo from '@/assets/hustleiq-logo.png';
 
@@ -21,12 +20,21 @@ const Hero = () => {
     }, 1000);
   };
 
+  // Avatar stack data
+  const avatars = [
+    { bg: 'bg-blue-500', initials: 'JD' },
+    { bg: 'bg-green-500', initials: 'AM' },
+    { bg: 'bg-purple-500', initials: 'SK' },
+    { bg: 'bg-orange-500', initials: 'LP' },
+    { bg: 'bg-pink-500', initials: 'RW' },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-20 lg:py-0">
+    <section id="how-it-works" className="relative min-h-screen flex items-center justify-center px-6 py-20 lg:py-0 pt-32">
       <div className="container max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left side - Text content */}
-          <div className="space-y-8 text-center lg:text-left order-2 lg:order-1">
+          <div className="space-y-6 text-center lg:text-left order-2 lg:order-1">
             {/* Logo badge */}
             <div 
               className="inline-flex items-center gap-3 glass-card px-4 py-2 opacity-0"
@@ -80,19 +88,25 @@ const Hero = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="group px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">Joining...</span>
                     ) : (
-                      <>
-                        Join the Waitlist →
-                      </>
+                      <>Join the Waitlist →</>
                     )}
                   </button>
                 </>
               )}
             </form>
+
+            {/* Microcopy */}
+            <p 
+              className="text-xs text-muted-foreground/70 opacity-0"
+              style={{ animation: 'fade-in-up 0.8s ease-out 0.9s forwards' }}
+            >
+              No spam. Early access first.
+            </p>
 
             {/* Secondary text */}
             <p 
@@ -102,13 +116,25 @@ const Hero = () => {
               Secure your free trial (7 days · no credit card)
             </p>
 
-            {/* Social proof */}
-            <p 
-              className="text-sm text-muted-foreground opacity-0"
+            {/* Social proof with avatars */}
+            <div 
+              className="flex items-center gap-3 justify-center lg:justify-start opacity-0"
               style={{ animation: 'fade-in-up 0.8s ease-out 1.2s forwards' }}
             >
-              Join <span className="text-foreground font-medium">2,400+</span> founders already on the waitlist
-            </p>
+              <div className="flex -space-x-2">
+                {avatars.map((avatar, i) => (
+                  <div 
+                    key={i}
+                    className={`w-8 h-8 rounded-full ${avatar.bg} border-2 border-background flex items-center justify-center text-xs font-medium text-white`}
+                  >
+                    {avatar.initials}
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Join <span className="text-foreground font-medium">2,400+</span> founders already on the waitlist
+              </p>
+            </div>
           </div>
 
           {/* Right side - Phone mockup */}

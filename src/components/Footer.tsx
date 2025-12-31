@@ -1,5 +1,6 @@
 import { Twitter, Linkedin, Instagram } from 'lucide-react';
-import hustleiqLogo from '@/assets/hustleiq-logo.png';
+import hustleiqTextLogo from '@/assets/hustleiq-text-logo.png';
+import StrategyCallForm from './StrategyCallForm';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,38 +11,41 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo and tagline */}
           <div className="flex flex-col items-center md:items-start gap-3">
-            <div className="flex items-center gap-3">
-              <img src={hustleiqLogo} alt="HustleIQ" className="w-10 h-10" />
-              <span className="text-xl font-bold gradient-text">HustleIQ</span>
-            </div>
+            <a href="#top" className="flex items-center gap-2">
+              <img src={hustleiqTextLogo} alt="HustleIQ" className="h-8 w-auto" />
+            </a>
             <p className="text-sm text-muted-foreground">
               Turn ambition into execution.
             </p>
           </div>
 
-          {/* Social links */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
-              aria-label="Twitter"
-            >
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-5 h-5" />
-            </a>
+          {/* Strategy Call + Social links */}
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <StrategyCallForm />
+            
+            <div className="flex items-center gap-4">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
 

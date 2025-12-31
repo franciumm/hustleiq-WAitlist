@@ -2,7 +2,7 @@ import executionProgressImage from '@/assets/execution-progress.png';
 
 const WhyUs = () => {
   return (
-    <section className="relative py-24 px-6">
+    <section id="about" className="relative py-24 px-6">
       <div className="container max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -30,7 +30,7 @@ const WhyUs = () => {
             
             {/* Tilted phone mockup */}
             <div 
-              className="phone-mockup relative z-10"
+              className="phone-mockup relative z-10 float"
               style={{ transform: 'perspective(1000px) rotateY(-5deg) rotateX(5deg)' }}
             >
               <div className="phone-screen">
@@ -53,9 +53,7 @@ const WhyUs = () => {
                 Dynamic Calibration
               </h3>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                If you lose focus{' '}
-                <span className="text-red-400 font-medium">(Red Line)</span>, HustleIQ adapts your plan instantly to get you back on track{' '}
-                <span className="text-primary font-medium">(Green Line)</span>.
+                If you lose focus, HustleIQ adapts your plan instantly to get you back on track.
               </p>
               
               <div className="mt-6 pt-6 border-t border-border">
@@ -65,8 +63,8 @@ const WhyUs = () => {
                     <span className="text-sm text-muted-foreground">HustleIQ Path</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-400" />
-                    <span className="text-sm text-muted-foreground">Lost Focus</span>
+                    <div className="w-3 h-3 rounded-full bg-muted-foreground/50" />
+                    <span className="text-sm text-muted-foreground">Adjusted</span>
                   </div>
                 </div>
               </div>
@@ -81,13 +79,10 @@ const WhyUs = () => {
           </div>
         </div>
 
-        {/* Secondary CTA */}
+        {/* CTA */}
         <div className="mt-12 text-center">
-          <a
-            href="#top"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-          >
-            Start your journey →
+          <a href="#top" className="btn-primary inline-flex">
+            Join the Waitlist →
           </a>
         </div>
       </div>

@@ -4,9 +4,9 @@ const TwoPaths = () => {
       <div className="container max-w-4xl mx-auto">
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Path A */}
-          <div className="glass-card p-8 border-red-500/30 hover:border-red-500/50 transition-colors">
+          <div className="glass-card p-8 border-muted-foreground/30 hover:border-muted-foreground/50 transition-colors">
             <div className="text-center">
-              <span className="inline-block px-3 py-1 text-xs font-medium text-red-400 bg-red-500/10 rounded-full mb-4">
+              <span className="inline-block px-3 py-1 text-xs font-medium text-muted-foreground bg-muted/30 rounded-full mb-4">
                 Path A
               </span>
               <p className="text-lg text-muted-foreground">
@@ -28,14 +28,14 @@ const TwoPaths = () => {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* Footer text and CTA */}
         <div className="text-center">
           <p className="text-xl text-muted-foreground mb-8">
             Invest in your future. <span className="text-foreground font-medium">Now it's your choice.</span>
           </p>
           <a
             href="#top"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300 btn-glow hover:scale-105"
+            className="btn-primary inline-flex"
           >
             Join the Waitlist →
           </a>
