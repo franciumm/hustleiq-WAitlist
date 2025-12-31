@@ -14,6 +14,16 @@ const NetworkSection = () => {
             Connect with builders focused on action, not talking.
           </p>
         </div>
+
+        {/* Secondary CTA */}
+        <div className="mt-8">
+          <a
+            href="#top"
+            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+          >
+            Start your journey →
+          </a>
+        </div>
       </div>
     </section>
   );
