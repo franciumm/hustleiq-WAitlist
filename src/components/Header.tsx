@@ -15,11 +15,11 @@ const navLinks = [
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [isCompact, setIsCompact] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsCompact(window.scrollY > 200);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -28,66 +28,65 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-6 py-4">
-        <div className="container max-w-7xl mx-auto">
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'}`}>
+        <div className="container max-w-7xl mx-auto px-4">
           <div 
             className={`
-              glass-card flex items-center justify-between
-              border border-primary/30 backdrop-blur-xl
-              shadow-[0_0_20px_rgba(74,222,128,0.2)]
-              transition-all duration-300 ease-out
-              ${isCompact 
-                ? 'px-4 py-2 shadow-[0_0_15px_rgba(74,222,128,0.15)]' 
-                : 'px-6 py-3 shadow-[0_0_20px_rgba(74,222,128,0.2)]'
+              relative flex items-center justify-between
+              rounded-full border backdrop-blur-xl transition-all duration-300
+              ${isScrolled 
+                ? 'bg-black/60 border-white/10 px-5 py-3 shadow-lg shadow-green-900/10' 
+                : 'bg-black/40 border-transparent px-6 py-4'
               }
             `}
           >
             {/* Logo */}
-            <a href="#top" className="flex items-center gap-2">
+            <a href="#top" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
               <img 
                 src={hustleiqTextLogo} 
                 alt="HustleIQ" 
-                className={`w-auto transition-all duration-300 ${isCompact ? 'h-6' : 'h-8'}`}
+                className="h-7 w-auto"
               />
             </a>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Cleaned Up */}
             <nav className="hidden lg:flex items-center gap-1">
-              <div 
-                className={`
-                  flex items-center bg-secondary/50 rounded-full
-                  transition-all duration-300
-                  ${isCompact ? 'p-0.5 gap-0' : 'p-1 gap-0'}
-                `}
-              >
-                {navLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className={`
-                      font-medium text-muted-foreground hover:text-foreground 
-                      hover:bg-secondary rounded-full transition-all duration-200
-                      ${isCompact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'}
-                    `}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="
+                    px-4 py-2 text-sm font-medium text-muted-foreground 
+                    hover:text-white hover:bg-white/5 rounded-full 
+                    transition-all duration-200
+                  "
+                >
+                  {link.label}
+                </a>
+              ))}
             </nav>
 
             {/* Right side buttons */}
-            <div className="hidden lg:flex items-center gap-3">
-              <Button
-                variant="ghost"
+            <div className="hidden lg:flex items-center gap-4">
+              <button
                 onClick={() => setLoginModalOpen(true)}
-                className={`text-muted-foreground hover:text-foreground transition-all duration-300 ${isCompact ? 'text-xs px-3 py-1' : ''}`}
+                className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
               >
                 Login
-              </Button>
+              </button>
+              
               <Button
-                className={`btn-primary transition-all duration-300 ${isCompact ? 'text-xs px-4 py-1.5' : ''}`}
                 onClick={() => document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' })}
+                className="
+                  rounded-full px-6 py-2 h-auto text-sm font-semibold
+                  bg-gradient-to-r from-primary/90 to-primary
+                  hover:from-primary hover:to-primary/90
+                  shadow-[0_0_20px_-5px_rgba(74,222,128,0.4)]
+                  hover:shadow-[0_0_25px_-5px_rgba(74,222,128,0.6)]
+                  hover:scale-[1.02] active:scale-[0.98]
+                  transition-all duration-300 border-0
+                  text-primary-foreground
+                "
               >
                 Join the Waitlist →
               </Button>
@@ -95,7 +94,7 @@ const Header = () => {
 
             {/* Mobile menu button */}
             <button
-              className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="lg:hidden p-2 text-muted-foreground hover:text-white transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -105,29 +104,29 @@ const Header = () => {
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-2 glass-card p-4 space-y-2 border border-primary/30 shadow-[0_0_15px_rgba(74,222,128,0.15)]">
+            <div className="lg:hidden mt-3 rounded-3xl bg-black/90 border border-white/10 backdrop-blur-xl p-4 space-y-2 overflow-hidden animate-in slide-in-from-top-2 fade-in-20">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="block px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-xl transition-all"
+                  className="block px-4 py-3 text-sm font-medium text-muted-foreground hover:text-white hover:bg-white/5 rounded-xl transition-all"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
-              <div className="pt-4 border-t border-border/50 space-y-2">
+              <div className="pt-4 mt-2 border-t border-white/10 space-y-3">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setLoginModalOpen(true);
                   }}
-                  className="block w-full px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-xl transition-all text-left"
+                  className="w-full text-center py-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors"
                 >
                   Login
                 </button>
                 <Button
-                  className="w-full btn-primary"
+                  className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' });

@@ -11,7 +11,6 @@ import UrgencyBanner from '@/components/UrgencyBanner';
 import TwoPaths from '@/components/TwoPaths';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
-import SignupToast from '@/components/SignupToast';
 import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
@@ -39,7 +38,6 @@ const Index = () => {
       </main>
 
       {/* Toast notifications */}
-      <SignupToast />
       <Toaster />
     </div>
   );
