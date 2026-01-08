@@ -1,9 +1,12 @@
+import { Helmet } from 'react-helmet-async'; // Import Helmet
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+
+const HelmetFixed = Helmet as any; // Fix the TS error
 
 const faqs = [
   {
@@ -33,8 +36,29 @@ const faqs = [
 ];
 
 const FAQ = () => {
+  // ⚡️ AEO SECRET SAUCE: Generate the JSON-LD schema dynamically
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  };
+
   return (
     <section id="faq" className="relative py-24 px-6">
+      {/* Inject the schema into the head of the page */}
+      <HelmetFixed>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </HelmetFixed>
+
       <div className="container max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
@@ -59,7 +83,6 @@ const FAQ = () => {
           ))}
         </Accordion>
 
-        {/* CTA */}
         <div className="mt-12 text-center">
           <a href="#top" className="btn-primary inline-flex">
             Join the Waitlist →
