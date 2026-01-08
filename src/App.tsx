@@ -14,6 +14,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+      {/* Delete this button after testing! */}
+
         <Routes>
           <Route path="/" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
