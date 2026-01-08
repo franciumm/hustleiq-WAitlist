@@ -10,17 +10,19 @@ const TwoPaths = () => {
   const neonGreen = "#76E900";
 
   const CustomPathButton = ({ text, isGreen, onClick }: { text: string; isGreen?: boolean; onClick?: () => void }) => (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full px-2">
       {/* 
-         ⚡️ FIX: Responsive Scaling
-         - scale-75 on mobile (makes 394px -> 295px, fits ALL phones)
-         - sm:scale-100 on tablet/desktop
+         ⚡️ FLUID FIX:
+         - Removed fixed 'w-[394px]'
+         - Added 'w-full max-w-[394px]' -> This makes it shrink physically on phones
+         - Added 'aspect-[394/72]' -> Keeps the button shape perfect as it shrinks
       */}
       <div 
-        className="relative flex items-center justify-center w-[394px] h-[72px] cursor-pointer group transition-transform hover:scale-[1.02] transform scale-75 sm:scale-100 origin-center" 
+        className="relative w-full max-w-[394px] aspect-[394/72] cursor-pointer group transition-transform hover:scale-[1.02] active:scale-[0.98]" 
         onClick={onClick}
       >
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 394 72" fill="none">
+        {/* SVG fills the container fluidly */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 394 72" fill="none" preserveAspectRatio="none">
           <defs>
             <linearGradient id={isGreen ? "greenOuter" : "darkOuter"} x1="197" y1="0" x2="197" y2="72" gradientUnits="userSpaceOnUse">
               <stop stopColor={isGreen ? neonGreen : "#373C34"} />
@@ -29,13 +31,26 @@ const TwoPaths = () => {
           </defs>
           <rect x="0.5" y="0.5" width="393" height="71" rx="36" fill={isGreen ? "#1A2E05" : "#252723"} fillOpacity="0.55" stroke={`url(#${isGreen ? "greenOuter" : "darkOuter"})`} strokeWidth="1" />
         </svg>
-        <div className="relative w-[380px] h-[64px]">
-          {isGreen && <div className="absolute inset-0 bg-[#76E900] blur-[60px] opacity-40 group-hover:opacity-60 transition-opacity" />}
-          <svg className="absolute inset-0 w-full h-full shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full" viewBox="0 0 380 64" fill="none">
-            <rect x="0.5" y="0.5" width="379" height="63" rx="32" fill={isGreen ? neonGreen : "#252723"} stroke={isGreen ? "#9BFF2E" : "#373C34"} strokeWidth="1" />
-          </svg>
-          <div className="relative z-10 w-full h-full flex items-center justify-center">
-            <span className={`text-xl font-black tracking-tight font-['Nexa'] pt-1 ${isGreen ? 'text-black' : 'text-white'}`}>{text}</span>
+
+        {/* Inner Content Layer */}
+        <div className="absolute inset-0 p-[2px]"> {/* Padding simulates the gap between rings */}
+           <div className="relative w-full h-full">
+            {isGreen && <div className="absolute inset-0 bg-[#76E900] blur-[40px] opacity-40 group-hover:opacity-60 transition-opacity rounded-full" />}
+            
+            <svg className="absolute inset-0 w-full h-full shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full" viewBox="0 0 380 64" fill="none" preserveAspectRatio="none">
+               {/* 
+                  Adjusted viewbox logic: 
+                  We render the inner rect relative to the container 
+               */}
+              <rect x="0" y="0" width="100%" height="100%" rx="32" fill={isGreen ? neonGreen : "#252723"} stroke={isGreen ? "#9BFF2E" : "#373C34"} strokeWidth="1" />
+            </svg>
+            
+            <div className="relative z-10 w-full h-full flex items-center justify-center">
+              {/* ⚡️ TEXT SIZE: Responsive text (text-base on mobile, text-xl on desktop) */}
+              <span className={`text-base sm:text-xl font-black tracking-tight font-['Nexa'] pt-1 px-4 text-center ${isGreen ? 'text-black' : 'text-white'}`}>
+                {text}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -43,8 +58,7 @@ const TwoPaths = () => {
   );
 
   return (
-    // ⚡️ FIX: Added overflow-x-hidden to container
-    <section className="relative py-16 sm:py-24 px-4 sm:px-6 overflow-x-hidden">
+    <section className="relative py-12 sm:py-24 px-4 sm:px-6 overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
@@ -69,9 +83,9 @@ const TwoPaths = () => {
             </svg>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 md:gap-0 relative pt-8 md:pt-[120px]">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-0 relative pt-4 md:pt-[120px]">
             {/* --- PATH A --- */}
-            <div className="flex flex-col items-center text-center px-2 min-h-[400px] md:min-h-[520px]">
+            <div className="flex flex-col items-center text-center px-1 min-h-[350px] md:min-h-[520px]">
               <div className="z-20 mb-6 md:mb-10 rounded-md bg-[#111] border border-white/5 shadow-[0_0_40px_rgba(0,0,0,1)] flex flex-col justify-center items-center shrink-0" style={{ width: '36px', height: '36px' }}>
                 <span className="text-[7px] font-black text-gray-500 leading-none">PATH</span>
                 <span className="text-[9px] font-black text-gray-500 leading-none mt-0.5">A</span>
@@ -82,11 +96,11 @@ const TwoPaths = () => {
                 <p>You stay busy, but nothing changes.</p>
                 <p>Progress feels close, yet never happens.</p>
               </div>
-              <div className="mt-auto"><CustomPathButton text="Keep Planning" /></div>
+              <div className="mt-auto w-full flex justify-center"><CustomPathButton text="Keep Planning" /></div>
             </div>
 
             {/* --- PATH B --- */}
-            <div className="flex flex-col items-center text-center px-2 min-h-[400px] md:min-h-[520px]">
+            <div className="flex flex-col items-center text-center px-1 min-h-[350px] md:min-h-[520px]">
               <div className="relative z-20 mb-6 md:mb-10 shrink-0">
                 <div className="absolute inset-0 bg-[#76E900] blur-[80px] opacity-60"></div>
                 <div className="relative rounded-md bg-[#76E900] flex flex-col justify-center items-center shadow-[0_0_30px_rgba(118,233,0,1)]" style={{ width: '36px', height: '36px' }}>
@@ -100,7 +114,7 @@ const TwoPaths = () => {
                 <p className="text-white font-black">Stop guessing</p>
                 <p>Start Executing with direction, Step by Step</p>
               </div>
-              <div className="mt-auto"><CustomPathButton text="Start Building" isGreen onClick={handleScrollToTop} /></div>
+              <div className="mt-auto w-full flex justify-center"><CustomPathButton text="Start Building" isGreen onClick={handleScrollToTop} /></div>
             </div>
           </div>
         </div>
