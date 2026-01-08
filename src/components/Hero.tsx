@@ -58,55 +58,50 @@ const Hero = () => {
   ];
 
   return (
-    // ⚡️ FIX 1: Added overflow-x-hidden to prevent horizontal scroll on mobile
     <section id="how-it-works" className="relative min-h-screen w-full overflow-x-hidden flex items-center justify-center px-4 sm:px-6 py-12 pt-28 lg:py-0">
       <div className="container max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           
           {/* Left side */}
-          <div className="space-y-6 text-center lg:text-left order-1 lg:order-2">
+          {/* ⚡️ FIX 1: 'flex flex-col items-center' forces vertical stacking to be perfectly centered on mobile */}
+          <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left order-1 lg:order-2 w-full">
             
-            {/* 
-               ⚡️ FIX 2: Mobile Badge Container
-               - max-w-[90vw]: Ensures it never exceeds screen width
-               - scale-90: Shrinks it slightly to fit comfortable
-            */}
-            <div className="flex justify-center lg:justify-start w-full">
-              <div 
-                className="relative w-[394px] max-w-[90vw] h-[72px] flex items-center justify-center transform scale-90 sm:scale-100 origin-center lg:origin-left"
-                style={{ animation: 'fade-in-up 0.5s ease-out 0s forwards' }} 
-              >
-                {/* Outer Ring */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 394 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="outerGradient" x1="197" y1="0" x2="197" y2="72" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#373C34" />
-                      <stop offset="1" stopColor="#373C34" stopOpacity="0.5" />
-                    </linearGradient>
-                  </defs>
-                  <rect x="0.5" y="0.5" width="393" height="71" rx="36" fill="#252723" fillOpacity="0.55" stroke="url(#outerGradient)" strokeWidth="1"/>
-                </svg>
-
-                {/* Inner Ring */}
-                <div className="relative w-[96%] h-[88%]">
-                  <svg className="absolute inset-0 w-full h-full shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full" viewBox="0 0 380 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* ⚡️ FIX 2: FLUID BADGE (Exact same logic as TwoPaths) */}
+            <div className="w-full max-w-[394px] aspect-[394/72] relative flex justify-center lg:justify-start">
+               <div className="relative w-full h-full" style={{ animation: 'fade-in-up 0.5s ease-out 0s forwards' }}>
+                  {/* Fluid SVG */}
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 394 72" fill="none" preserveAspectRatio="none">
                     <defs>
-                      <linearGradient id="innerGradient" x1="190" y1="0" x2="190" y2="64" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#373c34ff" />
-                        <stop offset="1" stopColor="#373c34ff" />
+                      <linearGradient id="outerGradient" x1="197" y1="0" x2="197" y2="72" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#373C34" />
+                        <stop offset="1" stopColor="#373C34" stopOpacity="0.5" />
                       </linearGradient>
                     </defs>
-                    <rect x="0.5" y="0.5" width="379" height="63" rx="32" fill="#252723c0" fillOpacity="1" stroke="url(#innerGradient)" strokeWidth="1"/>
+                    <rect x="0.5" y="0.5" width="393" height="71" rx="36" fill="#252723" fillOpacity="0.55" stroke="url(#outerGradient)" strokeWidth="1"/>
                   </svg>
-                  
-                  <div className="relative z-10 w-full h-full flex items-center justify-center gap-3">
-                    <img src={hustleiqLogo} alt="HustleIQ" className="w-8 h-6 sm:w-10 sm:h-8" />
-                    <span className="text-lg sm:text-xl font-extrabold text-white tracking-wide font-sans pt-1">
-                      Early Access Soon
-                    </span>
+
+                  {/* Inner Content */}
+                  <div className="absolute inset-0 p-[2px]">
+                    <div className="relative w-full h-full">
+                      <svg className="absolute inset-0 w-full h-full shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full" viewBox="0 0 380 64" fill="none" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="innerGradient" x1="190" y1="0" x2="190" y2="64" gradientUnits="userSpaceOnUse">
+                            <stop stopColor="#373c34ff" />
+                            <stop offset="1" stopColor="#373c34ff" />
+                          </linearGradient>
+                        </defs>
+                        <rect x="0" y="0" width="100%" height="100%" rx="32" fill="#252723c0" fillOpacity="1" stroke="url(#innerGradient)" strokeWidth="1"/>
+                      </svg>
+                      
+                      <div className="relative z-10 w-full h-full flex items-center justify-center gap-3">
+                        <img src={hustleiqLogo} alt="HustleIQ" className="w-8 h-6 sm:w-10 sm:h-8 object-contain" />
+                        <span className="text-lg sm:text-xl font-extrabold text-white tracking-wide font-sans pt-1">
+                          Early Access Soon
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+               </div>
             </div>
 
             {/* Headline */}
@@ -128,9 +123,10 @@ const Hero = () => {
             </div>
 
             {/* CTA Form */}
+            {/* ⚡️ FIX 3: Added 'w-full' to form container to ensure input stretches evenly */}
             <form 
               onSubmit={handleSubmit} 
-              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto lg:mx-0 opacity-0"
+              className="flex flex-col sm:flex-row gap-3 w-full max-w-lg mx-auto lg:mx-0 opacity-0"
               style={{ animation: 'fade-in-up 0.6s ease-out 0.3s forwards' }}
             >
               {submitted ? (
@@ -153,7 +149,7 @@ const Hero = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-primary py-3 px-6 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 w-full sm:w-auto"
+                    className="btn-primary py-3 px-6 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap"
                   >
                     {isSubmitting ? <span className="animate-pulse">Joining...</span> : <>Join our Waitlist →</>}
                   </button>
@@ -185,19 +181,20 @@ const Hero = () => {
 
           {/* Right side - Phone mockup */}
           <div 
-            className="relative flex justify-center order-1 lg:order-2 opacity-0"
+            className="relative flex justify-center order-1 lg:order-2 opacity-0 w-full"
             style={{ animation: 'scale-in 0.8s ease-out 0.2s forwards' }}
           >
             <div className="hidden lg:block absolute inset-0 flex items-center justify-center">
               <div className="w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse-glow" />
             </div>
             
-            <div className="phone-mockup float relative z-10 transform scale-90 sm:scale-100">
+            {/* Phone is responsive but constrained to not get too huge */}
+            <div className="phone-mockup float relative z-10 w-[280px] sm:w-[320px]">
               <div className="phone-screen">
                 <img 
                   src={businessModelImage} 
                   alt="HustleIQ App" 
-                  className="w-[280px] sm:w-[320px] h-auto"
+                  className="w-full h-auto"
                   loading="eager"
                   fetchPriority="high"
                 />
