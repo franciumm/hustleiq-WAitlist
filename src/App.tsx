@@ -20,7 +20,7 @@ const App = () => (
 
       <BrowserRouter>
         {/* ⚡️ 2. CONTENT WRAPPER: Sits on top (z-10) so you can click buttons */}
-        <main className="relative z-10">
+        <main className="relative z-10 min-h-[100dvh] pb-[env(safe-area-inset-bottom)]">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="*" element={<NotFound />} />

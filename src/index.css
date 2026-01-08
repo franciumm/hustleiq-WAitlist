@@ -4,11 +4,11 @@
 
 /* HustleIQ Design System - Deep Space Dark Mode with Lime Green Accent */
 :root {
-  background-color: #000000; /* Force black background */
+  background-color: #0b0f0a; /* Force black background */
 }
 
 body {
-  background-color: #000000;
+  background-color: #0b0f0a;
   overscroll-behavior-y: none; /* Prevents "rubber banding" bounce on Mac/iOS */
 }
 @font-face {
