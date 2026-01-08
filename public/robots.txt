@@ -7,6 +7,10 @@ Allow: /
 User-agent: Twitterbot
 Allow: /
 
+User-agent: *
+Allow: /
+
+Sitemap: https://yourdomain.com/sitemap.xml
 User-agent: facebookexternalhit
 Allow: /
 

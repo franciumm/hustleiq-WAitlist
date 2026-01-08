@@ -6,20 +6,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StarBackground from "./components/StarBackground"; // 👈 IMPORT THIS
-
+import { HelmetProvider } from 'react-helmet-async'; // 👈 Import this
+const HelmetProviderFixed = HelmetProvider as any;
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <HelmetProviderFixed> 
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      
-      {/* ⚡️ 1. BACKGROUND: Fixed position, sits behind everything (z-0) */}
       <StarBackground />
-
       <BrowserRouter>
-        {/* ⚡️ 2. CONTENT WRAPPER: Sits on top (z-10) so you can click buttons */}
         <main className="relative z-10 min-h-[100dvh] pb-[env(safe-area-inset-bottom)]">
           <Routes>
             <Route path="/" element={<Index />} />
@@ -29,6 +27,8 @@ const App = () => (
       </BrowserRouter>
       
     </TooltipProvider>
+        </HelmetProviderFixed> 
+
   </QueryClientProvider>
 );
 
