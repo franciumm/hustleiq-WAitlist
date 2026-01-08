@@ -1,5 +1,5 @@
 import { Twitter, Linkedin, Instagram } from 'lucide-react';
-import hustleiqTextLogo from '@/assets/hustleiq-text-logo.png';
+import hustleiqTextLogo from '@/public/hustleiq-text-logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start gap-3">
             <a href="#top" className="flex items-center gap-2">
               <img 
-                src={hustleiqTextLogo} 
+                src="/logo.png"
                 alt="HustleIQ Footer Logo" 
                 /* ⚡️ OPTIMIZED: Using actual display dimensions (181x32) prevents "Image larger than needed" error */
                 width="181"

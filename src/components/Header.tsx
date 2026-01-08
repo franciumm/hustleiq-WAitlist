@@ -38,7 +38,7 @@ const Header = () => {
           >
             <a href="#top" className="flex items-center gap-2 hover:opacity-90 transition-opacity z-50">
               <img 
-                src={hustleiqTextLogo} 
+                src="/logo.png"
                 alt="HustleIQ Logo" 
                 fetchPriority="high" // ⚡️ Add this to the LOGO in the header
                 width="1080"

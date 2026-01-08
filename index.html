@@ -1,56 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-  <!-- ⚡️ PRELOAD THE HERO IMAGE (LCP) -->
-<link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
-
-<!-- ⚡️ PRELOAD THE FONT (To fix the 1,727ms delay) -->
-<link rel="preload" href="/fonts/Nexa-ExtraLight.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-<link rel="preload" href="/fonts/Nexa-Heavy.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-
-<link rel="preconnect" href="https://us-assets.i.posthog.com">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <!-- Preconnect to speed up PostHog & Font loading -->
+  <!-- ⚡️ PRELOAD LCP ASSETS -->
+  <link rel="preload" as="image" href="/logo.png" fetchpriority="high">
+  <link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
+
+  <!-- ⚡️ PRELOAD FONTS (Update filenames if different) -->
+  <link rel="preload" href="/fonts/Nexa-Heavy.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- DNS Prefetch for Analytics -->
   <link rel="preconnect" href="https://us.i.posthog.com">
   <link rel="dns-prefetch" href="https://us.i.posthog.com">
-  
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
-  
+
+  <link rel="icon" type="image/png" href="/favicon-32x32.png">
   <link rel="canonical" href="https://hustleiq.ai/" />
 
-  <!-- Critical CSS for Font Display -->
   <style>
+    /* Inline font-face to prevent "Flash of Unstyled Text" */
     @font-face {
       font-family: 'Nexa';
       src: url('/fonts/Nexa-Heavy.ttf') format('truetype');
-      font-display: swap; 
+      font-display: swap;
     }
+    body { background: #050505; color: #fff; margin: 0; }
   </style>
 
   <title>HustleIQ - Stop Guessing. Start Executing.</title>
-  <meta name="title" content="HustleIQ - Stop Guessing. Start Executing." />
-  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k. Join 2,400+ founders." />
-  
-  <!-- Open Graph / AEO tags -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://hustleiq.ai/" />
-  <meta property="og:title" content="HustleIQ - Stop Guessing. Start Executing." />
-  <meta property="og:description" content="AI business model validation and founder accountability platform." />
-  <meta property="og:image" content="https://hustleiq.ai/social-preview.png" />
-  
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://hustleiq.ai/" />
-  <meta name="twitter:image" content="https://hustleiq.ai/social-preview.png" />
-  
-  <meta name="theme-color" content="#050505" />
+  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k." />
 </head>
 <body>
     <div id="root"></div>
+    <!-- ⚡️ MOVE SCRIPT TO BOTTOM: Lets the browser paint the UI before running heavy JS -->
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
