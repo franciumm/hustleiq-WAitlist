@@ -21,7 +21,6 @@ const Footer = () => {
 
           {/* Strategy Call + Social links */}
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            <StrategyCallForm />
             
             <div className="flex items-center gap-4">
               <a

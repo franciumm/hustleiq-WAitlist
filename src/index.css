@@ -31,6 +31,12 @@
   font-weight: 800;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Heavy.ttf') format('truetype');
+  font-weight: 900; /* Black (Important for Hero Headline) */
+  font-style: normal;
+}
 
 @layer base {
   :root {
@@ -94,8 +100,8 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    /* REMOVED: font-family: 'Inter', sans-serif; <--- This was the issue! */
-  }
+    font-weight: 700; 
+   }
 }
 
 @layer components {
@@ -127,8 +133,8 @@
   }
 
   /* Phone mockup frame */
-  .phone-mockup {
-    @apply relative rounded-[3rem] bg-gradient-to-b from-zinc-800 to-zinc-900 p-2;
+   .phone-mockup {
+    @apply relative rounded-[2.75rem] bg-gradient-to-b from-zinc-800 to-zinc-900 p-1;
     box-shadow: 
       0 25px 50px -12px rgba(0, 0, 0, 0.8),
       0 0 60px 10px hsl(var(--lime) / 0.2),
@@ -281,3 +287,4 @@
     transform: scale(1);
   }
 }
+

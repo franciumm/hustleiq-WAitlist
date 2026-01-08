@@ -1,23 +1,92 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast'; 
 import businessModelImage from '@/assets/business-model.png';
 import hustleiqLogo from '@/assets/hustleiq-logo.png';
+import posthog from 'posthog-js';
 
 const Hero = () => {
+  const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // --- ANTI-SPAM STATES ---
+  const [botField, setBotField] = useState(''); // Honeypot field
+  const [mountTime, setMountTime] = useState(0); // For rate limiting
+
+  useEffect(() => {
+    // Record when the component loaded
+    setMountTime(Date.now());
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // --- SPAM PROTECTION CHECKS ---
+    
+    // 1. HONEYPOT: If the hidden field has a value, it's a bot.
+    if (botField !== '') {
+      setSubmitted(true); // Fake success to fool the bot
+      return;
+    }
+
+    // 2. TIME CHECK: If form submitted in < 1.5 seconds, likely a bot.
+    if (Date.now() - mountTime < 1500) {
+      return; 
+    }
+
     if (!email) return;
     
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    // --- LOOPS.SO INTEGRATION ---
+    // 👇 ACTION REQUIRED: Replace this URL with your actual Loops endpoint
+    const FORM_URL = "https://app.loops.so/api/newsletter-form/YOUR_FORM_ID_HERE";
+
+    try {
+      const response = await fetch(FORM_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        // We add userGroup=Waitlist so you can filter them easily later
+        body: `email=${encodeURIComponent(email)}&userGroup=Waitlist`,
+      });
+
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      // --- ANALYTICS ---
+      // 1. Identify the user (links session to email)
+      posthog.identify(email);
+
+      // 2. Send the event
+      posthog.capture('waitlist_signup', {
+        location: 'hero_section',
+        email: email
+      });
+
+      // --- UI UPDATES ---
       setSubmitted(true);
       setEmail('');
-    }, 1000);
+      
+      // Show Success Toast
+      toast({
+        title: "You're on the list! 🚀",
+        description: "Welcome to the future of execution. We'll be in touch soon.",
+      });
+
+    } catch (error) {
+      console.error('Waitlist error:', error);
+      
+      // Show Error Toast
+      toast({
+        title: "Connection Error",
+        description: "We couldn't add you to the waitlist. Please try again.",
+        variant: "destructive", 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Avatar stack data
@@ -35,15 +104,64 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left side - Text content */}
           <div className="space-y-6 text-center lg:text-left order-1 lg:order-2">
-            {/* Logo badge */}
+            
+            {/* BADGE DESIGN */}
             <div 
-              className="inline-flex items-center gap-3 glass-card px-4 py-2 opacity-0"
+              className="relative mx-auto lg:mx-0 opacity-0 w-[394px] h-[72px] flex items-center justify-center"
               style={{ animation: 'fade-in-up 0.6s ease-out 0.2s forwards' }}
             >
-              <img src={hustleiqLogo} alt="HustleIQ" className="w-8 h-8" />
-              <span className="text-sm font-medium text-muted-foreground">
-                Early Access Soon
-              </span>
+              {/* Outer Ring */}
+              <svg 
+                className="absolute inset-0 w-full h-full" 
+                viewBox="0 0 394 72" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="outerGradient" x1="197" y1="0" x2="197" y2="72" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#373C34" />
+                    <stop offset="1" stopColor="#373C34" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+                <rect 
+                  x="0.5" y="0.5" 
+                  width="393" height="71" 
+                  rx="36" 
+                  fill="#252723" 
+                  fillOpacity="0.55" 
+                  stroke="url(#outerGradient)" 
+                  strokeWidth="1"
+                />
+              </svg>
+
+              {/* Inner Ring */}
+              <div className="relative w-[380px] h-[64px]">
+                <svg className="absolute inset-0 w-full h-full shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-full" viewBox="0 0 380 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="innerGradient" x1="190" y1="0" x2="190" y2="64" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#373c34ff" />
+                      <stop offset="1" stopColor="#373c34ff" />
+                    </linearGradient>
+                  </defs>
+                  <rect 
+                    x="0.5" y="0.5" 
+                    width="379" height="63" 
+                    rx="32" 
+                    fill="#252723c0" 
+                    fillOpacity="1" 
+                    stroke="url(#innerGradient)" 
+                    strokeWidth="1"
+                  />
+                </svg>
+                
+                {/* Badge Content */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center gap-4">
+                  <img src={hustleiqLogo} alt="HustleIQ" className="w-10 h-8" />
+                  <span className="text-xl font-extrabold text-white tracking-wide font-sans pt-1">
+                    Early Access Soon
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Headline */}
@@ -67,7 +185,7 @@ const Hero = () => {
             {/* CTA Form */}
             <form 
               onSubmit={handleSubmit} 
-              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto lg:mx-0 opacity-0"
+              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto lg:mx-0 opacity-0"
               style={{ animation: 'fade-in-up 0.8s ease-out 0.8s forwards' }}
             >
               {submitted ? (
@@ -77,18 +195,30 @@ const Hero = () => {
                 </div>
               ) : (
                 <>
+                  {/* --- HONEYPOT FIELD (Hidden from humans, visible to bots) --- */}
+                  <input
+                    type="text"
+                    name="b_check_field"
+                    tabIndex={-1}
+                    value={botField}
+                    onChange={(e) => setBotField(e.target.value)}
+                    autoComplete="off"
+                    style={{ opacity: 0, position: 'absolute', zIndex: -1, width: 0, height: 0 }}
+                    aria-hidden="true"
+                  />
+
                   <input
                     type="email"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 px-5 py-4 bg-secondary/50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                    className="flex-1 px-5 py-3 bg-secondary/50 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all"
                     required
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="btn-primary py-3 px-6 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">Joining...</span>
