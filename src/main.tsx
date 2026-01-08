@@ -13,10 +13,10 @@ posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
     // ⚡️ Wait for the browser to be "Idle" before starting heavy recording
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(() => {
-        setTimeout(() => ph.startSessionRecording(), 4000);
+        setTimeout(() => ph.startSessionRecording(), 5000);
       });
     } else {
-      setTimeout(() => ph.startSessionRecording(), 5000);
+      setTimeout(() => ph.startSessionRecording(), 6000);
     }
   }
 })
