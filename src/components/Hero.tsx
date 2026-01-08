@@ -152,9 +152,9 @@ const Hero = () => {
               <div className="phone-screen">
                 <img 
                   src={businessModelImage} 
-                  width="268"   // 👈 EXACT dimensions   
-                  height="474"  //  EXACT dimensions  
-                  alt="HustleIQ dashboard showing business model validation roadmap and revenue execution steps" 
+                  width="804"   // 👈 EXACT dimensions   
+                  height="1748"  //  EXACT dimensions  
+                  alt="HustleIQ dashboard showing business model validation and ready for roadmap and revenue execution steps" 
                   className="w-full h-auto"
                   loading="eager"
                   fetchPriority="high"
