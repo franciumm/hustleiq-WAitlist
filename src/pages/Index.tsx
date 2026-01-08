@@ -34,19 +34,6 @@ const Index = () => {
     }
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "What is HustleIQ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "HustleIQ is an AI that finds your perfect business model and holds you accountable until you hit your first $1k in revenue."
-      }
-    }]
-  };
-
   return (
     <div id="top" className="relative min-h-screen bg-background overflow-hidden">
       {/* ⚡️ FIX: Use <Helmet> for tags. HelmetProvider stays in App.tsx */}
@@ -54,8 +41,7 @@ const Index = () => {
         <title>HustleIQ | Stop Guessing. Start Executing.</title>
         <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k. Join the waitlist." />
         <script type="application/ld+json">{JSON.stringify(softwareSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-      </HelmetFixed>
+       </HelmetFixed>
 
       <StarBackground />
       <Header />

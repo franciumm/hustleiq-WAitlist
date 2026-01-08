@@ -1,34 +1,42 @@
+import { lazy, Suspense } from 'react'; // ⚡️ Added for performance
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import StarBackground from "./components/StarBackground"; // 👈 IMPORT THIS
-import { HelmetProvider } from 'react-helmet-async'; // 👈 Import this
+import { HelmetProvider } from 'react-helmet-async';
+import StarBackground from "./components/StarBackground";
+
+// ⚡️ LAZY LOAD THE PAGES: This prevents the heavy JS from blocking the initial load
+const Index = lazy(() => import("./pages/Index")); 
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 const HelmetProviderFixed = HelmetProvider as any;
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProviderFixed> 
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <StarBackground />
-      <BrowserRouter>
-        <main className="relative z-10 min-h-[100dvh] pb-[env(safe-area-inset-bottom)]">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
-      
-    </TooltipProvider>
-        </HelmetProviderFixed> 
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        
+        {/* Background is always visible */}
+        <StarBackground />
 
+        <BrowserRouter>
+          <main className="relative z-10 min-h-[100dvh]">
+            <Suspense fallback={<div className="bg-background min-h-screen" />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </main>
+        </BrowserRouter>
+        
+      </TooltipProvider>
+    </HelmetProviderFixed> 
   </QueryClientProvider>
 );
 
