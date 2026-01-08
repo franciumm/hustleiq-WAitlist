@@ -152,7 +152,7 @@ const Hero = () => {
                 {/* Screen */}
                 <div className="relative aspect-[603/1311] rounded-[2.4rem] overflow-hidden bg-black">
                   <img 
-                    src={businessModelImage} 
+                    src="/business-model.png" 
                     width="302"   
                     height="656"  
                     alt="HustleIQ App Dashboard" 
