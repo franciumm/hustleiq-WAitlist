@@ -153,8 +153,8 @@ const Hero = () => {
                 <div className="relative aspect-[603/1311] rounded-[2.4rem] overflow-hidden bg-black">
                   <img 
                     src={businessModelImage} 
-                    width="603"   
-                    height="1311"  
+                    width="302"   
+                    height="656"  
                     alt="HustleIQ App Dashboard" 
                     className="w-full h-full object-cover"
                     loading="eager"
