@@ -9,27 +9,24 @@ posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
   api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
   persistence: 'localStorage+cookie', 
   autocapture: true, 
-  capture_performance: false, 
-  capture_exceptions: true, // Captures crashes
-  disable_session_recording: true, 
+  capture_performance: false, // Turned off to save main thread cycles
+  capture_exceptions: true,
+  disable_session_recording: true, // Started later for performance
 
-  // Only show debug logs on localhost
-  loaded: (ph) => { 
-    if (import.meta.env.DEV) ph.debug() 
+  loaded: (ph) => {
+    // ⚡️ Only start session recording 3 seconds after the site is interactive
+    setTimeout(() => {
+      ph.startSessionRecording();
+    }, 3000);
+
+    if (import.meta.env.DEV) ph.debug();
   },
   session_recording: {
     maskAllInputs: false,
-    maskInputOptions: {
-      password: true, 
-      email: false,   
-    }
+    maskInputOptions: { password: true, email: false }
   }
 })
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    posthog.startSessionRecording();
-  }, 3000);
-});
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

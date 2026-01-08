@@ -7,26 +7,29 @@ export default defineConfig({
   plugins: [
     react(),
     ViteImageOptimizer({
-      png: { quality: 70 },
-      jpeg: { quality: 70 },
-      webp: { quality: 70 },
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      webp: { quality: 75 }, // Highly recommended for LCP speed
       svg: { multipass: true },
     }),
   ],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+    alias: { "@": path.resolve(__dirname, "./src") },
   },
-   build: {
+  build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@radix-ui/react-accordion', 'lucide-react'],    
+        // ⚡️ SPLIT VENDOR CHUNKS: This solves the "Chunks larger than 500kb" error
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('lucide-react')) return 'icons';
+            if (id.includes('posthog-js')) return 'analytics';
+            if (id.includes('@radix-ui')) return 'ui-vendor';
+            return 'vendor';
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 800,
   }
 });

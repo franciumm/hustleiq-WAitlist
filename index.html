@@ -3,8 +3,11 @@
  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Preconnect to speed up PostHog & Font loading -->
   <link rel="preconnect" href="https://us.i.posthog.com">
   <link rel="dns-prefetch" href="https://us.i.posthog.com">
+  
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -12,29 +15,34 @@
   
   <link rel="canonical" href="https://hustleiq.ai/" />
 
-  <!-- Primary Meta Tags -->
+  <!-- Critical CSS for Font Display -->
+  <style>
+    @font-face {
+      font-family: 'Nexa';
+      src: url('/fonts/Nexa-Heavy.ttf') format('truetype');
+      font-display: swap; 
+    }
+  </style>
+
   <title>HustleIQ - Stop Guessing. Start Executing.</title>
   <meta name="title" content="HustleIQ - Stop Guessing. Start Executing." />
-  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k. Join 2,400+ founders on the waitlist." />
+  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k. Join 2,400+ founders." />
   
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / AEO tags -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hustleiq.ai/" />
   <meta property="og:title" content="HustleIQ - Stop Guessing. Start Executing." />
-  <meta property="og:description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k." />
+  <meta property="og:description" content="AI business model validation and founder accountability platform." />
   <meta property="og:image" content="https://hustleiq.ai/social-preview.png" />
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://hustleiq.ai/" />
-  <meta name="twitter:title" content="HustleIQ - Stop Guessing. Start Executing." />
-  <meta name="twitter:description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k." />
   <meta name="twitter:image" content="https://hustleiq.ai/social-preview.png" />
   
   <meta name="theme-color" content="#050505" />
 </head>
-  <body>
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-  </body>
+</body>
 </html>
