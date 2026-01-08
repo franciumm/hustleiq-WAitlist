@@ -9,6 +9,7 @@ const StarBackground = () => {
     const container = containerRef.current;
     const starCount = 150;
     
+    // Cleanup old stars to prevent duplicates
     const existingStars = container.querySelectorAll('.star');
     existingStars.forEach(star => star.remove());
     
@@ -36,14 +37,14 @@ const StarBackground = () => {
   }, []);
 
   return (
-    // UPDATED: Background color changed to #0b0f0aff
-    <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#0b0f0aff]">
-      
-      {/* 
-         Green Splash (Bottom Left Quarter)
-         - Positioned at bottom-0 left-0
-         - Pushed partially off-screen to create the corner effect
-      */}
+    // ⚡️ FIX: Removed z-[-1]. Now it is z-0, so it sits ON TOP of the black body
+    // but BEHIND your content (because your content is z-10).
+    <div 
+      className="fixed top-0 left-0 w-full overflow-hidden pointer-events-none z-0 bg-[#0b0f0aff]"
+      // ⚡️ SAFARI FIX: 100dvh ensures it covers the full screen even when address bar moves
+      style={{ height: '100dvh' }} 
+    >
+      {/* Green Splash */}
       <div className="absolute bottom-0 left-0 -translate-x-[20%] translate-y-[30%] z-0">
         <div 
           style={{
@@ -57,8 +58,8 @@ const StarBackground = () => {
         />
       </div>
       
-      {/* Star Container */}
-      <div ref={containerRef} className="absolute inset-0 w-full h-full" />
+      {/* Stars Container - Ref attached here to keep logic clean */}
+      <div ref={containerRef} className="absolute inset-0 w-full h-full z-10" />
     </div>
   );
 };

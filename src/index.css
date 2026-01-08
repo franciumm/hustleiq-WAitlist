@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 /* HustleIQ Design System - Deep Space Dark Mode with Lime Green Accent */
+:root {
+  background-color: #000000; /* Force black background */
+}
 
+body {
+  background-color: #000000;
+  overscroll-behavior-y: none; /* Prevents "rubber banding" bounce on Mac/iOS */
+}
 @font-face {
   font-family: 'Nexa';
   src: url('/fonts/Nexa-ExtraLight.ttf') format('truetype');
