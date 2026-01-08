@@ -3,7 +3,13 @@
  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+<link rel="preload" as="image" href="/logo.png" fetchpriority="high">
+<link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
+
+<link rel="preload" href="/fonts/Nexa-Heavy.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+<!-- ⚡️ PRECONNECT: Speeds up PostHog connection by 300ms -->
+<link rel="preconnect" href="https://us.i.posthog.com">
   <!-- ⚡️ PRELOAD LCP ASSETS -->
   <link rel="preload" as="image" href="/logo.png" fetchpriority="high">
   <link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
