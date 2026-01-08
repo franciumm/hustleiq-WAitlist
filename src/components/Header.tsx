@@ -40,7 +40,7 @@ const Header = () => {
               <img 
                 src={hustleiqTextLogo} 
                 alt="HustleIQ Logo" 
-                /* ⚡️ FIXED: Added actual dimensions (1080x191 aspect ratio) */
+                fetchPriority="high" // ⚡️ Add this to the LOGO in the header
                 width="1080"
                 height="191"
                 className="h-5 sm:h-7 w-auto object-contain"
