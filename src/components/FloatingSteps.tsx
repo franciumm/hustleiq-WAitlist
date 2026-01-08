@@ -41,9 +41,9 @@ const FloatingSteps = () => {
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <step.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground leading-tight mb-2">
+              <h2 className="text-sm font-semibold text-foreground leading-tight mb-2">
                 {step.title}
-              </h3>
+              </h2>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 {step.description}
               </p>

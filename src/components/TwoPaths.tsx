@@ -87,8 +87,8 @@ const TwoPaths = () => {
             {/* --- PATH A --- */}
             <div className="flex flex-col items-center text-center px-1 min-h-[350px] md:min-h-[520px]">
               <div className="z-20 mb-6 md:mb-10 rounded-md bg-[#111] border border-white/5 shadow-[0_0_40px_rgba(0,0,0,1)] flex flex-col justify-center items-center shrink-0" style={{ width: '36px', height: '36px' }}>
-                <span className="text-[7px] font-black text-gray-500 leading-none">PATH</span>
-                <span className="text-[9px] font-black text-gray-500 leading-none mt-0.5">A</span>
+                <span className="text-[7px] font-black text-gray-400 leading-none">PATH</span>
+                <span className="text-[9px] font-black text-gray-400 leading-none mt-0.5">A</span>
               </div>
               <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">Plan. Learn. <br/> Stay Stuck.</h3>
               <div className="text-gray-400 space-y-4 text-sm md:text-lg font-medium leading-relaxed max-w-sm mb-8 md:mb-12">

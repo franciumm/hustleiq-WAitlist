@@ -148,12 +148,12 @@ const Hero = () => {
             className="relative flex justify-center order-1 lg:order-2 opacity-0 w-full"
             style={{ animation: 'scale-in 0.8s ease-out 0.2s forwards' }}
           >
-            <div className="phone-mockup float relative z-10 w-[280px] sm:w-[320px]">
-              <div className="phone-screen">
+            <div className="phone-mockup float relative z-10 w-[272px] sm:w-[320px]">
+              <div className="phone-screen rounded-[2.5rem] overflow-hidden">
                 <img 
                   src={businessModelImage} 
-                  width="804"   // 👈 EXACT dimensions   
-                  height="1748"  //  EXACT dimensions  
+                  width="603"   // 👈 EXACT dimensions   
+                  height="1311"  //  EXACT dimensions  
                   alt="HustleIQ dashboard showing business model validation and ready for roadmap and revenue execution steps" 
                   className="w-full h-auto"
                   loading="eager"
