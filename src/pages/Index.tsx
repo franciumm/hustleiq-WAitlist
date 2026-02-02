@@ -55,7 +55,6 @@ const Index = () => {
           <FloatingSteps />
           <WhyUs />
           <BentoGrid />
-          <FoundersNote /> 
           <NetworkSection />
           <ComingSoon />
           <TwoPaths />
