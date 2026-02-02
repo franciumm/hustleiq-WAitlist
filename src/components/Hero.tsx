@@ -87,7 +87,7 @@ const Hero = () => {
             {!submitted ? (
               <>
                 <div className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 animate-fade-in-up">
-                  <p>Launch your first $10k/mo business. Even if you have zero ideas.</p>
+                  <p>Even if you have zero ideas.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-lg mx-auto lg:mx-0">
