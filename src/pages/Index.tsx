@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import StarBackground from '@/components/StarBackground';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import FoundersNote from '@/components/FoundersNote'; 
 
 // 2. LAZY LOAD these (they are below the fold)
 const FloatingSteps = lazy(() => import('@/components/FloatingSteps'));
@@ -54,6 +55,7 @@ const Index = () => {
           <FloatingSteps />
           <WhyUs />
           <BentoGrid />
+          <FoundersNote /> 
           <NetworkSection />
           <ComingSoon />
           <TwoPaths />

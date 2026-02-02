@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     question: 'How is this different from courses?',
-    answer: 'Courses give information. HustleIQ enforces execution with a plan that adapts as you act.',
+    answer: 'Other than the price. Courses give information. HustleIQ enforces execution with a plan that adapts as you act.',
   },
   {
     question: "I know nothing about the skills you teach. Is that a problem?",
@@ -32,6 +32,12 @@ const faqs = [
   {
     question: 'Do I need money once I joined the program?',
     answer: "Not necessarily. Many paths start with execution, not capital.",
+  },{
+    question: 'Is this another AI wrapper?',
+    answer: "No. Most AI tools just write text. HustleIQ is an execution engine that integrates your calender , skills and real-time market data to give you a roadmap.",
+  },{
+    question: 'I have a 9-5. Can I do this?',
+    answer: "Specifically designed for side-huslters/fulltime hustlers W calibarate your 'Daily Spoon-fed Actions' to fit into anytime window.",
   },
 ];
 

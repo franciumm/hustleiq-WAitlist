@@ -90,9 +90,9 @@ const TwoPaths = () => {
                 <span className="text-[7px] font-black text-gray-400 leading-none">PATH</span>
                 <span className="text-[9px] font-black text-gray-400 leading-none mt-0.5">A</span>
               </div>
-              <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">Plan. Learn. <br/> Stay Stuck.</h3>
+              <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">Plan. Learn. <br/> The Consumption Trap.</h3>
               <div className="text-gray-400 space-y-4 text-sm md:text-lg font-medium leading-relaxed max-w-sm mb-8 md:mb-12">
-                <p>Spend your time planning, consuming courses,<br />and collecting Information without ever moving Forward</p>
+                <p>Buying $997 courses that gather digital dust,<br />Waking up in 12 months in the exact same spot.</p>
                 <p>You stay busy, but nothing changes.</p>
                 <p>Progress feels close, yet never happens.</p>
               </div>
@@ -108,9 +108,9 @@ const TwoPaths = () => {
                   <span className="text-[9px] font-black text-black leading-none mt-0.5">B</span>
                 </div>
               </div>
-              <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">Execute. Improve. <br/> Progress.</h3>
+              <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">The Sovereign Founder.</h3>
               <div className="text-gray-400 space-y-4 text-sm md:text-lg font-medium leading-relaxed max-w-sm mb-8 md:mb-12">
-                <p>Get clear actions, continuous feedback<br />and visible Progress.</p>
+                <p>Waking up to a clear dashboard of actions <br/> Visible revenue growth every 72 hours.</p>
                 <p className="text-white font-black">Stop guessing</p>
                 <p>Start Executing with direction, Step by Step</p>
               </div>

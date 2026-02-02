@@ -4,7 +4,7 @@ const features = [
   {
     icon: Brain,
     title: 'Psychographic Matching',
-    description: 'We analyze your personality, skills, and lifestyle to match you with a business you won\'t quit after two weeks.',
+    description: 'Most people fail because they try to do SMMA when they are introverts, or E-com when they hate logistics. HustleIQ matches your business to your personality type, so execution feels like play, not work.',
     highlight: 'Built for your DNA',
   },
   {
@@ -80,7 +80,7 @@ const BentoGrid = () => {
             Join the Waitlist →
           </a>
           <p className="text-sm text-muted-foreground">
-            Secure your free trial (7 days · no credit card)
+            Secure your free trial and Founder’s Lifetime Discount before spots run out.
           </p>
         </div>
       </div>
