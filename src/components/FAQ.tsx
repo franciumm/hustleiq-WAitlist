@@ -10,7 +10,7 @@ const HelmetFixed = Helmet as any; // Fix the TS error
 
 const faqs = [
   {
-    question: 'Is this for beginners?',
+    question: 'Is HustleIQ for beginners?',
     answer: 'Yes. HustleIQ guides you from zero — step by step.',
   },
   {
@@ -18,7 +18,7 @@ const faqs = [
     answer: 'Age matters far less than execution speed and consistency.',
   },
   {
-    question: 'How is this different from courses?',
+    question: 'How is HustleIQ different from courses?',
     answer: 'Other than the price. Courses give information. HustleIQ enforces execution with a plan that adapts as you act.',
   },
   {
@@ -26,14 +26,10 @@ const faqs = [
     answer: 'No. We start at your level and build the skills you need as you go.',
   },
   {
-    question: 'Is there a free trial?',
-    answer: 'Yes — 7 days. No credit card required.',
-  },
-  {
     question: 'Do I need money once I joined the program?',
     answer: "Not necessarily. Many paths start with execution, not capital.",
   },{
-    question: 'Is this another AI wrapper?',
+    question: 'Is HustleIQ another AI wrapper?',
     answer: "No. Most AI tools just write text. HustleIQ is an execution engine that integrates your calender , skills and real-time market data to give you a roadmap.",
   },{
     question: 'I have a 9-5. Can I do this?',
