@@ -79,7 +79,7 @@ const Hero = () => {
 
             {/* ⚡️ SALES HEADLINE: Result-oriented */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-tight animate-fade-in-up">
-              Launch your first $10k/mo business. <br className="hidden sm:block" />
+              Launch your first $10k/mo. <br className="hidden sm:block" />
               <span className="gradient-text">Zero Guesswork.</span>
             </h1>
 
@@ -87,7 +87,7 @@ const Hero = () => {
             {!submitted ? (
               <>
                 <div className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 animate-fade-in-up">
-                  <p>The AI engine that finds your "God-Mode" business model based on your DNA and spoon-feeds you execution.</p>
+                  <p>Launch your first $10k/mo business. Even if you have zero ideas.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-lg mx-auto lg:mx-0">
