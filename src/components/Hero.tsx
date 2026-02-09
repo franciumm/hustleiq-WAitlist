@@ -1,31 +1,25 @@
+// src/components/Hero.tsx
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast'; 
-import hustleiqLogo from '@/assets/hustleiq-logo.png';
 import posthog from 'posthog-js';
-import { Check, Copy, Share2 } from 'lucide-react';
+import { Check, Copy, Share2, ArrowLeft } from 'lucide-react';
 
 const Hero = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [referralLink, setReferralLink] = useState('');
+  const [botField, setBotField] = useState(''); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || botField !== '') return;
     setIsSubmitting(true);
-
     try {
-      // Simulate API call
-      await new Promise(res => setTimeout(res, 1000));
-      
+      await new Promise(resolve => setTimeout(resolve, 1000));
       posthog.identify(email);
-      posthog.capture('waitlist_signup', { location: 'hero_section' });
-
-      setReferralLink(`hustleiq.ai/ref=${Math.random().toString(36).substring(7)}`);
+      posthog.capture('waitlist_signup', { location: 'hero' });
       setSubmitted(true);
-      toast({ title: "Welcome, Founder Advisor.", description: "You've jumped the first hurdle." });
     } catch (error) {
       toast({ title: "Error", variant: "destructive" });
     } finally {
@@ -34,83 +28,67 @@ const Hero = () => {
   };
 
   return (
-    <section id="how-it-works" className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+    <section className="relative min-h-screen w-full flex flex-col lg:flex-row items-start lg:items-center justify-center px-4 pt-48 pb-20 lg:pt-0">
       <div className="container max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           
-          <div className="space-y-8">
-            {/* Scarcity Counter */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+          <div className="flex flex-col items-center lg:items-start space-y-8 text-center lg:text-left">
+            {/* Scarcity Badge - Fixed Margin */}
+            <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#1A2E05]/60 border border-[#63E602]/20 animate-fade-in-up">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">88/500 Founder spots remaining</span>
+              <span className="text-[10px] font-mono font-bold text-primary uppercase tracking-[0.2em]">88/500 Founder spots remaining</span>
             </div>
 
-            {/* StoryBrand Headline: Identifying the Villain */}
-            <h1 className="text-5xl lg:text-7xl font-black leading-[0.95] tracking-tighter">
-              STOP BUYING COURSES. <br />
-              <span className="text-primary">START EXECUTING.</span>
+            <h1 className="text-5xl sm:text-7xl lg:text-[90px] font-black leading-[0.85] tracking-tighter animate-fade-in-up">
+              STOP<br />BUYING COURSES.<br />
+              <span className="text-primary">START</span><br /><span className="text-primary">EXECUTING.</span>
             </h1>
 
-            <div className="max-w-lg space-y-6">
-              <p className="text-xl text-zinc-400 font-medium">
-                Courses sell dreams. We provide execution. Our AI Consultant cuts through analysis paralysis to give you the <span className="text-white">exact daily steps</span> to build your startup.
+            <div className="max-w-lg space-y-8">
+              <p className="text-lg text-white/50 font-medium leading-relaxed animate-fade-in-up">
+                Courses sell dreams. We provide execution. Our AI Consultant gives you the <span className="text-white">exact daily steps</span> to build your startup.
               </p>
 
               {!submitted ? (
-                <div className="space-y-4">
-                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="email"
-                      placeholder="Enter email to get the Roadmap"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 px-6 py-4 bg-zinc-900/50 border border-zinc-800 rounded-xl text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                      required
-                    />
-                    <button type="submit" disabled={isSubmitting} className="btn-primary-hacker">
-                      {isSubmitting ? "Syncing..." : "Get Access →"}
-                    </button>
-                  </form>
-                  <p className="text-xs text-zinc-500 font-mono italic">
-                    Lock in $9/mo for life. Price jumps to $49/mo after launch.
-                  </p>
-                </div>
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 animate-fade-in-up">
+                  <input type="text" value={botField} onChange={(e) => setBotField(e.target.value)} className="sr-only" />
+                  <input
+                    type="email"
+                    placeholder="Enter email to skip the line"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 px-6 py-5 bg-[#121212]/60 border border-white/10 rounded-2xl text-foreground focus:ring-2 focus:ring-primary/50 outline-none font-mono text-sm"
+                    required
+                  />
+                  <button type="submit" disabled={isSubmitting} className="btn-primary py-5 px-10 rounded-2xl font-black text-xs uppercase tracking-widest whitespace-nowrap active:scale-95 transition-all">
+                    {isSubmitting ? "SYNCING..." : "CLAIM ACCESS →"}
+                  </button>
+                </form>
               ) : (
-                /* VIRAL LOOP COMPONENT */
-                <div className="glass-card-hacker p-8 space-y-6 animate-scale-in border-primary/40">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-black font-black text-xl">#241</div>
-                    <div>
-                      <h3 className="text-white font-bold">You are now a Founder Advisor</h3>
-                      <p className="text-xs text-zinc-500 font-mono">Status: Awaiting Deployment</p>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-black rounded-lg border border-zinc-800 flex items-center justify-between">
-                    <code className="text-xs text-primary">{referralLink}</code>
-                    <Copy className="w-4 h-4 text-zinc-500 cursor-pointer hover:text-white" onClick={() => {navigator.clipboard.writeText(referralLink); toast({title: "Copied!"})}} />
-                  </div>
-                  <p className="text-sm text-zinc-400">Refer 1 friend to <span className="text-white font-bold">jump 500 spots</span> and skip the line.</p>
+                <div className="glass-card p-6 w-full border-primary/50 bg-primary/5 animate-scale-in text-left">
+                   <h3 className="text-lg font-black text-white">QUEUE POSITION: #42</h3>
+                   <p className="text-xs text-white/60 mt-2">Invite 2 builders to skip the line.</p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Depth-Enhanced Mockup */}
-          <div className="relative flex justify-center">
-            <div className="absolute inset-0 bg-primary/10 rounded-full blur-[120px] -z-10" />
-            <div className="relative z-10 rotate-[-5deg] hover:rotate-0 transition-transform duration-700">
-               <div className="p-2 bg-[#0c0c0c] rounded-[3rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,1)] border border-white/5">
-                 <div className="aspect-[9/19] w-[280px] sm:w-[320px] rounded-[2.5rem] overflow-hidden bg-black">
-                   <img src="/business-model.png" alt="HustleIQ App Preview" className="w-full h-full object-cover opacity-80" />
-                 </div>
-               </div>
-               {/* Floating "Executing" Badge */}
-               <div className="absolute -right-8 top-1/4 glass-card-hacker p-4 shadow-2xl animate-float">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    <p className="text-[10px] font-mono text-white tracking-widest">SYSTEM: EXECUTING_TASK_04</p>
-                  </div>
-               </div>
+          {/* Phone Mockup - Fixed Floating Animation */}
+          <div className="relative flex justify-center w-full lg:pl-12">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
+            <div className="relative z-10 w-[280px] sm:w-[320px] animate-float-mockup">
+              <div className="relative p-2.5 bg-[#0c0c0c] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border border-white/10">
+                <div className="relative aspect-[9/19.5] rounded-[3rem] overflow-hidden bg-black">
+                  <img src="/business-model.png" alt="App UI" className="w-full h-full object-cover opacity-90" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-7 bg-black rounded-b-2xl z-20 border-x border-b border-white/5" />
+                </div>
+              </div>
+              <div className="absolute -right-12 top-1/4 glass-card px-4 py-3 border-white/10 hidden sm:block">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <p className="text-[9px] font-mono font-bold text-white/90">SYSTEM: EXECUTING TASK 04</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -119,5 +97,4 @@ const Hero = () => {
     </section>
   );
 };
-
 export default Hero;
