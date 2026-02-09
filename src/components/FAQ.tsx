@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     question: 'Is this just another ChatGPT wrapper?',
-    answer: 'No. While we use AI for logic, the core engine is built on psychographic matching and real-time accountability frameworks designed by multi-exit founders.',
+    answer: 'No, While we use AI for logic, the core engine is built on psychographic matching and real-time accountability frameworks designed by multi-exit founders.',
   },
 ];
 
