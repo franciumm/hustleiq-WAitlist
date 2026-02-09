@@ -2,104 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-/* HustleIQ Design System - Deep Space Dark Mode with Lime Green Accent */
+/* HustleIQ Design System - Hacker/Builder Aesthetic */
+/* Fonts: Inter (Headlines) & JetBrains Mono (Data/Labels) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 :root {
-  background-color: #0b0f0a; /* Force black background */
+  background-color: #000000; /* Pure Black */
 }
 
 body {
-  background-color: #0b0f0a;
-  overscroll-behavior-y: none; /* Prevents "rubber banding" bounce on Mac/iOS */
-}
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-ExtraLight.woff2') format('truetype');
-  font-weight: 200;
-  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
-
-}
-
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-ExtraLight.woff2') format('truetype');
-  font-weight: 400; /* Force normal text to use ExtraLight (or change this if it's too thin) */
-  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
-
-}
-
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-    font-display: swap; /* 👈 ADD THIS */
-
-}
-
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap; /* 👈 ADD THIS */
-
-}
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
-  font-weight: 900; /* Black (Important for Hero Headline) */
-  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
-
+  background-color: #000000;
+  overscroll-behavior-y: none;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 6%;
+    --card: 0 0% 3%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 6%;
+    --popover: 0 0% 3%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 84 81% 44%;
-    --primary-foreground: 0 0% 2%;
+    /* Neon Green #63E602 */
+    --primary: 84 98% 45%; 
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 0 0% 12%;
+    /* Dark Forest Green #214B2F */
+    --secondary: 145 39% 21%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 15%;
+    --muted: 0 0% 10%;
     --muted-foreground: 0 0% 60%;
 
-    --accent: 84 81% 44%;
-    --accent-foreground: 0 0% 2%;
+    --accent: 84 98% 45%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 18%;
+    --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 84 81% 44%;
+    --ring: 84 98% 45%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom HustleIQ tokens */
-    --lime: 84 81% 44%;
-    --lime-glow: 84 81% 44%;
-    --space-dark: 0 0% 2%;
-    --glass-bg: 0 0% 8%;
-    --glass-border: 0 0% 20%;
-    
-    /* Gradients */
-    --gradient-lime: linear-gradient(135deg, hsl(84 81% 44%), hsl(120 60% 35%));
-    --gradient-glass: linear-gradient(135deg, hsl(0 0% 10% / 0.8), hsl(0 0% 5% / 0.9));
-    --gradient-hero-text: linear-gradient(90deg, hsl(0 0% 100%), hsl(84 81% 60%));
-  }
-
-  .dark {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 98%;
+    /* Custom Tokens */
+    --neon-green: #63E602;
+    --forest-green: #214B2F;
   }
 }
 
@@ -107,198 +59,73 @@ body {
   * {
     @apply border-border;
   }
-
+  
   html {
     scroll-behavior: smooth;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-weight: 700; 
-   }
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.04em; /* Tight tracking for modern feel */
+  }
+
+  code, .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
 }
 
 @layer components {
-  /* Glassmorphism card */
+  /* Hacker Card */
   .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl;
-    box-shadow: 
-      0 4px 24px -1px hsl(var(--lime) / 0.05),
-      inset 0 1px 0 0 hsl(0 0% 100% / 0.05);
+    @apply bg-[#050505] border border-[#214B2F]/30 rounded-lg;
+    box-shadow: 0 0 0 1px rgba(33, 75, 47, 0.2);
   }
 
-  /* Lime glow effect */
-  .lime-glow {
-    box-shadow: 
-      0 0 40px 8px hsl(var(--lime) / 0.3),
-      0 0 80px 16px hsl(var(--lime) / 0.15);
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-lime);
-  }
-
-  /* Hero gradient text */
-  .hero-gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-hero-text);
-  }
-
-  /* Phone mockup frame */
-   .phone-mockup {
-    @apply relative rounded-[2.75rem] bg-gradient-to-b from-zinc-800 to-zinc-900 p-1;
-    box-shadow: 
-      0 25px 50px -12px rgba(0, 0, 0, 0.8),
-      0 0 60px 10px hsl(var(--lime) / 0.2),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  }
-
-  .phone-screen {
-    @apply rounded-[2.5rem] overflow-hidden bg-black;
-  }
-
-  /* Floating animation */
-  .float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  /* Button glow on hover */
-  .btn-glow:hover {
-    box-shadow: 
-      0 0 20px 4px hsl(var(--lime) / 0.4),
-      0 0 40px 8px hsl(var(--lime) / 0.2);
-  }
-
-  /* Primary button style */
+  /* Neon Button */
   .btn-primary {
-    @apply px-6 py-3 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300;
-    border: 1px solid hsl(var(--lime) / 0.3);
-  }
-  
-  .btn-primary:hover {
-    transform: scale(1.02);
-    box-shadow: 
-      0 0 20px 4px hsl(var(--lime) / 0.4),
-      0 0 40px 8px hsl(var(--lime) / 0.2),
-      0 0 0 1px hsl(180 60% 50% / 0.5);
+    @apply font-sans font-bold text-black bg-[#63E602] hover:bg-[#52c402] transition-all duration-200;
+    /* 3D Press Effect */
+    border-bottom: 4px solid #3a8a02;
   }
   
   .btn-primary:active {
-    transform: scale(0.98);
+    transform: translateY(2px);
+    border-bottom: 0px solid transparent;
+    margin-bottom: 4px;
   }
 
-  /* Outline button style */
+  /* Secondary / Outline Button */
   .btn-outline {
-    @apply px-6 py-3 bg-transparent text-foreground font-medium rounded-xl transition-all duration-300;
-    border: 1px solid hsl(0 0% 30%);
-  }
-  
-  .btn-outline:hover {
-    transform: scale(1.02);
-    border-color: hsl(180 60% 50% / 0.6);
-    box-shadow: 
-      0 0 15px 2px hsl(180 60% 50% / 0.2),
-      0 0 30px 4px hsl(180 60% 50% / 0.1);
-  }
-  
-  .btn-outline:active {
-    transform: scale(0.98);
+    @apply font-mono text-[#63E602] bg-transparent border border-[#214B2F] hover:bg-[#214B2F]/20 transition-all duration-200;
   }
 
-  /* Secondary text link style */
-  .btn-link {
-    @apply text-sm font-medium text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2;
+  /* Text Highlight */
+  .highlight {
+    @apply text-[#63E602] selection:bg-[#63E602] selection:text-black;
   }
 }
 
 @layer utilities {
-  /* Star field background */
-  .star-field {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
+  .text-glow {
+    text-shadow: 0 0 20px rgba(99, 230, 2, 0.3);
   }
-
-  .star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: twinkle 4s ease-in-out infinite;
-  }
-
-  .star-small {
-    width: 1px;
-    height: 1px;
-    opacity: 0.2;
-  }
-
-  .star-large {
-    width: 3px;
-    height: 3px;
-    opacity: 0.5;
+  
+  .box-glow {
+    box-shadow: 0 0 40px rgba(99, 230, 2, 0.15);
   }
 }
 
-/* Keyframes */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(-2deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(2deg);
-  }
+/* Animations */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.2);
-  }
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
 }
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 
-      0 0 40px 8px hsl(var(--lime) / 0.3),
-      0 0 80px 16px hsl(var(--lime) / 0.15);
-  }
-  50% {
-    box-shadow: 
-      0 0 60px 12px hsl(var(--lime) / 0.4),
-      0 0 100px 24px hsl(var(--lime) / 0.2);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
