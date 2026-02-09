@@ -1,7 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* src/index.css additions */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px rgba(99, 230, 2, 0.2), 0 0 40px rgba(99, 230, 2, 0.1);
+}
+
+/* Make the StarBackground look deeper */
+#top {
+  background-color: #0b0f0a !important;
+}
+
+/* Ensure headings use your Nexa-Heavy font correctly */
+h1, h2, h3 {
+  font-family: 'Nexa', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
 /* HustleIQ Design System - Deep Space Dark Mode with Lime Green Accent */
 :root {
   background-color: #0b0f0a; /* Force black background */
