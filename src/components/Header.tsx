@@ -27,46 +27,57 @@ const Header = () => {
               }
             `}
           >
-            {/* Logo from Image 0 */}
+            {/* Logo: Prominent and clickable */}
             <a href="#top" className="flex items-center gap-2 hover:opacity-90 transition-opacity z-50">
               <img 
                 src="/logo.png"
                 alt="HustleIQ Logo" 
                 fetchPriority="high"
-                className="h-6 sm:h-7 w-auto object-contain"
+                className="h-6 sm:h-8 w-auto object-contain"
               />
             </a>
 
-            {/* Right Actions matching Image 0 */}
+            {/* Right Actions: Zero distraction links, only conversion targets */}
             <div className="hidden md:flex items-center gap-8">
               <button 
                 onClick={() => setLoginModalOpen(true)} 
-                className="text-[11px] font-mono font-bold text-white/70 hover:text-white transition-colors uppercase tracking-[0.2em]"
+                className="text-[11px] font-mono font-bold text-white/50 hover:text-white transition-colors uppercase tracking-[0.25em]"
               >
                 [ LOGIN ]
               </button>
               <Button 
                 onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} 
-                className="rounded-full bg-primary text-black font-black px-7 py-6 text-xs uppercase tracking-wider hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_25px_rgba(99,230,2,0.4)]"
+                className="rounded-full bg-primary text-black font-black px-7 py-6 text-xs uppercase tracking-widest hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_30px_rgba(99,230,2,0.4)]"
               >
                 CLAIM ACCESS
               </Button>
             </div>
 
-            {/* Mobile Menu Trigger */}
+            {/* Mobile Toggle */}
             <button
               className="md:hidden p-2 text-muted-foreground hover:text-white transition-colors z-50"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Menu: Simplified for focus */}
             {mobileMenuOpen && (
-              <div className="absolute top-full left-0 right-0 mt-4 p-6 bg-black/95 border border-white/10 rounded-[2rem] md:hidden animate-in fade-in zoom-in-95">
+              <div className="absolute top-full left-0 right-0 mt-4 p-6 bg-black/95 border border-white/10 rounded-[2.5rem] md:hidden animate-in fade-in zoom-in-95 shadow-2xl">
                 <div className="flex flex-col gap-4">
-                  <button onClick={() => { setLoginModalOpen(true); setMobileMenuOpen(false); }} className="p-4 text-center font-mono text-xs font-bold text-white/70 border-b border-white/5 uppercase tracking-widest">[ LOGIN ]</button>
-                  <Button onClick={() => { setMobileMenuOpen(false); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full h-14 rounded-2xl bg-primary text-black font-black uppercase text-xs tracking-widest">CLAIM ACCESS</Button>
+                  <button 
+                    onClick={() => { setLoginModalOpen(true); setMobileMenuOpen(false); }} 
+                    className="p-4 text-center font-mono text-[11px] font-bold text-white/50 border-b border-white/5 uppercase tracking-widest"
+                  >
+                    [ LOGIN ]
+                  </button>
+                  <Button 
+                    onClick={() => { setMobileMenuOpen(false); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }} 
+                    className="w-full h-16 rounded-2xl bg-primary text-black font-black uppercase text-xs tracking-widest"
+                  >
+                    CLAIM ACCESS
+                  </Button>
                 </div>
               </div>
             )}
