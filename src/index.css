@@ -2,56 +2,303 @@
 @tailwind components;
 @tailwind utilities;
 
+/* HustleIQ Design System - Deep Space Dark Mode with Lime Green Accent */
 :root {
-  --background: 0 0% 4%; /* #0b0f0a equivalent */
-  --foreground: 0 0% 98%;
-  --primary: 84 100% 45%; /* #63E602 Neon Green */
-  --primary-foreground: 0 0% 0%;
-  --secondary: 0 0% 9%;
-  --border: 0 0% 15%;
-  --radius: 1rem;
+  background-color: #0b0f0a; /* Force black background */
+}
+
+body {
+  background-color: #0b0f0a;
+  overscroll-behavior-y: none; /* Prevents "rubber banding" bounce on Mac/iOS */
+}
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-ExtraLight.woff2') format('truetype');
+  font-weight: 200;
+  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
+
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-ExtraLight.woff2') format('truetype');
+  font-weight: 400; /* Force normal text to use ExtraLight (or change this if it's too thin) */
+  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
+
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+    font-display: swap; /* 👈 ADD THIS */
+
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap; /* 👈 ADD THIS */
+
+}
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
+  font-weight: 900; /* Black (Important for Hero Headline) */
+  font-style: normal;  font-display: swap; /* 👈 ADD THIS */
+
 }
 
 @layer base {
-  body {
-    @apply bg-[#0b0f0a] text-white antialiased;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  h1, h2, h3, h4 {
-    @apply tracking-tighter font-bold;
+  :root {
+    --background: 0 0% 2%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 84 81% 44%;
+    --primary-foreground: 0 0% 2%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 84 81% 44%;
+    --accent-foreground: 0 0% 2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 84 81% 44%;
+
+    --radius: 0.75rem;
+
+    /* Custom HustleIQ tokens */
+    --lime: 84 81% 44%;
+    --lime-glow: 84 81% 44%;
+    --space-dark: 0 0% 2%;
+    --glass-bg: 0 0% 8%;
+    --glass-border: 0 0% 20%;
+    
+    /* Gradients */
+    --gradient-lime: linear-gradient(135deg, hsl(84 81% 44%), hsl(120 60% 35%));
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 10% / 0.8), hsl(0 0% 5% / 0.9));
+    --gradient-hero-text: linear-gradient(90deg, hsl(0 0% 100%), hsl(84 81% 60%));
   }
 
-  /* Hacker/Builder labels */
-  .mono-label {
-    font-family: 'JetBrains Mono', monospace;
-    @apply text-[10px] uppercase tracking-[0.2em] text-primary;
+  .dark {
+    --background: 0 0% 2%;
+    --foreground: 0 0% 98%;
   }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-weight: 700; 
+   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-[#63E602] text-black font-black px-8 py-4 rounded-full 
-           hover:shadow-[0_0_30px_rgba(99,230,2,0.4)] transition-all 
-           active:scale-95 flex items-center gap-2;
-  }
-
+  /* Glassmorphism card */
   .glass-card {
-    @apply bg-black/40 backdrop-blur-md border border-white/10 rounded-3xl;
+    @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl;
+    box-shadow: 
+      0 4px 24px -1px hsl(var(--lime) / 0.05),
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.05);
   }
 
+  /* Lime glow effect */
+  .lime-glow {
+    box-shadow: 
+      0 0 40px 8px hsl(var(--lime) / 0.3),
+      0 0 80px 16px hsl(var(--lime) / 0.15);
+  }
+
+  /* Gradient text */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-[#63E602];
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-lime);
+  }
+
+  /* Hero gradient text */
+  .hero-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-hero-text);
+  }
+
+  /* Phone mockup frame */
+   .phone-mockup {
+    @apply relative rounded-[2.75rem] bg-gradient-to-b from-zinc-800 to-zinc-900 p-1;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.8),
+      0 0 60px 10px hsl(var(--lime) / 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .phone-screen {
+    @apply rounded-[2.5rem] overflow-hidden bg-black;
+  }
+
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Button glow on hover */
+  .btn-glow:hover {
+    box-shadow: 
+      0 0 20px 4px hsl(var(--lime) / 0.4),
+      0 0 40px 8px hsl(var(--lime) / 0.2);
+  }
+
+  /* Primary button style */
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-lime text-primary-foreground font-semibold rounded-xl transition-all duration-300;
+    border: 1px solid hsl(var(--lime) / 0.3);
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 
+      0 0 20px 4px hsl(var(--lime) / 0.4),
+      0 0 40px 8px hsl(var(--lime) / 0.2),
+      0 0 0 1px hsl(180 60% 50% / 0.5);
+  }
+  
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  /* Outline button style */
+  .btn-outline {
+    @apply px-6 py-3 bg-transparent text-foreground font-medium rounded-xl transition-all duration-300;
+    border: 1px solid hsl(0 0% 30%);
+  }
+  
+  .btn-outline:hover {
+    transform: scale(1.02);
+    border-color: hsl(180 60% 50% / 0.6);
+    box-shadow: 
+      0 0 15px 2px hsl(180 60% 50% / 0.2),
+      0 0 30px 4px hsl(180 60% 50% / 0.1);
+  }
+  
+  .btn-outline:active {
+    transform: scale(0.98);
+  }
+
+  /* Secondary text link style */
+  .btn-link {
+    @apply text-sm font-medium text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2;
   }
 }
 
-/* Star animations */
-.star {
-  @apply absolute bg-white rounded-full;
-  animation: twinkle var(--duration) ease-in-out infinite;
+@layer utilities {
+  /* Star field background */
+  .star-field {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  .star-small {
+    width: 1px;
+    height: 1px;
+    opacity: 0.2;
+  }
+
+  .star-large {
+    width: 3px;
+    height: 3px;
+    opacity: 0.5;
+  }
+}
+
+/* Keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
 }
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 40px 8px hsl(var(--lime) / 0.3),
+      0 0 80px 16px hsl(var(--lime) / 0.15);
+  }
+  50% {
+    box-shadow: 
+      0 0 60px 12px hsl(var(--lime) / 0.4),
+      0 0 100px 24px hsl(var(--lime) / 0.2);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
