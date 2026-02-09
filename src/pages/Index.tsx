@@ -1,68 +1,47 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async'; // Use Helmet here, not Provider
+import { lazy, Suspense } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Toaster } from '@/components/ui/toaster';
-
-// 1. Keep these STATIC (they are above the fold)
 import StarBackground from '@/components/StarBackground';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import FoundersNote from '@/components/FoundersNote'; 
 
-// 2. LAZY LOAD these (they are below the fold)
+// StoryBrand: The Plan (How it works)
 const FloatingSteps = lazy(() => import('@/components/FloatingSteps'));
-const WhyUs = lazy(() => import('@/components/WhyUs'));
-const BentoGrid = lazy(() => import('@/components/BentoGrid'));
-const NetworkSection = lazy(() => import('@/components/NetworkSection'));
-const ComingSoon = lazy(() => import('@/components/ComingSoon'));
+// StoryBrand: The Stakes (Path A vs Path B)
 const TwoPaths = lazy(() => import('@/components/TwoPaths'));
+// Alleviating Fear (The 3 Questions)
 const FAQ = lazy(() => import('@/components/FAQ'));
 const Footer = lazy(() => import('@/components/Footer'));
+
 const HelmetFixed = Helmet as any;
 
 const Index = () => {  
-  const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "HustleIQ",
-    "operatingSystem": "Web",
-    "applicationCategory": "BusinessApplication",
-    "description": "AI-powered platform that finds your perfect business model and provides founder accountability.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/PreOrder"
-    }
-  };
-
   return (
-    <div id="top" className="relative min-h-screen bg-background overflow-hidden">
-      {/* ⚡️ FIX: Use <Helmet> for tags. HelmetProvider stays in App.tsx */}
+    <div id="top" className="relative min-h-screen bg-[#0b0f0a] overflow-hidden">
       <HelmetFixed>
         <title>HustleIQ | Stop Guessing. Start Executing.</title>
-        <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k. Join the waitlist." />
-        <script type="application/ld+json">{JSON.stringify(softwareSchema)}</script>
-       </HelmetFixed>
-
+        <meta name="description" content="The AI Co-founder that kills distraction. Launch your $10k/mo business." />
+      </HelmetFixed>
+      
       <StarBackground />
       <Header />
       
       <main className="relative z-10">
         <Hero /> 
-
-        {/* ⚡️ PERFORMANCE FIX: Wrap lazy components in Suspense */}
+        
         <Suspense fallback={<div className="h-96 w-full animate-pulse bg-white/5" />}>
+          {/* Section 1: The Plan (Demonstrates the Guide knows the way) */}
           <FloatingSteps />
-          <WhyUs />
-          <BentoGrid />
-          {/* <NetworkSection /> */}
-          <ComingSoon />
+          
+          {/* Section 2: The Stakes (StoryBrand: What happens if they don't act?) */}
           <TwoPaths />
+          
+          {/* Section 3: Friction Removal (Minimalist FAQ) */}
           <FAQ />
+          
           <Footer />
         </Suspense>
       </main>
-
       <Toaster />
     </div>
   );
