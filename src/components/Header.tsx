@@ -27,33 +27,33 @@ const Header = () => {
               }
             `}
           >
-            {/* Logo */}
+            {/* Logo from Image 0 */}
             <a href="#top" className="flex items-center gap-2 hover:opacity-90 transition-opacity z-50">
               <img 
                 src="/logo.png"
                 alt="HustleIQ Logo" 
                 fetchPriority="high"
-                className="h-6 sm:h-8 w-auto object-contain"
+                className="h-6 sm:h-7 w-auto object-contain"
               />
             </a>
 
-            {/* Desktop Actions */}
-            <div className="hidden md:flex items-center gap-6">
+            {/* Right Actions matching Image 0 */}
+            <div className="hidden md:flex items-center gap-8">
               <button 
                 onClick={() => setLoginModalOpen(true)} 
-                className="text-xs font-mono font-bold text-muted-foreground hover:text-white transition-colors uppercase tracking-widest"
+                className="text-[11px] font-mono font-bold text-white/70 hover:text-white transition-colors uppercase tracking-[0.2em]"
               >
-                [ Login ]
+                [ LOGIN ]
               </button>
               <Button 
-                onClick={() => document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' })} 
-                className="rounded-full bg-primary text-black font-black px-6 hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_20px_rgba(99,230,2,0.4)]"
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} 
+                className="rounded-full bg-primary text-black font-black px-7 py-6 text-xs uppercase tracking-wider hover:bg-primary/90 hover:scale-105 transition-all shadow-[0_0_25px_rgba(99,230,2,0.4)]"
               >
                 CLAIM ACCESS
               </Button>
             </div>
 
-            {/* Mobile Trigger */}
+            {/* Mobile Menu Trigger */}
             <button
               className="md:hidden p-2 text-muted-foreground hover:text-white transition-colors z-50"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -63,10 +63,10 @@ const Header = () => {
 
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
-              <div className="absolute top-full left-0 right-0 mt-4 p-4 bg-black/95 border border-white/10 rounded-3xl md:hidden animate-in fade-in zoom-in-95">
+              <div className="absolute top-full left-0 right-0 mt-4 p-6 bg-black/95 border border-white/10 rounded-[2rem] md:hidden animate-in fade-in zoom-in-95">
                 <div className="flex flex-col gap-4">
-                  <button onClick={() => { setLoginModalOpen(true); setMobileMenuOpen(false); }} className="p-4 text-center font-mono font-bold text-muted-foreground border-b border-white/5">LOGIN</button>
-                  <Button onClick={() => { setMobileMenuOpen(false); document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full h-14 rounded-2xl bg-primary text-black font-black">CLAIM ACCESS</Button>
+                  <button onClick={() => { setLoginModalOpen(true); setMobileMenuOpen(false); }} className="p-4 text-center font-mono text-xs font-bold text-white/70 border-b border-white/5 uppercase tracking-widest">[ LOGIN ]</button>
+                  <Button onClick={() => { setMobileMenuOpen(false); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full h-14 rounded-2xl bg-primary text-black font-black uppercase text-xs tracking-widest">CLAIM ACCESS</Button>
                 </div>
               </div>
             )}
