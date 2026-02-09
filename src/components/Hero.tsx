@@ -86,7 +86,6 @@ const Hero = () => {
               <div className="absolute -right-12 top-1/4 glass-card px-4 py-3 border-white/10 hidden sm:block">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <p className="text-[9px] font-mono font-bold text-white/90">SYSTEM: EXECUTING TASK 04</p>
                 </div>
               </div>
             </div>
