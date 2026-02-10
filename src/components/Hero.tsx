@@ -94,11 +94,10 @@ const Hero = () => {
                  <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/50">
                        {/* Success Image: Smiley Founder */}
-                       <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Happy Founder" className="w-full h-full object-cover" />
                     </div>
                     <div className="text-left">
-                       <p className="text-[10px] font-mono font-black text-white">JAMES_R. [ADVISOR]</p>
-                       <p className="text-[8px] font-mono text-primary uppercase mt-0.5">Shipment: "First $1k month hit."</p>
+                 <p className="text-[10px] font-mono font-bold text-white leading-none">STRIPE: +$499.00</p>
+             <p className="text-[8px] font-mono text-primary uppercase mt-1">Goal: First Sale Cleared</p>
                     </div>
                  </div>
               </div>
