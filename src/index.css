@@ -154,3 +154,25 @@
 .animate-pulse {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+/* src/index.css updates */
+
+@layer components {
+  /* Refactoring UI: Emulating a light source from above */
+  .border-t-hacker {
+    border-top: 1px solid rgba(99, 230, 2, 0.3);
+  }
+
+  /* Refactoring UI: Ultra-layered depth shadows */
+  .shadow-float-pro {
+    box-shadow: 
+      0 5px 15px -3px rgba(0, 0, 0, 0.4),
+      0 10px 30px -10px rgba(0, 0, 0, 0.6),
+      0 20px 60px -15px rgba(0, 0, 0, 0.9),
+      0 0 40px -10px rgba(99, 230, 2, 0.15);
+  }
+}
+
+/* Don't Make Me Think: Optimizing line length for scanning */
+.max-w-prose-hacker {
+  max-width: 35em; /* Optimal 45-75 characters per line */
+}
