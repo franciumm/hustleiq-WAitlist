@@ -127,13 +127,7 @@ const Hero = () => {
 
           {/* Progress Section */}
           <div className="flex-1 flex flex-col items-center justify-center space-y-10">
-            <div className="relative w-32 h-32">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#63E602" strokeWidth="8" strokeDasharray="283" strokeDashoffset="0" strokeLinecap="round" className="animate-pulse" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center font-mono font-black text-xl text-white drop-shadow-lg">100%</div>
-            </div>
+          
 
             {/* Results Card */}
             <div className="w-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 text-center space-y-2 shadow-2xl">
