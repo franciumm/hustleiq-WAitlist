@@ -7,7 +7,7 @@ const faqs = [
   },
   {
     question: 'How is this different from a $997 course?',
-    answer: 'Courses give you information (noise). HustleIQ gives you direction (signal). It is a software-led roadmap that adapts based on your actual daily output.',
+    answer: 'Courses give you information (noise). HustleIQ gives you direction (signal). It is a software-led roadmap that automates your to-do list based on your data and real market data.',
   },
   {
     question: 'Is this just another ChatGPT wrapper?',

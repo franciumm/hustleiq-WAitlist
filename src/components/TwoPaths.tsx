@@ -110,9 +110,9 @@ const TwoPaths = () => {
               </div>
               <h3 className="text-2xl md:text-4xl font-black text-white mb-6 md:mb-8 leading-tight">The Sovereign Founder.</h3>
               <div className="text-gray-400 space-y-4 text-sm md:text-lg font-medium leading-relaxed max-w-sm mb-8 md:mb-12">
-                <p>Waking up to a clear dashboard of actions <br/> Visible revenue growth every 72 hours.</p>
-                <p className="text-white font-black">Stop guessing</p>
-                <p>Start Executing with direction, Step by Step</p>
+    <p>Waking up to a clear dashboard of actions.<br /> **3x faster** execution than course students.</p>
+    <p className="text-white font-black uppercase">**Reduce time to first sale by 70%**</p>
+    <p>Start Executing with direction, Step by Step.</p>
               </div>
               <div className="mt-auto w-full flex justify-center"><CustomPathButton text="Start Building" isGreen onClick={handleScrollToTop} /></div>
             </div>
