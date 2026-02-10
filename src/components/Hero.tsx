@@ -96,7 +96,6 @@ const Hero = () => {
           </div>
 
           {/* Right Column: Visual Mockup with Success Visual */}
-          {/* Right Column: Visual Mockup - Edge-to-Edge Screenshot */}
 <div className="relative flex justify-center w-full lg:pl-12">
   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[120px] opacity-50" />
   
@@ -125,33 +124,10 @@ const Hero = () => {
             <div className="w-8" />
           </div>
 
-          {/* Progress Section */}
-          <div className="flex-1 flex flex-col items-center justify-center space-y-10">
           
 
-            {/* Results Card */}
-            <div className="w-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 text-center space-y-2 shadow-2xl">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Your Ideal Business Model</p>
-              <h4 className="text-2xl font-black text-white tracking-tight">SMMA</h4>
-              <div className="pt-2 space-y-1.5">
-                <div className="flex items-center gap-2 justify-center text-[10px] text-white/60">
-                  <Check className="w-3 h-3 text-primary" /> Matches your <span className="text-white">time</span> availability
-                </div>
-                <div className="flex items-center gap-2 justify-center text-[10px] text-white/60">
-                  <Check className="w-3 h-3 text-primary" /> Supports consistent <span className="text-white">execution</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Start Button UI */}
-          <div className="mt-auto w-full py-4 px-6 rounded-2xl bg-[#63E602]/10 backdrop-blur-md text-white/40 font-mono text-[10px] text-center uppercase tracking-widest border border-white/5">
-            Start this Journey
-          </div>
-        </div>
 
-        {/* Dynamic Island Notch Overlay */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-7 bg-black rounded-b-2xl z-20 border-x border-b border-white/5" />
       </div>
     </div>
 
