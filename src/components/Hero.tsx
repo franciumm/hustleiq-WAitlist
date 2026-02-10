@@ -102,7 +102,6 @@ const Hero = () => {
              <p className="text-[8px] font-mono text-primary uppercase mt-1">Goal: First Sale Cleared</p>
           </div>
        </div>
-    </div>
     
                     </div>
                  </div>
