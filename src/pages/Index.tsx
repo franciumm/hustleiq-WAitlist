@@ -14,20 +14,19 @@ const HelmetFixed = Helmet as any;
 
 const Index = () => {  
   return (
-    // Removed bg-[#0b0f0a] from here to let StarBackground show through
+    // bg-transparent ensures StarBackground is visible
     <div id="top" className="relative min-h-screen overflow-hidden bg-transparent">
       <HelmetFixed>
         <title>HustleIQ | Stop Guessing. Start Executing.</title>
         <meta name="description" content="The AI Co-founder that kills distraction. Launch your $10k/mo business." />
       </HelmetFixed>
       
-      {/* Background stays at z-0 */}
+      {/* Background is at z-0 */}
       <StarBackground />
       
-      {/* Header is z-50 */}
       <Header />
       
-      {/* Content is z-10 and bg-transparent */}
+      {/* Content is at z-10 */}
       <main className="relative z-10 bg-transparent">
         <Hero /> 
         

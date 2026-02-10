@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 1. TECHNICAL FONTS */
+/* 1. EXTERNAL & LOCAL FONTS */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
 
-/* Nexa Import Logic (Assuming local files) */
 @font-face {
   font-family: 'Nexa';
   src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
@@ -13,67 +12,93 @@
   font-display: swap;
 }
 
+/* 2. CORE THEME VARIABLES */
 @layer base {
   :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --primary: 84 81% 45%; /* Neon Green #63E602 */
+    --primary: 84 81% 45%;      /* Neon Green #63E602 */
     --primary-foreground: 240 5.9% 10%;
     --border: 240 3.7% 15.9%;
     --radius: 1rem;
+    
+    /* Design System Tokens */
+    --space-black: #0b0f0a;
+    --neon-green: #63E602;
   }
 
   body {
-    @apply bg-[#0b0f0a] text-foreground antialiased selection:bg-primary selection:text-black;
+    @apply text-foreground antialiased selection:bg-primary selection:text-black;
+    background-color: var(--space-black);
     font-family: 'Nexa', sans-serif;
     overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Force Headings to be aggressive and heavy */
+  /* StoryBrand: Tight headings to prevent visual "leakage" */
   h1, h2, h3, h4 {
     @apply font-black tracking-tighter uppercase;
-    font-family: 'Nexa', sans-serif;
+    line-height: 1.05 !important;
+    letter-spacing: -0.04em !important;
   }
 }
 
+/* 3. CUSTOM COMPONENTS (Refactoring UI Logic) */
 @layer components {
-  /* "Hacker" Mono text utility */
+  /* "Hacker" Technical Text */
   .font-mono {
     font-family: 'JetBrains Mono', monospace !important;
   }
 
-  /* Neon Glow effect for cards/buttons */
-  .neon-glow {
-    box-shadow: 0 0 20px rgba(99, 230, 2, 0.2), 0 0 40px rgba(99, 230, 2, 0.1);
-  }
-
-  /* Gradient Text Utility */
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-primary;
-  }
-
-  /* Refactoring UI: Glassmorphism with 1px light source */
+  /* Glassmorphism: Semi-transparent with 1px light source border */
   .glass-card {
     @apply bg-[#121212]/40 backdrop-blur-2xl border border-white/5 rounded-[2rem];
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
-  /* Primary Button Implementation */
+  /* Primary Button: Tactile, glowing, and aggressive */
   .btn-primary {
-    @apply bg-[#63E602] text-black font-black transition-all duration-300;
+    @apply bg-[#63E602] text-black font-black uppercase tracking-widest transition-all duration-300;
     box-shadow: 0 0 15px rgba(99, 230, 2, 0.3);
+    font-size: 0.75rem;
   }
 
   .btn-primary:hover {
     @apply scale-[1.03] -translate-y-0.5;
     box-shadow: 0 0 30px rgba(99, 230, 2, 0.5);
   }
+
+  /* The "Well" Effect: Inset shadow for professional form fields */
+  .shadow-well {
+    box-shadow: inset 0 2px 8px 0 rgba(0, 0, 0, 0.8);
+  }
+
+  /* Multi-Layered Shadows for 3D depth on mockups */
+  .shadow-float {
+    box-shadow: 
+      0 10px 20px -5px rgba(0, 0, 0, 0.7),
+      0 30px 60px -12px rgba(0, 0, 0, 0.8),
+      0 0 40px -10px rgba(99, 230, 2, 0.2);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(99, 230, 2, 0.2), 0 0 40px rgba(99, 230, 2, 0.1);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-primary;
+  }
 }
 
-/* 2. CUSTOM ANIMATIONS (No Framer Needed) */
+/* 4. ANIMATIONS & UTILITIES */
 @layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-task {
+    animation: floatTask 5s ease-in-out infinite;
   }
 
   .animate-fade-in-up {
@@ -86,11 +111,22 @@
     transform: scale(0.9);
     animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+
+  header {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
+/* 5. KEYFRAMES */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
+}
+
+@keyframes floatTask {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
 }
 
 @keyframes fadeInUp {
@@ -103,43 +139,18 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Mobile optimizations for typography */
+/* 6. MOBILE OPTIMIZATIONS */
 @media (max-width: 640px) {
   h1 { line-height: 0.9 !important; }
-}
-/* src/index.css updates */
-
-@keyframes float-mockup {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  .glass-card { border-radius: 1.5rem; }
 }
 
-.animate-float-mockup {
-  animation: float-mockup 6s ease-in-out infinite;
+/* Add to your animations section */
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 
-/* Ensure the header doesn't hide behind the Hero content */
-header {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-/* src/index.css */
-
-.shadow-well {
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-float-slow {
-  animation: float-slow 8s ease-in-out infinite;
-}
-
-/* Enhancing the Glow behind the phone */
-.mockup-glow {
-  filter: drop-shadow(0 0 30px rgba(99, 230, 2, 0.15));
+.animate-pulse {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
