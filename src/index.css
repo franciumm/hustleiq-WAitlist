@@ -5,12 +5,6 @@
 /* 1. EXTERNAL & LOCAL FONTS */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
 
-@font-face {
-  font-family: 'Nexa';
-  src: url('/fonts/Nexa-Heavy.woff2') format('truetype');
-  font-weight: 900;
-  font-display: swap;
-}
 
 /* 2. CORE THEME VARIABLES */
 @layer base {
@@ -25,15 +19,6 @@
     /* Design System Tokens */
     --space-black: #0b0f0a;
     --neon-green: #63E602;
-  }
-
-  body {
-    @apply text-foreground antialiased selection:bg-primary selection:text-black;
-    background-color: var(--space-black);
-    font-family: 'Nexa', sans-serif;
-    overscroll-behavior: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   /* StoryBrand: Tight headings to prevent visual "leakage" */
