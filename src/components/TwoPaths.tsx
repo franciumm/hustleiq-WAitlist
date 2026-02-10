@@ -95,7 +95,7 @@ const TwoPaths = () => {
               
               <div className="text-white/60 space-y-6 text-sm md:text-lg font-medium leading-relaxed max-w-sm mb-12">
                 {/* ⚡️ FONT FIX: Technical data using font-mono */}
-                <p>Wake up to a clear dashboard of actions. <span className="font-mono text-primary font-bold">3X_FASTER</span> execution than course students.</p>
+                <p>Wake up to a clear dashboard of actions. <span className="font-mono text-primary font-bold">3X FASTER</span> execution than course students.</p>
                 <div className="py-2 px-4 bg-primary/5 border border-primary/20 rounded-xl">
                   <p className="text-white font-black uppercase tracking-widest font-mono text-sm">Reduce time to first sale by <span className="text-primary">70%</span></p>
                 </div>
