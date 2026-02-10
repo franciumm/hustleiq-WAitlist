@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast'; 
 import posthog from 'posthog-js';
-import { Check, Copy, Share2, ArrowLeft, DollarSign, Zap, Globe, Github } from 'lucide-react';
+import { Check, Copy, Share2, DollarSign, Globe, Github } from 'lucide-react';
 
 const Hero = () => {
   const { toast } = useToast();
@@ -30,13 +30,11 @@ const Hero = () => {
   };
 
   return (
-    /* ⚡️ SCALED: Reduced padding and changed alignment to start for safety */
     <section className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-32 lg:pt-8 pb-12">
       <div className="container max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
           
           <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left">
-            {/* SCALED: Smaller Badge */}
             <div className="animate-fade-in-up">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
@@ -44,14 +42,12 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* SCALED: Headline (Reduced from 110px to 84px) */}
             <h1 className="text-4xl sm:text-5xl lg:text-8xl font-black tracking-tighter animate-fade-in-up leading-[0.9]">
               STOP DREAMING.<br />
               <span className="text-primary">START BUILDING.</span>
             </h1>
 
             <div className="max-w-[400px] w-full space-y-6">
-              {/* SCALED: Text size reduced to base */}
               <p className="text-base text-white/40 leading-relaxed animate-fade-in-up">
                 Skip the noise. Get **daily execution steps**. Build your $10k/mo startup **this month**.
               </p>
@@ -110,7 +106,6 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* SCALED: Smaller Authority Logos */}
             <div className="flex items-center justify-center lg:justify-start gap-6 opacity-20 grayscale animate-fade-in-up delay-300">
                <div className="flex items-center gap-2 font-mono text-[9px] font-bold"><Globe className="w-3 h-3"/> STRIPE</div>
                <div className="flex items-center gap-2 font-mono text-[9px] font-bold"><Github className="w-3 h-3"/> VERCEL</div>
@@ -118,39 +113,28 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* SCALED: Smaller Mockup */}
+          {/* Cleaned Up Mockup - Focus on Screenshot */}
           <div className="relative flex justify-center w-full lg:pl-12">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary/10 rounded-full blur-[100px] opacity-40" />
             
-            {/* ⚡️ FIX: Reduced mockup size (w-64 on mobile, w-72 on desktop) */}
             <div className="relative z-10 w-[220px] sm:w-[280px] animate-float">
+              {/* iPhone Hardware Frame */}
               <div className="relative p-2 bg-[#0c0c0c] rounded-[2.8rem] shadow-float-pro border border-white/10 border-t-hacker">
                 <div className="relative aspect-[9/19.5] rounded-[2.4rem] overflow-hidden bg-black">
-                  <img src="/business-model.png" alt="UI" className="absolute inset-0 w-full h-full object-cover opacity-80" />
                   
-                  <div className="relative h-full flex flex-col p-5 z-10 bg-gradient-to-b from-black/40 via-transparent to-black/80">
-                    {/* Inner Phone UI (Slightly Smaller) */}
-                    <div className="flex-1 flex flex-col items-center justify-center space-y-6">
-                        <div className="relative w-20 h-20">
-                          <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#63E602" strokeWidth="8" strokeDasharray="283" strokeDashoffset="0" strokeLinecap="round" />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center font-mono font-black text-sm text-white">100%</div>
-                        </div>
-                        <div className="w-full bg-black/60 backdrop-blur-md border border-white/10 rounded-xl p-4 text-center space-y-1">
-                          <p className="text-[8px] uppercase tracking-widest text-white/40 font-mono">Ideal Model</p>
-                          <h4 className="text-lg font-black text-white uppercase">SMMA</h4>
-                          <p className="text-[7px] text-white/30 font-mono">Matched for Execution</p>
-                        </div>
-                    </div>
-                  </div>
+                  {/* ⚡️ CLEAN SCREENSHOT: Removed all internal text/widgets */}
+                  <img 
+                    src="/business-model.png" 
+                    alt="HustleIQ Dashboard Preview" 
+                    className="w-full h-full object-cover opacity-100" 
+                  />
 
+                  {/* Hardware Notch */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-5 bg-black rounded-b-xl z-20 border-x border-b border-white/5" />
                 </div>
               </div>
 
-              {/* SCALED: Smaller Floating Notification */}
+              {/* Floating Badge 1: STRIPE +$499 */}
               <div className="absolute -left-12 bottom-20 glass-card p-3 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30">
                  <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -163,10 +147,10 @@ const Hero = () => {
                  </div>
               </div>
               
-              {/* SCALED: Smaller Badge */}
+              {/* Floating Badge 2: TASK_04: LIVE */}
               <div className="absolute -right-12 top-1/4 glass-card px-3 py-2 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30">
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#63E602]" />
                   <p className="text-[8px] font-mono font-bold tracking-tighter text-white/80 uppercase">TASK_04: LIVE</p>
                 </div>
               </div>
