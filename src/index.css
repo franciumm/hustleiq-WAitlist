@@ -124,3 +124,22 @@ header {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+/* src/index.css */
+
+.shadow-well {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+/* Enhancing the Glow behind the phone */
+.mockup-glow {
+  filter: drop-shadow(0 0 30px rgba(99, 230, 2, 0.15));
+}
