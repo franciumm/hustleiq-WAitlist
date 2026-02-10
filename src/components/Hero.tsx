@@ -30,27 +30,27 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-32 lg:pt-8 pb-12">
+    /* ⚡️ FIX: Increased pt-44 on mobile and pt-32 on desktop to prevent overlap with Header */
+    /* ⚡️ FIX: Removed overflow-hidden to prevent clipping the top of the badge */
+    <section id="how-it-works" className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-44 lg:pt-32 pb-12">
       <div className="container max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
           
           <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left">
-            {/* 1. SPECIFICITY UPGRADE: Specific count instead of "500+" */}
+            {/* 1. SCARCITY BADGE - Now has space to breathe */}
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker shadow-2xl">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] font-mono font-black text-primary uppercase tracking-[0.15em]">88/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4</span>
+                <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">88/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4</span>
               </div>
             </div>
 
-            {/* 2. GRUNT TEST HEADLINE */}
             <h1 className="text-4xl sm:text-5xl lg:text-8xl font-black tracking-tighter animate-fade-in-up leading-[0.9]">
               STOP DREAMING.<br />
               <span className="text-primary">START BUILDING.</span>
             </h1>
 
             <div className="max-w-[420px] w-full space-y-6">
-              {/* 3. MORSE CODE SUBHEAD: Highlighted Payoff "3X FASTER" */}
               <div className="text-base sm:text-lg text-white/40 animate-fade-in-up space-y-1">
                 <p>Skip the noise. Get <span className="text-white">daily execution steps</span>.</p>
                 <p><span className="text-primary font-black uppercase">Build 3x faster</span> than any course.</p>
@@ -119,7 +119,7 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column: High-Fi Mockup */}
+          {/* Right Column: Visual Mockup */}
           <div className="relative flex justify-center w-full lg:pl-12">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary/10 rounded-full blur-[100px] opacity-40" />
             
@@ -131,8 +131,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Floating Success Signal */}
-              <div className="absolute -left-12 bottom-20 glass-card p-3 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30">
+              <div className="absolute -left-12 bottom-20 glass-card p-3 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30 border-white/5">
                  <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                       <DollarSign className="w-4 h-4 text-primary" />
@@ -144,8 +143,7 @@ const Hero = () => {
                  </div>
               </div>
               
-              {/* Floating Live Signal */}
-              <div className="absolute -right-12 top-1/4 glass-card px-3 py-2 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30">
+              <div className="absolute -right-12 top-1/4 glass-card px-3 py-2 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30 border-white/5">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#63E602]" />
                   <p className="text-[8px] font-mono font-bold tracking-tighter text-white/80 uppercase">TASK_04: LIVE</p>
