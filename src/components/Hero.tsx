@@ -111,7 +111,6 @@ const Hero = () => {
                <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Cpu className="w-3 h-3 text-white"/> POWERED_BY_GEMINI</div>
                <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Apple className="w-3 h-3 text-white"/> APP_STORE</div>
                <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Globe className="w-3 h-3 text-white"/> STRIPE</div>
-               <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Github className="w-3 h-3 text-white"/> VERCEL</div>
             </div>
           </div>
 
