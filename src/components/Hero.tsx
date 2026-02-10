@@ -92,9 +92,6 @@ const Hero = () => {
               {/* StoryBrand: The "Image of Success" (Happy Founder) */}
               <div className="absolute -left-20 bottom-32 glass-card p-4 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30">
                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/50">
-                       {/* Success Image: Smiley Founder */}
-                    </div>
                     <div className="text-left">
                  <p className="text-[10px] font-mono font-bold text-white leading-none">STRIPE: +$499.00</p>
              <p className="text-[8px] font-mono text-primary uppercase mt-1">Goal: First Sale Cleared</p>
