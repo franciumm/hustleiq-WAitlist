@@ -22,7 +22,6 @@ const Hero = () => {
     await new Promise(res => setTimeout(res, 800));
     setStep(3);
     setIsSubmitting(false);
-    toast({ title: "Verification Complete", description: "Position secured." });
   };
 
   const copyRef = () => {
@@ -31,10 +30,9 @@ const Hero = () => {
   };
 
   return (
-    /* ⚡️ FIX 1: Changed pt-32 to pt-48 and used items-start for better mobile spacing */
-    <section className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-48 lg:pt-0 pb-20">
+    /* ⚡️ INCREASED MARGIN: pt-64 ensures deep clearance from the fixed header */
+    <section className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-64 lg:pt-0 pb-20">
       <div className="container max-w-7xl mx-auto">
-        {/* ⚡️ FIX 2: lg:items-center keeps desktop centered, items-start keeps mobile from hitting header */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start lg:items-center">
           
           <div className="flex flex-col items-center lg:items-start space-y-10 text-center lg:text-left">
@@ -64,7 +62,7 @@ const Hero = () => {
                       placeholder="Email to skip the line"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 px-6 py-5 bg-[#080808] border border-white/5 rounded-2xl text-white font-mono text-sm shadow-well focus:ring-1 focus:ring-primary/50 outline-none"
+                      className="flex-1 px-6 py-5 bg-[#080808] border border-white/5 rounded-2xl text-white font-mono text-sm shadow-well focus:ring-1 focus:ring-primary/50 outline-none transition-all"
                       required
                     />
                     <button type="submit" className="btn-primary py-5 px-8 rounded-2xl border-t-hacker">NEXT →</button>
@@ -124,15 +122,8 @@ const Hero = () => {
             
             <div className="relative z-10 w-[280px] sm:w-[360px] animate-float">
               <div className="relative p-2.5 bg-[#0c0c0c] rounded-[3.5rem] shadow-float-pro border border-white/10 border-t-hacker">
-                <div className="relative aspect-[9/19.5] rounded-[3rem] overflow-hidden bg-black flex flex-col">
-                  {/* Image is now absolute to fill the frame bezel-to-bezel */}
+                <div className="relative aspect-[9/19.5] rounded-[3rem] overflow-hidden bg-black flex flex-col p-6">
                   <img src="/business-model.png" alt="App UI" className="absolute inset-0 w-full h-full object-cover opacity-90" />
-                  
-                  {/* Overlay UI elements */}
-                  <div className="relative h-full flex flex-col p-6 z-10 bg-gradient-to-b from-black/40 via-transparent to-black/80">
-                     {/* Your Progress / Card code here... */}
-                  </div>
-
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-7 bg-black rounded-b-2xl z-20 border-x border-b border-white/5" />
                 </div>
               </div>
