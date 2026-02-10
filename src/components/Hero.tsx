@@ -49,7 +49,7 @@ const Hero = () => {
 
             <div className="max-w-[400px] w-full space-y-6">
               <p className="text-base text-white/40 leading-relaxed animate-fade-in-up">
-                Skip the noise. Get Daily execution steps.  EXECUTE 3X FASTER than courses. <br /> Join 500+ founders on the waitlist.
+                Skip the noise. Get Daily execution steps.<br />EXECUTE 3X FASTER than courses. <br /> Join 500+ founders on the waitlist.
               </p>
 
               <div className="relative z-20">
