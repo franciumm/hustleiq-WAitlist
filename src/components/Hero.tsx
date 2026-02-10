@@ -124,9 +124,10 @@ const Hero = () => {
             <div className="w-8" />
           </div>
 
-          
+        
 
-
+        
+        </div>
 
       </div>
     </div>
