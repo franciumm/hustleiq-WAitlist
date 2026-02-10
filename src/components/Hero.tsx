@@ -90,7 +90,10 @@ const Hero = () => {
               </div>
 
               {/* StoryBrand: The "Image of Success" (Happy Founder) */}
-            <div className="flex items-center gap-4">
+              <div className="absolute -left-20 bottom-32 glass-card p-4 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30">
+                 <div className="flex items-center gap-4">
+                    <div className="text-left">
+                      <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
             <DollarSign className="w-5 h-5 text-primary" />
           </div>
@@ -99,7 +102,11 @@ const Hero = () => {
              <p className="text-[8px] font-mono text-primary uppercase mt-1">Goal: First Sale Cleared</p>
           </div>
        </div>
+    </div>
     
+                    </div>
+                 </div>
+              </div>
               
               {/* Task Badge with Light Source Border */}
               <div className="absolute -right-16 top-1/4 glass-card px-4 py-3 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30">
