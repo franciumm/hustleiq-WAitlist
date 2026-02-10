@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast'; 
 import posthog from 'posthog-js';
-import { Check, Copy, Share2, DollarSign, Globe, Github } from 'lucide-react';
+import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
 
 const Hero = () => {
   const { toast } = useToast();
@@ -38,7 +38,7 @@ const Hero = () => {
             <div className="animate-fade-in-up">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">88/500 SPOTS — EXECUTE 3X FASTER</span>
+                <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">88/500 SPOTS — PENDING IOS DEPLOYMENT</span>
               </div>
             </div>
 
@@ -60,7 +60,7 @@ const Hero = () => {
                       placeholder="Email to skip the line"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 px-4 py-3.5 bg-[#080808] border border-white/5 rounded-xl text-white font-mono text-xs shadow-well focus:ring-1 focus:ring-primary/50 outline-none"
+                      className="flex-1 px-4 py-3.5 bg-[#080808] border border-white/5 rounded-xl text-white font-mono text-sm shadow-well focus:ring-1 focus:ring-primary/50 outline-none"
                       required
                     />
                     <button type="submit" className="btn-primary py-3.5 px-6 rounded-xl text-[10px]">NEXT →</button>
@@ -106,35 +106,31 @@ const Hero = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center lg:justify-start gap-6 opacity-20 grayscale animate-fade-in-up delay-300">
-               <div className="flex items-center gap-2 font-mono text-[9px] font-bold"><Globe className="w-3 h-3"/> STRIPE</div>
-               <div className="flex items-center gap-2 font-mono text-[9px] font-bold"><Github className="w-3 h-3"/> VERCEL</div>
-               <span className="font-mono text-[9px]">v1.04</span>
+            {/* UPDATED: Validation Partner Row */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 opacity-20 grayscale animate-fade-in-up delay-300">
+               <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Cpu className="w-3 h-3 text-white"/> POWERED_BY_GEMINI</div>
+               <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Apple className="w-3 h-3 text-white"/> APP_STORE</div>
+               <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Globe className="w-3 h-3 text-white"/> STRIPE</div>
+               <div className="flex items-center gap-1.5 font-mono text-[8px] font-bold"><Github className="w-3 h-3 text-white"/> VERCEL</div>
             </div>
           </div>
 
-          {/* Cleaned Up Mockup - Focus on Screenshot */}
+          {/* Right Column: Visual Mockup */}
           <div className="relative flex justify-center w-full lg:pl-12">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary/10 rounded-full blur-[100px] opacity-40" />
             
             <div className="relative z-10 w-[220px] sm:w-[280px] animate-float">
-              {/* iPhone Hardware Frame */}
               <div className="relative p-2 bg-[#0c0c0c] rounded-[2.8rem] shadow-float-pro border border-white/10 border-t-hacker">
                 <div className="relative aspect-[9/19.5] rounded-[2.4rem] overflow-hidden bg-black">
-                  
-                  {/* ⚡️ CLEAN SCREENSHOT: Removed all internal text/widgets */}
                   <img 
                     src="/business-model.png" 
-                    alt="HustleIQ Dashboard Preview" 
+                    alt="HustleIQ Preview" 
                     className="w-full h-full object-cover opacity-100" 
                   />
-
-                  {/* Hardware Notch */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-5 bg-black rounded-b-xl z-20 border-x border-b border-white/5" />
                 </div>
               </div>
 
-              {/* Floating Badge 1: STRIPE +$499 */}
               <div className="absolute -left-12 bottom-20 glass-card p-3 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30">
                  <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -147,7 +143,6 @@ const Hero = () => {
                  </div>
               </div>
               
-              {/* Floating Badge 2: TASK_04: LIVE */}
               <div className="absolute -right-12 top-1/4 glass-card px-3 py-2 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#63E602]" />
