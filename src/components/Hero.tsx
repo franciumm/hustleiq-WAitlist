@@ -3,8 +3,14 @@ import { useToast } from '@/hooks/use-toast';
 import posthog from 'posthog-js';
 import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
 
-const Hero = () => {
+interface HeroProps {
+  referralCode?: string | null;
+}
+
+const Hero = ({ referralCode }: HeroProps) => {
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ link: string; position: number } | null>(null);
   const [email, setEmail] = useState('');
   const [hurdle, setHurdle] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,29 +21,58 @@ const Hero = () => {
     if (email) setStep(2);
   };
 
-  const handleFinalSubmit = async (e: React.FormEvent) => {
+   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    posthog.identify(email, { hurdle });
-    await new Promise(res => setTimeout(res, 800));
-    setStep(3);
-    setIsSubmitting(false);
-  };
+    setLoading(true);
 
+    try { const response = await fetch(`${import.meta.env.VITE_API_URL}/api/waitlist/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email, 
+          reason: hurdle, 
+          referralCode: referralCode 
+        }),
+      });
+
+      const resData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(resData.errors?.[0]?.msg || resData.message || "Failed to join");
+      }
+
+
+       setResult({
+        link: resData.data.referralLink,
+        position: resData.data.currentPosition
+      });
+
+      toast({
+        title: "You're in!",
+        description: `You are at position #${resData.data.currentPosition}. Share your link to move up!`,
+      });
+
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: err.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   const copyRef = () => {
     navigator.clipboard.writeText(`hustleiq.ai/ref=builder_${Math.floor(Math.random()*9000)+1000}`);
     toast({ title: "ID Copied", description: "Invite 2 builders to skip the queue." });
   };
 
   return (
-    /* ⚡️ FIX: Increased pt-44 on mobile and pt-32 on desktop to prevent overlap with Header */
-    /* ⚡️ FIX: Removed overflow-hidden to prevent clipping the top of the badge */
     <section id="how-it-works" className="relative min-h-screen w-full flex items-start lg:items-center justify-center px-4 pt-44 lg:pt-32 pb-12">
       <div className="container max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
           
           <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left">
-            {/* 1. SCARCITY BADGE - Now has space to breathe */}
             <div className="animate-fade-in-up">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker shadow-2xl">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
