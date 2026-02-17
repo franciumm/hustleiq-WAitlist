@@ -25,15 +25,17 @@ const Hero = ({ referralCode }: HeroProps) => {
     e.preventDefault();
     setLoading(true);
 
-    try { const response = await fetch(`${import.meta.env.VITE_API_URL}/api/waitlist/join`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email, 
-          reason: hurdle, 
-          referralCode: referralCode 
-        }),
-      });
+    try { 
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+     const response = await fetch(`${apiUrl}/api/waitlist/join`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: email.trim(),
+    reason: hurdle.trim(),
+    referralCode: referralCode || ""
+  }),
+});
 
       const resData = await response.json();
 
