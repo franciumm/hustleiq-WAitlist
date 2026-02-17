@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 1. EXTERNAL & LOCAL FONTS */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
 
 
 /* 2. CORE THEME VARIABLES */
