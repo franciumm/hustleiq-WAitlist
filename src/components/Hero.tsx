@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; 
 import { useToast } from '@/hooks/use-toast'; 
 import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
 
@@ -10,11 +10,24 @@ const Hero = ({ referralCode }: HeroProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [reason, setReason] = useState(''); // Synced with backend 'reason'
+  const [reason, setReason] = useState(''); 
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
 
-  // Step 1: Transition to Reason Input
+  // ⚡️ Logic: Persistence - Check if user is already registered on page load
+  useEffect(() => {
+    const savedData = localStorage.getItem('hustleiq_waitlist_user');
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        setReferralData(parsed);
+        setStep(3); 
+      } catch (e) {
+        localStorage.removeItem('hustleiq_waitlist_user');
+      }
+    }
+  }, []);
+
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.includes('@')) {
@@ -24,21 +37,19 @@ const Hero = ({ referralCode }: HeroProps) => {
     }
   };
 
-  // Step 2: Submit to Backend
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Rule 9: Using HTTPS endpoint from Vercel
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://your-backend.vercel.app';
+      const apiUrl = import.meta.env.VITE_API_URL;
       
       const response = await fetch(`${apiUrl}/api/waitlist/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
-          reason: reason.trim(), // Rule 3: Trimmed input
+          reason: reason.trim(),
           referralCode: referralCode || ""
         }),
       });
@@ -46,26 +57,37 @@ const Hero = ({ referralCode }: HeroProps) => {
       const res = await response.json();
 
       if (!response.ok) {
-        // Rule 6: Generic message if it's a server error
         throw new Error(res.message || "Failed to join waitlist");
       }
 
-      // ⚡️ Logic: Populate Step 3 with real data
-      setReferralData({
+      // ⚡️ Prepare Data Shape
+      const userStats = {
         link: res.data.referralLink,
         position: res.data.currentPosition,
         refId: res.data.referralCode || 'SYNCED'
-      });
+      };
 
-      setStep(3); // Switch to success UI
+      // ⚡️ Save to LocalStorage for persistence (Rule 7 logic: user's own data)
+      localStorage.setItem('hustleiq_waitlist_user', JSON.stringify(userStats));
+      
+      setReferralData(userStats);
+      setStep(3);
 
-      toast({
-        title: "You're in!",
-        description: `You are at position #${res.data.currentPosition}. Share your link to skip 2 spots per referral!`,
-      });
+      // ⚡️ Logic: Use response.status for correct feedback
+      if (response.status === 200) {
+        toast({
+          title: "Welcome Back!",
+          description: `You are currently at position #${res.data.currentPosition}`,
+        });
+      } else {
+        toast({
+          title: "You're in!",
+          description: `You secured position #${res.data.currentPosition}. Share your link to skip 2 spots!`,
+        });
+      }
 
     } catch (err: any) {
-      toast({ variant: "destructive", title: "Error", description: err.message });
+      toast({ variant: "destructive", title: "Error", description: err.message });    
     } finally {
       setLoading(false);
     }
