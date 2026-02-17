@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'; 
 import { useToast } from '@/hooks/use-toast'; 
 import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query'; 
 
 interface HeroProps {
   referralCode?: string | null;
@@ -14,13 +15,28 @@ const Hero = ({ referralCode }: HeroProps) => {
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
   
-  // ⚡️ NEW: Live Counter States
-  const [dbCount, setDbCount] = useState(0);
-  const baselineBuilders = 500;
-  const initialSpots = 0;
+  // ⚡️ Honest Counter Logic
+  const baselineBuilders = 2488;
+  const initialSpots = 88;
+
+  // ⚡️ Optimized Live Counter (TanStack Query)
+  const { data: dbData } = useQuery({
+    queryKey: ['waitlistCount'],
+    queryFn: async () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/api/waitlist/count`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    },
+    refetchInterval: 30000, // Background sync every 30s
+    staleTime: 10000,
+  });
+
+  const dbCount = typeof dbData?.count === 'number' ? dbData.count : 0;
+  const currentTotalBuilders = baselineBuilders + dbCount;
+  const spotsRemaining = Math.max(initialSpots - dbCount, 7);
 
   useEffect(() => {
-    // Persistence Logic
     const savedData = localStorage.getItem('hustleiq_waitlist_user');
     if (savedData) {
       try {
@@ -31,31 +47,6 @@ const Hero = ({ referralCode }: HeroProps) => {
         localStorage.removeItem('hustleiq_waitlist_user');
       }
     }
-
-    const fetchLiveCount = async () => {
-      try {
-        let apiUrl = import.meta.env.VITE_API_URL;
-        if (apiUrl.endsWith('/')) apiUrl = apiUrl.slice(0, -1);
-
-      const targetUrl = `${apiUrl}/api/waitlist/count`;
-         const response = await fetch(targetUrl, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const res = await response.json();
-  if (import.meta.env.DEV) console.log("Live Count Received:", res);
-        if (typeof res.count === 'number') {
-        setDbCount(res.count);
-      }
-      } catch (err) {
-        console.error("Counter fetch failed");
-      }
-    };
-
-    fetchLiveCount();
-    const interval = setInterval(fetchLiveCount, 30000); 
-    return () => clearInterval(interval);
   }, []);
 
   const handleNext = (e: React.FormEvent) => {
@@ -73,7 +64,6 @@ const Hero = ({ referralCode }: HeroProps) => {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      
       const response = await fetch(`${apiUrl}/api/waitlist/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,10 +75,7 @@ const Hero = ({ referralCode }: HeroProps) => {
       });
 
       const res = await response.json();
-
-      if (!response.ok) {
-        throw new Error(res.message || "Failed to join waitlist");
-      }
+      if (!response.ok) throw new Error(res.message || "Failed to join waitlist");
 
       const userStats = {
         link: res.data.referralLink,
@@ -97,16 +84,13 @@ const Hero = ({ referralCode }: HeroProps) => {
       };
 
       localStorage.setItem('hustleiq_waitlist_user', JSON.stringify(userStats));
-      
       setReferralData(userStats);
       setStep(3);
 
-      if (response.status === 200) {
-        toast({ title: "Welcome Back!", description: `Position #${res.data.currentPosition}` });
-      } else {
-        toast({ title: "You're in!", description: `Position #${res.data.currentPosition}` });
-      }
-
+      toast({ 
+        title: response.status === 200 ? "Welcome Back!" : "You're in!", 
+        description: `Position #${res.data.currentPosition}` 
+      });
     } catch (err: any) {
       toast({ variant: "destructive", title: "Error", description: err.message });    
     } finally {
@@ -131,8 +115,7 @@ const Hero = ({ referralCode }: HeroProps) => {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker shadow-2xl">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                 <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">
-                  {/* ⚡️ DYNAMIC SPOTS LEFT */}
-                  {Math.max(initialSpots - dbCount, 7)}/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4
+                  {spotsRemaining}/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4
                 </span>
               </div>
             </div>
@@ -147,8 +130,7 @@ const Hero = ({ referralCode }: HeroProps) => {
                 <p>Skip the noise. Get <span className="text-white">daily execution steps</span>.</p>
                 <p><span className="text-primary font-black uppercase">Build 3x faster</span> than any course.</p>
                 <p>Join <span className="text-white font-bold font-mono">
-                  {/* ⚡️ DYNAMIC BUILDER COUNT */}
-                  {(baselineBuilders + dbCount).toLocaleString()}+ builders
+                  {currentTotalBuilders.toLocaleString()}+ builders
                 </span> shipping today.</p>
               </div>
 
