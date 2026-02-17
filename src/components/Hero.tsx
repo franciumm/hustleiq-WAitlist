@@ -20,7 +20,7 @@ const Hero = ({ referralCode }: HeroProps) => {
    * We use a baseline for social proof and add the real database count on top.
    */
   const baselineBuilders = 1498;
-  const initialSpots = 112;
+  const initialSpots = 500;
 
   // ⚡️ Optimized Live Counter (TanStack Query) - Rule 9 (Efficient Polling)
   const { data: dbData } = useQuery({
@@ -144,7 +144,7 @@ const Hero = ({ referralCode }: HeroProps) => {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker shadow-2xl">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                 <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">
-                  {spotsRemaining}/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4
+                  {spotsRemaining}/500 SPOTS LEFT — IOS_DEPLOY_v1.0.4
                 </span>
               </div>
             </div>
