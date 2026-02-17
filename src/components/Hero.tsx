@@ -19,8 +19,8 @@ const Hero = ({ referralCode }: HeroProps) => {
    * ⚡️ HONEST COUNTER LOGIC
    * We use a baseline for social proof and add the real database count on top.
    */
-  const baselineBuilders = 2488;
-  const initialSpots = 88;
+  const baselineBuilders = 1498;
+  const initialSpots = 0;
 
   // ⚡️ Optimized Live Counter (TanStack Query) - Rule 9 (Efficient Polling)
   const { data: dbData } = useQuery({
