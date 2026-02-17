@@ -13,9 +13,14 @@ const Hero = ({ referralCode }: HeroProps) => {
   const [reason, setReason] = useState(''); 
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
+  
+  // ⚡️ NEW: Live Counter States
+  const [dbCount, setDbCount] = useState(0);
+  const baselineBuilders = 2488;
+  const initialSpots = 88;
 
-  // ⚡️ Logic: Persistence - Check if user is already registered on page load
   useEffect(() => {
+    // Persistence Logic
     const savedData = localStorage.getItem('hustleiq_waitlist_user');
     if (savedData) {
       try {
@@ -26,6 +31,24 @@ const Hero = ({ referralCode }: HeroProps) => {
         localStorage.removeItem('hustleiq_waitlist_user');
       }
     }
+
+    // ⚡️ NEW: Fetch Live Count Function
+    const fetchLiveCount = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/api/waitlist/count`);
+        const res = await response.json();
+        if (res.count !== undefined) {
+          setDbCount(res.count);
+        }
+      } catch (err) {
+        console.error("Counter fetch failed");
+      }
+    };
+
+    fetchLiveCount();
+    const interval = setInterval(fetchLiveCount, 30000); // Update every 30s
+    return () => clearInterval(interval);
   }, []);
 
   const handleNext = (e: React.FormEvent) => {
@@ -60,30 +83,21 @@ const Hero = ({ referralCode }: HeroProps) => {
         throw new Error(res.message || "Failed to join waitlist");
       }
 
-      // ⚡️ Prepare Data Shape
       const userStats = {
         link: res.data.referralLink,
         position: res.data.currentPosition,
         refId: res.data.referralCode || 'SYNCED'
       };
 
-      // ⚡️ Save to LocalStorage for persistence (Rule 7 logic: user's own data)
       localStorage.setItem('hustleiq_waitlist_user', JSON.stringify(userStats));
       
       setReferralData(userStats);
       setStep(3);
 
-      // ⚡️ Logic: Use response.status for correct feedback
       if (response.status === 200) {
-        toast({
-          title: "Welcome Back!",
-          description: `You are currently at position #${res.data.currentPosition}`,
-        });
+        toast({ title: "Welcome Back!", description: `Position #${res.data.currentPosition}` });
       } else {
-        toast({
-          title: "You're in!",
-          description: `You secured position #${res.data.currentPosition}. Share your link to skip 2 spots!`,
-        });
+        toast({ title: "You're in!", description: `Position #${res.data.currentPosition}` });
       }
 
     } catch (err: any) {
@@ -109,7 +123,10 @@ const Hero = ({ referralCode }: HeroProps) => {
             <div className="animate-fade-in-up">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 border-t-hacker shadow-2xl">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">88/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4</span>
+                <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-[0.15em]">
+                  {/* ⚡️ DYNAMIC SPOTS LEFT */}
+                  {Math.max(initialSpots - dbCount, 7)}/512 SPOTS LEFT — IOS_DEPLOY_v1.0.4
+                </span>
               </div>
             </div>
 
@@ -122,7 +139,10 @@ const Hero = ({ referralCode }: HeroProps) => {
               <div className="text-base sm:text-lg text-white/40 animate-fade-in-up space-y-1">
                 <p>Skip the noise. Get <span className="text-white">daily execution steps</span>.</p>
                 <p><span className="text-primary font-black uppercase">Build 3x faster</span> than any course.</p>
-                <p>Join <span className="text-white font-bold font-mono">2,488+ builders</span> shipping today.</p>
+                <p>Join <span className="text-white font-bold font-mono">
+                  {/* ⚡️ DYNAMIC BUILDER COUNT */}
+                  {(baselineBuilders + dbCount).toLocaleString()}+ builders
+                </span> shipping today.</p>
               </div>
 
               <div className="relative z-20">
