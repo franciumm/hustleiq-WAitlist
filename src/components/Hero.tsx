@@ -156,8 +156,9 @@ const Hero = ({ referralCode }: HeroProps) => {
 
             <div className="max-w-[420px] w-full space-y-6">
               <div className="text-base sm:text-lg text-white/40 animate-fade-in-up space-y-1">
-                <p>Skip the noise. Get <span className="text-white">daily execution steps</span>.</p>
                 <p><span className="text-primary font-black uppercase">Build 3x faster</span> than any course.</p>
+                <p>Claim your <span className="text-white">Lifetime Founder Discount</span>.</p>
+
                 <p>Join <span className="text-white font-bold font-mono">
                   {currentTotalBuilders.toLocaleString()}+ builders
                 </span> shipping today.</p>
