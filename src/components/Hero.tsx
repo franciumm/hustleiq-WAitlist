@@ -32,22 +32,29 @@ const Hero = ({ referralCode }: HeroProps) => {
       }
     }
 
-    // ⚡️ NEW: Fetch Live Count Function
     const fetchLiveCount = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}/api/waitlist/count`);
-        const res = await response.json();
-        if (res.count !== undefined) {
-          setDbCount(res.count);
-        }
+        let apiUrl = import.meta.env.VITE_API_URL;
+        if (apiUrl.endsWith('/')) apiUrl = apiUrl.slice(0, -1);
+
+      const targetUrl = `${apiUrl}/api/waitlist/count`;
+         const response = await fetch(targetUrl, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const res = await response.json();
+  if (import.meta.env.DEV) console.log("Live Count Received:", res);
+        if (typeof res.count === 'number') {
+        setDbCount(res.count);
+      }
       } catch (err) {
         console.error("Counter fetch failed");
       }
     };
 
     fetchLiveCount();
-    const interval = setInterval(fetchLiveCount, 30000); // Update every 30s
+    const interval = setInterval(fetchLiveCount, 30000); 
     return () => clearInterval(interval);
   }, []);
 
