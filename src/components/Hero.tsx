@@ -16,8 +16,8 @@ const Hero = ({ referralCode }: HeroProps) => {
   
   // ⚡️ NEW: Live Counter States
   const [dbCount, setDbCount] = useState(0);
-  const baselineBuilders = 2488;
-  const initialSpots = 88;
+  const baselineBuilders = 500;
+  const initialSpots = 0;
 
   useEffect(() => {
     // Persistence Logic
