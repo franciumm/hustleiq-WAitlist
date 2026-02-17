@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast'; 
-import posthog from 'posthog-js';
 import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
 
 interface HeroProps {
@@ -10,63 +9,73 @@ interface HeroProps {
 const Hero = ({ referralCode }: HeroProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ link: string; position: number } | null>(null);
   const [email, setEmail] = useState('');
-  const [hurdle, setHurdle] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reason, setReason] = useState(''); // Synced with backend 'reason'
   const [step, setStep] = useState(1); 
+  const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
 
+  // Step 1: Transition to Reason Input
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setStep(2);
+    if (email.includes('@')) {
+      setStep(2);
+    } else {
+      toast({ variant: "destructive", title: "Invalid Email", description: "Please enter a valid email address." });
+    }
   };
 
-   const handleFinalSubmit = async (e: React.FormEvent) => {
+  // Step 2: Submit to Backend
+  const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try { 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-     const response = await fetch(`${apiUrl}/api/waitlist/join`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: email.trim(),
-    reason: hurdle.trim(),
-    referralCode: referralCode || ""
-  }),
-});
+    try {
+      // Rule 9: Using HTTPS endpoint from Vercel
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://your-backend.vercel.app';
+      
+      const response = await fetch(`${apiUrl}/api/waitlist/join`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          reason: reason.trim(), // Rule 3: Trimmed input
+          referralCode: referralCode || ""
+        }),
+      });
 
-      const resData = await response.json();
+      const res = await response.json();
 
       if (!response.ok) {
-        throw new Error(resData.errors?.[0]?.msg || resData.message || "Failed to join");
+        // Rule 6: Generic message if it's a server error
+        throw new Error(res.message || "Failed to join waitlist");
       }
 
-
-       setResult({
-        link: resData.data.referralLink,
-        position: resData.data.currentPosition
+      // ⚡️ Logic: Populate Step 3 with real data
+      setReferralData({
+        link: res.data.referralLink,
+        position: res.data.currentPosition,
+        refId: res.data.referralCode || 'SYNCED'
       });
+
+      setStep(3); // Switch to success UI
 
       toast({
         title: "You're in!",
-        description: `You are at position #${resData.data.currentPosition}. Share your link to move up!`,
+        description: `You are at position #${res.data.currentPosition}. Share your link to skip 2 spots per referral!`,
       });
 
     } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: err.message,
-      });
+      toast({ variant: "destructive", title: "Error", description: err.message });
     } finally {
       setLoading(false);
     }
   };
+
   const copyRef = () => {
-    navigator.clipboard.writeText(`hustleiq.ai/ref=builder_${Math.floor(Math.random()*9000)+1000}`);
-    toast({ title: "ID Copied", description: "Invite 2 builders to skip the queue." });
+    if (referralData.link) {
+      navigator.clipboard.writeText(referralData.link);
+      toast({ title: "Link Copied!", description: "Share it with builders to skip the line." });
+    }
   };
 
   return (
@@ -115,14 +124,14 @@ const Hero = ({ referralCode }: HeroProps) => {
                     <input
                       type="text"
                       placeholder="e.g. 'I can't code' or 'No ideas'"
-                      value={hurdle}
-                      onChange={(e) => setHurdle(e.target.value)}
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
                       className="w-full px-4 py-3.5 bg-[#080808] border border-primary/20 rounded-xl text-white font-mono text-xs shadow-well"
                       required
                       autoFocus
                     />
-                    <button type="submit" disabled={isSubmitting} className="w-full btn-primary py-3.5 rounded-xl text-[10px]">
-                      {isSubmitting ? "SYNCING..." : "CONFIRM STATUS →"}
+                    <button type="submit" disabled={loading} className="w-full btn-primary py-3.5 rounded-xl text-[10px]">
+                      {loading ? "SYNCING..." : "CONFIRM STATUS →"}
                     </button>
                   </form>
                 )}
@@ -130,18 +139,20 @@ const Hero = ({ referralCode }: HeroProps) => {
                 {step === 3 && (
                   <div className="glass-card p-5 border-primary/50 bg-primary/5 animate-scale-in text-left">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-black font-black text-lg font-mono">#42</div>
+                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-black font-black text-lg font-mono">
+                        #{referralData.position}
+                      </div>
                       <div>
                         <h3 className="text-xs font-black text-white leading-none tracking-widest uppercase">BUILDER STATUS: ACTIVE</h3>
-                        <p className="text-[8px] font-mono text-primary uppercase mt-1">Ref_ID: {Math.floor(Math.random()*90000)}</p>
+                        <p className="text-[8px] font-mono text-primary uppercase mt-1">Ref_ID: {referralData.refId}</p>
                       </div>
                     </div>
-                    <p className="text-[11px] text-white/60 mb-4 leading-relaxed">Invite 2 builders to skip the queue and get Lifetime Access.</p>
+                    <p className="text-[11px] text-white/60 mb-4 leading-relaxed">Invite builders to skip the queue. You move up 2 spots per signup.</p>
                     <div className="flex gap-2">
-                      <button onClick={copyRef} className="flex-1 h-10 rounded-lg bg-white/5 border border-white/10 text-[9px] font-mono text-white/50 uppercase flex items-center justify-center gap-2">
+                      <button onClick={copyRef} className="flex-1 h-10 rounded-lg bg-white/5 border border-white/10 text-[9px] font-mono text-white/50 uppercase flex items-center justify-center gap-2 transition-colors hover:bg-white/10">
                          <Copy className="w-3 h-3 text-primary" /> COPY_LINK
                       </button>
-                      <button onClick={copyRef} className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-black active:scale-95"><Share2 className="w-4 h-4" /></button>
+                      <button onClick={copyRef} className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-black active:scale-95 transition-transform"><Share2 className="w-4 h-4" /></button>
                     </div>
                   </div>
                 )}
@@ -156,34 +167,13 @@ const Hero = ({ referralCode }: HeroProps) => {
             </div>
           </div>
 
-          {/* Right Column: Visual Mockup */}
           <div className="relative flex justify-center w-full lg:pl-12">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary/10 rounded-full blur-[100px] opacity-40" />
-            
             <div className="relative z-10 w-[220px] sm:w-[280px] animate-float">
               <div className="relative p-2 bg-[#0c0c0c] rounded-[2.8rem] shadow-float-pro border border-white/10 border-t-hacker">
                 <div className="relative aspect-[9/19.5] rounded-[2.4rem] overflow-hidden bg-black">
                   <img src="/business-model.png" alt="Dashboard" className="w-full h-full object-cover" />
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[35%] h-5 bg-black rounded-b-xl z-20 border-x border-b border-white/5" />
-                </div>
-              </div>
-
-              <div className="absolute -left-12 bottom-20 glass-card p-3 shadow-float-pro animate-float-task border-t-hacker hidden sm:block z-30 border-white/5">
-                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                      <DollarSign className="w-4 h-4 text-primary" />
-                    </div>
-                    <div className="text-left">
-                       <p className="text-[9px] font-mono font-black text-white leading-none">STRIPE: +$499</p>
-                       <p className="text-[7px] font-mono text-primary uppercase mt-1 tracking-tighter">Goal_Reached</p>
-                    </div>
-                 </div>
-              </div>
-              
-              <div className="absolute -right-12 top-1/4 glass-card px-3 py-2 border-white/10 border-t-hacker hidden sm:block shadow-float-pro animate-float-task delay-1000 z-30 border-white/5">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_#63E602]" />
-                  <p className="text-[8px] font-mono font-bold tracking-tighter text-white/80 uppercase">TASK_04: LIVE</p>
                 </div>
               </div>
             </div>
