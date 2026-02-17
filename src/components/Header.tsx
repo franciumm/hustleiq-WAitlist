@@ -27,7 +27,6 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <img src="/logo.png" alt="HustleIQ Logo" className="w-8 h-8 object-contain" />
-          <span className="font-black tracking-tighter text-xl hidden sm:block">HUSTLEIQ</span>
         </div>
 
         {/* Desktop Navigation */}
