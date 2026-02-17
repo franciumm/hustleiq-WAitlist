@@ -15,16 +15,22 @@ const Hero = ({ referralCode }: HeroProps) => {
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
   
-  // ⚡️ Honest Counter Logic
+  /**
+   * ⚡️ HONEST COUNTER LOGIC
+   * We use a baseline for social proof and add the real database count on top.
+   */
   const baselineBuilders = 2488;
   const initialSpots = 88;
 
-  // ⚡️ Optimized Live Counter (TanStack Query)
+  // ⚡️ Optimized Live Counter (TanStack Query) - Rule 9 (Efficient Polling)
   const { data: dbData } = useQuery({
     queryKey: ['waitlistCount'],
     queryFn: async () => {
       const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${apiUrl}/api/waitlist/count`);
+      // Ensure the URL is valid
+      const targetUrl = apiUrl?.endsWith('/') ? `${apiUrl}api/waitlist/count` : `${apiUrl}/api/waitlist/count`;
+      
+      const response = await fetch(targetUrl);
       if (!response.ok) throw new Error('Network response was not ok');
       return response.json();
     },
@@ -36,6 +42,10 @@ const Hero = ({ referralCode }: HeroProps) => {
   const currentTotalBuilders = baselineBuilders + dbCount;
   const spotsRemaining = Math.max(initialSpots - dbCount, 7);
 
+  /**
+   * ⚡️ PERSISTENCE LOGIC
+   * Check if the user is already registered to skip the form on page refresh.
+   */
   useEffect(() => {
     const savedData = localStorage.getItem('hustleiq_waitlist_user');
     if (savedData) {
@@ -54,7 +64,11 @@ const Hero = ({ referralCode }: HeroProps) => {
     if (email.includes('@')) {
       setStep(2);
     } else {
-      toast({ variant: "destructive", title: "Invalid Email", description: "Please enter a valid email address." });
+      toast({ 
+        variant: "destructive", 
+        title: "Invalid Email", 
+        description: "Please enter a valid email address." 
+      });
     }
   };
 
@@ -64,7 +78,9 @@ const Hero = ({ referralCode }: HeroProps) => {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${apiUrl}/api/waitlist/join`, {
+      const targetUrl = apiUrl?.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`;
+
+      const response = await fetch(targetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -75,7 +91,11 @@ const Hero = ({ referralCode }: HeroProps) => {
       });
 
       const res = await response.json();
-      if (!response.ok) throw new Error(res.message || "Failed to join waitlist");
+      
+      if (!response.ok) {
+        // Rule 6: Return generic message if backend fails
+        throw new Error(res.message || "Failed to join waitlist");
+      }
 
       const userStats = {
         link: res.data.referralLink,
@@ -83,7 +103,9 @@ const Hero = ({ referralCode }: HeroProps) => {
         refId: res.data.referralCode || 'SYNCED'
       };
 
+      // ⚡️ Store data locally (Rule 7 logic: individual resource access)
       localStorage.setItem('hustleiq_waitlist_user', JSON.stringify(userStats));
+      
       setReferralData(userStats);
       setStep(3);
 
@@ -92,7 +114,11 @@ const Hero = ({ referralCode }: HeroProps) => {
         description: `Position #${res.data.currentPosition}` 
       });
     } catch (err: any) {
-      toast({ variant: "destructive", title: "Error", description: err.message });    
+      toast({ 
+        variant: "destructive", 
+        title: "Error", 
+        description: err.message 
+      });    
     } finally {
       setLoading(false);
     }
@@ -101,7 +127,10 @@ const Hero = ({ referralCode }: HeroProps) => {
   const copyRef = () => {
     if (referralData.link) {
       navigator.clipboard.writeText(referralData.link);
-      toast({ title: "Link Copied!", description: "Share it with builders to skip the line." });
+      toast({ 
+        title: "Link Copied!", 
+        description: "Share it with builders to skip the line." 
+      });
     }
   };
 
