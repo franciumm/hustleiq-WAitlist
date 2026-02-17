@@ -6,40 +6,34 @@
 <link rel="preload" as="image" href="/logo.png" fetchpriority="high">
 <link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
 
-<link rel="preload" href="/fonts/Nexa-Heavy.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
 <!-- ⚡️ PRECONNECT: Speeds up PostHog connection by 300ms -->
 <link rel="preconnect" href="https://us.i.posthog.com">
   <!-- ⚡️ PRELOAD LCP ASSETS -->
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png">
   <link rel="preload" as="image" href="/logo.png" fetchpriority="high">
   <link rel="preload" as="image" href="/business-model.png" fetchpriority="high">
 
-  <!-- ⚡️ PRELOAD FONTS (Update filenames if different) -->
-  <link rel="preload" href="/fonts/Nexa-Heavy.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <!-- DNS Prefetch for Analytics -->
   <link rel="preconnect" href="https://us.i.posthog.com">
   <link rel="dns-prefetch" href="https://us.i.posthog.com">
 
-  <link rel="icon" type="image/png" href="/favicon-32x32.png">
   <link rel="canonical" href="https://hustleiq.ai/" />
 
   <style>
     /* Inline font-face to prevent "Flash of Unstyled Text" */
-    @font-face {
-      font-family: 'Nexa';
-      src: url('/fonts/Nexa-Heavy.ttf') format('truetype');
-      font-display: swap;
-    }
+   
     body { background: #050505; color: #fff; margin: 0; }
   </style>
 
   <title>HustleIQ - Stop Guessing. Start Executing.</title>
-  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $1k." />
+  <meta name="description" content="The AI that finds your perfect business model and holds you accountable until you hit $10k." />
 </head>
 <body>
     <div id="root"></div>
-    <!-- ⚡️ MOVE SCRIPT TO BOTTOM: Lets the browser paint the UI before running heavy JS -->
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
