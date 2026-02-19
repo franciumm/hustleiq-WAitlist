@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import StarBackground from "./components/StarBackground";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // ⚡️ LAZY LOAD THE PAGES: This prevents the heavy JS from blocking the initial load
 const Index = lazy(() => import("./pages/Index")); 
@@ -23,6 +24,7 @@ const App = () => (
         
         {/* Background is always visible */}
         <StarBackground />
+      <SpeedInsights />
 
         <BrowserRouter>
           <main className="relative z-10 min-h-[100dvh]">
