@@ -7,8 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import StarBackground from "./components/StarBackground";
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Analytics } from "@vercel/analytics/next"
-// ⚡️ LAZY LOAD THE PAGES: This prevents the heavy JS from blocking the initial load
+import { Analytics } from "@vercel/analytics/react";
+
 const Index = lazy(() => import("./pages/Index")); 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -21,7 +21,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Analytics/>
-        <Sonner />
+          <Sonner />
         
         {/* Background is always visible */}
         <StarBackground />
