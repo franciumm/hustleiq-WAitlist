@@ -24,7 +24,7 @@ const App = () => (
           <Sonner />
         
         {/* Background is always visible */}
-        {/* <StarBackground /> */}
+        <StarBackground />
       <SpeedInsights />
 
         <BrowserRouter>
