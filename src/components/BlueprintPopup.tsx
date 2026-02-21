@@ -55,7 +55,7 @@ const BlueprintPopup = () => {
           <div className="bg-secondary/30 p-3 rounded-lg border border-white/5">
             <div className="flex justify-between items-center text-[10px] uppercase font-mono text-white/40 mb-2">
               <span>Contents</span>
-              <span>EST. VALUE: $97</span>
+              <span>EST. VALUE: FREE </span>
             </div>
             <ul className="space-y-2 text-xs font-medium text-white/80">
               <li className="flex items-center gap-2">
