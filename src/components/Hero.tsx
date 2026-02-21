@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useToast } from '@/hooks/use-toast'; 
-import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple } from 'lucide-react';
+import { Check, Copy, Share2, DollarSign, Globe, Github, Cpu, Apple, FileText, Download } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query'; 
 
 interface HeroProps {
@@ -15,26 +15,19 @@ const Hero = ({ referralCode }: HeroProps) => {
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
   
-  /**
-   * ⚡️ HONEST COUNTER LOGIC
-   * We use a baseline for social proof and add the real database count on top.
-   */
   const baselineBuilders = 1000;
   const initialSpots = 500;
 
-  // ⚡️ Optimized Live Counter (TanStack Query) - Rule 9 (Efficient Polling)
   const { data: dbData } = useQuery({
     queryKey: ['waitlistCount'],
     queryFn: async () => {
       const apiUrl = import.meta.env.VITE_API_URL;
-      // Ensure the URL is valid
       const targetUrl = apiUrl?.endsWith('/') ? `${apiUrl}api/waitlist/count` : `${apiUrl}/api/waitlist/count`;
-      
       const response = await fetch(targetUrl);
       if (!response.ok) throw new Error('Network response was not ok');
       return response.json();
     },
-    refetchInterval: 30000, // Background sync every 30s
+    refetchInterval: 30000, 
     staleTime: 10000,
   });
 
@@ -42,10 +35,6 @@ const Hero = ({ referralCode }: HeroProps) => {
   const currentTotalBuilders = baselineBuilders + dbCount;
   const spotsRemaining = Math.max(initialSpots - dbCount, 7);
 
-  /**
-   * ⚡️ PERSISTENCE LOGIC
-   * Check if the user is already registered to skip the form on page refresh.
-   */
   useEffect(() => {
     const savedData = localStorage.getItem('hustleiq_waitlist_user');
     if (savedData) {
@@ -93,7 +82,6 @@ const Hero = ({ referralCode }: HeroProps) => {
       const res = await response.json();
       
       if (!response.ok) {
-        // Rule 6: Return generic message if backend fails
         throw new Error(res.message || "Failed to join waitlist");
       }
 
@@ -103,7 +91,6 @@ const Hero = ({ referralCode }: HeroProps) => {
         refId: res.data.referralCode || 'SYNCED'
       };
 
-      // ⚡️ Store data locally (Rule 7 logic: individual resource access)
       localStorage.setItem('hustleiq_waitlist_user', JSON.stringify(userStats));
       
       setReferralData(userStats);
@@ -166,17 +153,25 @@ const Hero = ({ referralCode }: HeroProps) => {
 
               <div className="relative z-20">
                 {step === 1 && (
-                  <form onSubmit={handleNext} className="flex flex-col sm:flex-row gap-2 animate-fade-in-up">
-                    <input
-                      type="email"
-                      placeholder="Email to skip the line"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 px-4 py-3.5 bg-[#080808] border border-white/5 rounded-xl text-white font-mono text-xs shadow-well focus:ring-1 focus:ring-primary/50 outline-none"
-                      required
-                    />
-                    <button type="submit" className="btn-primary py-3.5 px-6 rounded-xl text-[10px]">CLAIM ACCESS →</button>
-                  </form>
+                  <div className="space-y-3 animate-fade-in-up">
+                    <form onSubmit={handleNext} className="flex flex-col sm:flex-row gap-2">
+                      <input
+                        type="email"
+                        placeholder="Email to skip the line"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="flex-1 px-4 py-3.5 bg-[#080808] border border-white/5 rounded-xl text-white font-mono text-xs shadow-well focus:ring-1 focus:ring-primary/50 outline-none"
+                        required
+                      />
+                      <button type="submit" className="btn-primary py-3.5 px-6 rounded-xl text-[10px]">CLAIM ACCESS →</button>
+                    </form>
+                    
+                    {/* ⚡️ REVERSE MULLET: Low contrast link next to high contrast CTA */}
+                    <a href="/2026_Niche_Discovery.pdf" target="_blank" className="flex items-center gap-2 text-[10px] text-white/30 hover:text-white/60 transition-colors font-mono uppercase tracking-wide justify-center sm:justify-start">
+                      <FileText className="w-3 h-3" />
+                      <span>Download 2026 Operator's Blueprint</span>
+                    </a>
+                  </div>
                 )}
 
                 {step === 2 && (
@@ -198,22 +193,38 @@ const Hero = ({ referralCode }: HeroProps) => {
                 )}
 
                 {step === 3 && (
-                  <div className="glass-card p-5 border-primary/50 bg-primary/5 animate-scale-in text-left">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-black font-black text-lg font-mono">
-                        #{referralData.position}
+                  <div className="space-y-4 animate-scale-in">
+                    <div className="glass-card p-5 border-primary/50 bg-primary/5 text-left">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-black font-black text-lg font-mono">
+                          #{referralData.position}
+                        </div>
+                        <div>
+                          <h3 className="text-xs font-black text-white leading-none tracking-widest uppercase">BUILDER STATUS: ACTIVE</h3>
+                          <p className="text-[8px] font-mono text-primary uppercase mt-1">Ref_ID: {referralData.refId}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-xs font-black text-white leading-none tracking-widest uppercase">BUILDER STATUS: ACTIVE</h3>
-                        <p className="text-[8px] font-mono text-primary uppercase mt-1">Ref_ID: {referralData.refId}</p>
+                      <p className="text-[11px] text-white/60 mb-4 leading-relaxed">Invite builders to skip the queue. You move up 2 spots per signup.</p>
+                      <div className="flex gap-2">
+                        <button onClick={copyRef} className="flex-1 h-10 rounded-lg bg-white/5 border border-white/10 text-[9px] font-mono text-white/50 uppercase flex items-center justify-center gap-2 transition-colors hover:bg-white/10">
+                           <Copy className="w-3 h-3 text-primary" /> COPY_LINK
+                        </button>
+                        <button onClick={copyRef} className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-black active:scale-95 transition-transform"><Share2 className="w-4 h-4" /></button>
                       </div>
                     </div>
-                    <p className="text-[11px] text-white/60 mb-4 leading-relaxed">Invite builders to skip the queue. You move up 2 spots per signup.</p>
-                    <div className="flex gap-2">
-                      <button onClick={copyRef} className="flex-1 h-10 rounded-lg bg-white/5 border border-white/10 text-[9px] font-mono text-white/50 uppercase flex items-center justify-center gap-2 transition-colors hover:bg-white/10">
-                         <Copy className="w-3 h-3 text-primary" /> COPY_LINK
-                      </button>
-                      <button onClick={copyRef} className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-black active:scale-95 transition-transform"><Share2 className="w-4 h-4" /></button>
+
+                    {/* ⚡️ THE INVESTMENT REWARD: PDF Download Card */}
+                    <div className="glass-card p-4 border-[#FACC15]/20 bg-[#FACC15]/5 flex items-center justify-between group cursor-pointer hover:bg-[#FACC15]/10 transition-colors" onClick={() => window.open('/2026_Niche_Discovery.pdf', '_blank')}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#FACC15]/20 flex items-center justify-center text-[#FACC15]">
+                          <FileText className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-[#FACC15] uppercase tracking-wider">Operator's Blueprint Unlocked</p>
+                          <p className="text-[9px] text-white/40">Verified 2026 Market Data</p>
+                        </div>
+                      </div>
+                      <Download className="w-4 h-4 text-white/30 group-hover:text-white transition-colors" />
                     </div>
                   </div>
                 )}

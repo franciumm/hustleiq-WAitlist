@@ -7,6 +7,8 @@ import Hero from '@/components/Hero';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+// ⚡️ Lazy load the Popup for performance
+const BlueprintPopup = lazy(() => import('@/components/BlueprintPopup'));
 const FloatingSteps = lazy(() => import('@/components/FloatingSteps'));
 const TwoPaths = lazy(() => import('@/components/TwoPaths'));
 const FAQ = lazy(() => import('@/components/FAQ'));
@@ -23,25 +25,20 @@ const Index = () => {
     const ref = searchParams.get('ref');
     if (ref) {
       setReferralCode(ref);
-      // Optional: Store in localStorage to persist if they browse away
       localStorage.setItem('referredBy', ref);
     }
   }, [searchParams]);
 
   return (
-    // bg-transparent ensures StarBackground is visible
     <div id="top" className="relative min-h-screen overflow-hidden bg-transparent">
       <HelmetFixed>
         <title>HustleIQ | Stop Guessing. Start Executing.</title>
         <meta name="description" content="The AI Co-founder that kills distraction. Launch your $10k/mo business." />
       </HelmetFixed>
       
-      {/* Background is at z-0 */}
       <StarBackground />
-      
       <Header />
       
-      {/* Content is at z-10 */}
       <main className="relative z-10 bg-transparent">
         <Hero referralCode={referralCode || localStorage.getItem('referredBy')} />
         
@@ -50,6 +47,7 @@ const Index = () => {
           <TwoPaths />
           <FAQ />
           <Footer />
+          <BlueprintPopup />
         </Suspense>
       </main>
       
