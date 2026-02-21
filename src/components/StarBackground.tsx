@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef ,memo } from 'react';
 
 const StarBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ const StarBackground = () => {
       if (sizeRandom > 0.9) sizeClass = 'w-[3px] h-[3px] opacity-80';
       else if (sizeRandom > 0.6) sizeClass = 'w-[2px] h-[2px] opacity-50';
 
-      star.className = `absolute bg-white rounded-full animate-pulse ${sizeClass}`;
+      star.className = `absolute bg-white rounded-full animate-pulse ${sizeClass} will-change-transform`;
       
       // Randomize position
       star.style.left = `${Math.random() * 100}%`;
@@ -41,7 +41,7 @@ const StarBackground = () => {
       <div ref={containerRef} className="relative w-full h-full" />
       
       {/* The Signature Neon Green Splash */}
-      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[400px] opacity-20 blur-[120px]">
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[400px] opacity-20 blur-[80px] will-change-transform">
         <div 
           className="w-full h-full rounded-full"
           style={{
@@ -53,4 +53,4 @@ const StarBackground = () => {
   );
 };
 
-export default StarBackground;
+export default memo(StarBackground);

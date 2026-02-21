@@ -25,7 +25,7 @@ const BlueprintPopup = () => {
          2. Added 'z-[100]' to sit above overlay
          3. Added 'bg-[#050505]' to ensure visibility
       */}
-      <DialogContent className="glass-card border-[#FACC15]/20 sm:max-w-md z-[100] bg-[#050505]">
+      <DialogContent className="glass-card border-[#FACC15]/20 sm:max-w-md z-[100] bg-[#0c0c0c] p-0 gap-0 overflow-hidden">
         
         {/* Close Button Override */}
         <button 
