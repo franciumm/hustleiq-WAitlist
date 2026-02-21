@@ -7,9 +7,8 @@ const BlueprintPopup = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // ⚡️ The 10-Second Rule: Catches user right after initial scan
+    // ⚡️ The 10-Second Rule
     const timer = setTimeout(() => {
-      // Only show if they haven't already joined (check local storage)
       if (!localStorage.getItem('hustleiq_waitlist_user')) {
         setOpen(true);
       }
@@ -20,7 +19,14 @@ const BlueprintPopup = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="glass-card border-primary/20 sm:max-w-md animate-scale-in">
+      {/* 
+         FIX: 
+         1. Removed 'animate-scale-in' (conflicts with built-in Dialog animation)
+         2. Added 'z-[100]' to sit above overlay
+         3. Added 'bg-[#050505]' to ensure visibility
+      */}
+      <DialogContent className="glass-card border-[#FACC15]/20 sm:max-w-md z-[100] bg-[#050505]">
+        
         {/* Close Button Override */}
         <button 
           onClick={() => setOpen(false)}
@@ -35,7 +41,7 @@ const BlueprintPopup = () => {
             <FileDown className="w-6 h-6 text-[#FACC15]" />
           </div>
           
-          <DialogTitle className="text-2xl font-black text-center uppercase tracking-tighter">
+          <DialogTitle className="text-2xl font-black text-center uppercase tracking-tighter text-white">
             Don't Leave <span className="text-[#FACC15]">Empty Handed</span>
           </DialogTitle>
           
@@ -68,7 +74,7 @@ const BlueprintPopup = () => {
           </div>
 
           <Button 
-            className="w-full bg-[#FACC15] text-black font-black uppercase tracking-widest hover:bg-[#FACC15]/90 py-6 text-xs"
+            className="w-full bg-[#FACC15] text-black font-black uppercase tracking-widest hover:bg-[#FACC15]/90 py-6 text-xs shadow-[0_0_20px_rgba(250,204,21,0.3)]"
             onClick={() => {
               window.open('/2026_Niche_Discovery.pdf', '_blank');
               setOpen(false);
