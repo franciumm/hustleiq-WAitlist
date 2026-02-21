@@ -44,7 +44,7 @@ const BlueprintPopup = () => {
             </DialogTitle>
             
             <DialogDescription className="text-center text-muted-foreground text-sm leading-relaxed">
-              Stop guessing. Download the <strong>2026 Niche Discovery Blueprint</strong>. 
+              Stop guessing. Download the <strong>2026 Niche Discovery Guideline</strong>. 
               Verified with live Q1 2026 market data.
             </DialogDescription>
           </DialogHeader>
@@ -80,7 +80,7 @@ const BlueprintPopup = () => {
                   setOpen(false);
                 }}
               >
-                Download Blueprint (PDF)
+                Download Guideline (PDF)
               </Button>
             </div>
           </div>
