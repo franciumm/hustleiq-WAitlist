@@ -36,7 +36,7 @@ const Index = () => {
         <meta name="description" content="The AI Co-founder that kills distraction. Launch your $10k/mo business." />
       </HelmetFixed>
       
-      <StarBackground />
+      {/* <StarBackground /> */}
       <Header />
       
       <main className="relative z-10 bg-transparent">
