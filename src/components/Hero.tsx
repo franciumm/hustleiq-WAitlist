@@ -15,7 +15,7 @@ const Hero = ({ referralCode }: HeroProps) => {
   const [step, setStep] = useState(1); 
   const [referralData, setReferralData] = useState({ link: '', position: 0, refId: '' });
   
-  const baselineBuilders = 1000;
+  const baselineBuilders = 0;
   const initialSpots = 500;
 
   const { data: dbData } = useQuery({
