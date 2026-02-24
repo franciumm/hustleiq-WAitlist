@@ -1,11 +1,10 @@
-import { lazy, Suspense } from 'react'; // ⚡️ Added for performance
+import { lazy, Suspense } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
-import StarBackground from "./components/StarBackground";
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from "@vercel/analytics/react";
 
@@ -21,15 +20,12 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Analytics/>
-          <Sonner />
-        
-        {/* Background is always visible */}
-        <StarBackground />
-      <SpeedInsights />
+        <Sonner />
+        <SpeedInsights />
 
         <BrowserRouter>
           <main className="relative z-10 min-h-[100dvh]">
-            <Suspense fallback={<div className="bg-background min-h-screen" />}>
+            <Suspense fallback={<div className="bg-[#F8FAFC] min-h-screen" />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="*" element={<NotFound />} />
@@ -37,7 +33,6 @@ const App = () => (
             </Suspense>
           </main>
         </BrowserRouter>
-        
       </TooltipProvider>
     </HelmetProviderFixed> 
   </QueryClientProvider>
