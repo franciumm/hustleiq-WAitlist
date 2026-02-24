@@ -98,7 +98,7 @@ const Index = () => {
     setStatus('loading');
 
     try {
-      const resp = await fetch(`${import.meta.env.VITE_API_URL}/waitlist`, {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
