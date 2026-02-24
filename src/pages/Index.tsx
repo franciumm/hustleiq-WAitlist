@@ -113,7 +113,7 @@ const Index = () => {
         body: JSON.stringify({
           email,
           referralCode: localStorage.getItem('hustleiq_ref'),
-          reason: 'waitlist'
+          reason: 'HustleIQ waitlist signup from landing page'
         }),
       });
 
