@@ -319,7 +319,7 @@ const Index = () => {
           {[
             { num: '01', icon: '⚙️', title: 'Define Your Constraints', desc: 'Input your time, capital, and skills. The engine locks them to prevent scope creep before the first agent fires.', connector: true },
             { num: '02', icon: '📡', title: 'Deploy the Scout', desc: 'AI agents scan thousands of live market signals to surface the highest-probability opportunity matching your exact profile.', connector: true },
-            { num: '03', icon: '✅', title: 'Execute the Blueprint', desc: 'Receive a day-by-day operator guide. Use built-in tools to automate setup, outreach, and your first paying customer.' }
+            { num: '03', icon: '✅', title: 'Start Real productivity', desc: 'Receive a day-by-day operator guide. Use built-in tools to automate, setup, outreach, and your first paying customers.' }
           ].map((step) => (
             <div key={step.num} className="step">
               <div className="step-num">{step.num}</div>
