@@ -4,6 +4,7 @@ import { useToast } from '@/hooks/use-toast';
 import { TerminalWindow } from '@/components/TerminalWindow';
 import { CustomCursor } from '@/components/CustomCursor';
 import { Download } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const ManifestoTicker = () => {
   const items = ['Ship or Stay Stuck', 'Execution > Planning', 'Ideas Are Worthless', 'Build in Public', 'Operator Mindset', 'No Zero Days', '30 Days to First Sale'];
@@ -167,7 +168,7 @@ const Index = () => {
       {/* NAV */}
       <nav>
         <a href="/" className="nav-logo">
-          <div className="nav-logo-mark" />
+          <img src={logo} alt="HustleIQ logo" className="nav-logo-img" />
           HustleIQ
         </a>
         <ul className="nav-links">
@@ -388,7 +389,7 @@ const Index = () => {
       {/* FOOTER */}
       <footer>
         <div className="footer-logo">
-          <div className="nav-logo-mark" />
+          <img src={logo} alt="HustleIQ logo" className="nav-logo-img" />
           HustleIQ
         </div>
         <div className="footer-copy">© 2026 HustleIQ Inc. All rights reserved.</div>
