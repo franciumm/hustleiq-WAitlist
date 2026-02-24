@@ -99,6 +99,7 @@ const Index = () => {
 
     try {
       const rawApiUrl = import.meta.env.VITE_API_URL?.trim() || '';
+
       if (!rawApiUrl) {
         console.warn('[waitlist] VITE_API_URL is not set, using same-origin /api base.');
       }
@@ -107,14 +108,21 @@ const Index = () => {
         ? (apiBase.endsWith('/') ? `${apiBase}api/waitlist/join` : `${apiBase}/api/waitlist/join`)
         : '/api/waitlist/join';
 
+      const referralCode = localStorage.getItem('hustleiq_ref') || '';
+
+      const payload: Record<string, string> = {
+        email: email.trim(),
+        reason: 'Joined via Neo-Brutalist Landing Page',
+      };
+
+      if (referralCode && referralCode.trim() !== '') {
+        payload.referralCode = referralCode.trim();
+      }
+
       const resp = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          referralCode: localStorage.getItem('hustleiq_ref'),
-          reason: 'HustleIQ waitlist signup from landing page'
-        }),
+        body: JSON.stringify(payload),
       });
 
       const res = await resp.json().catch(() => ({}));
