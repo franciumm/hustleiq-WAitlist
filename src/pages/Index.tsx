@@ -67,8 +67,15 @@ const Index = () => {
     // Check for existing user
     const savedUser = localStorage.getItem('hustleiq_user_v1');
     if (savedUser) {
-      setRegisteredUser(JSON.parse(savedUser));
-      setStatus('success');
+      try {
+        const parsed = JSON.parse(savedUser);
+        if (parsed && typeof parsed === 'object') {
+          setRegisteredUser(parsed);
+          setStatus('success');
+        }
+      } catch (e) {
+        console.error("Failed to parse saved user", e);
+      }
     }
 
     const ref = searchParams.get('ref');
@@ -298,8 +305,8 @@ const Index = () => {
           <div className="section-label" style={{ textAlign: 'center' }}>// Join the Circle</div>
 
           {status === 'success' && registeredUser ? (
-            <div className="success-view animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <h2 className="font-syne font-extrabold text-[clamp(44px,6vw,72px)] leading-none tracking-[-3px] text-[var(--green)] mb-5">
+            <div className="success-view animate-in slide-in-from-bottom-4 duration-700">
+              <h2 className="section-title" style={{ color: 'var(--green)', textAlign: 'center', marginBottom: '20px' }}>
                 POSITION #{registeredUser.position}
               </h2>
               <p className="waitlist-sub">You've successfully secured your spot. The 2026 Operator's Blueprint is now available for you.</p>
@@ -307,7 +314,8 @@ const Index = () => {
                 <a
                   href="/2026_Niche_Discovery.pdf"
                   download
-                  className="btn-primary px-12 py-5"
+                  className="btn-primary"
+                  style={{ padding: '16px 36px' }}
                 >
                   Download 2026 Operator's Blueprint
                 </a>
@@ -315,7 +323,7 @@ const Index = () => {
             </div>
           ) : (
             <>
-              <h2 className="section-title" style={{ marginBottom: '20px' }}>Ready to Become<br />an Operator?</h2>
+              <h2 className="section-title" style={{ marginBottom: '20px', textAlign: 'center' }}>Ready to Become<br />an Operator?</h2>
               <p className="waitlist-sub">50 new operators onboarded every Monday. Join 2,400+ builders already in the waitlist.</p>
               <form className="waitlist-form" onSubmit={handleJoinWaitlist}>
                 <input
@@ -340,7 +348,7 @@ const Index = () => {
             </>
           )}
 
-          <div className="waitlist-note mt-6">🔒 No spam. Only high-signal operator updates.</div>
+          <div className="waitlist-note" style={{ marginTop: '24px' }}>🔒 No spam. Only high-signal operator updates.</div>
         </div>
       </section>
 
