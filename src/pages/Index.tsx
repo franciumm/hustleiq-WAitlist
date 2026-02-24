@@ -162,6 +162,7 @@ const Index = () => {
   return (
     <div className="app-container">
       <CustomCursor />
+      <a href="#main-content" className="skip-link">Skip to content</a>
 
       {/* NAV */}
       <nav>
@@ -177,8 +178,9 @@ const Index = () => {
         <a href="#waitlist" className="nav-cta">Join the Circle →</a>
       </nav>
 
-      {/* HERO */}
-      <header className="hero">
+      <main id="main-content">
+        {/* HERO */}
+        <header className="hero">
         <div className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
           Early Access Open — 2,400+ Operators on Waitlist
@@ -224,14 +226,14 @@ const Index = () => {
           </div>
         </div>
 
-        <TerminalWindow />
-      </header>
+          <TerminalWindow />
+        </header>
 
-      {/* TICKER */}
-      <ManifestoTicker />
+        {/* TICKER */}
+        <ManifestoTicker />
 
-      {/* AGENT SECTION */}
-      <section id="agents" className="section-agents">
+        {/* AGENT SECTION */}
+        <section id="agents" className="section-agents">
         <div className="fade-in">
           <div className="section-label">// 01 — The Engine</div>
           <h2 className="section-title">6 Agents.<br />Zero Excuses.</h2>
@@ -255,10 +257,10 @@ const Index = () => {
             </div>
           ))}
         </div>
-      </section>
+        </section>
 
-      {/* GAMIFICATION */}
-      <section id="gamification" className="section-game">
+        {/* GAMIFICATION */}
+        <section id="gamification" className="section-game">
         <div className="fade-in">
           <div className="section-label">// 02 — Gamification</div>
           <h2 className="section-title">HustleIQ makes<br />Productivity <br /> addictive.<br /></h2>
@@ -304,10 +306,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+        </section>
 
-      {/* STEPS */}
-      <section id="steps" className="section-steps">
+        {/* STEPS */}
+        <section id="steps" className="section-steps">
         <div className="fade-in">
           <div className="section-label">// 03 — How It Works</div>
           <h2 className="section-title">Three Steps<br />to Operator.</h2>
@@ -327,10 +329,10 @@ const Index = () => {
             </div>
           ))}
         </div>
-      </section>
+        </section>
 
-      {/* WAITLIST */}
-      <section id="waitlist" className="section-waitlist">
+        {/* WAITLIST */}
+        <section id="waitlist" className="section-waitlist">
         <div className="waitlist-inner fade-in">
           <div className="section-label" style={{ textAlign: 'center' }}>// Join the Circle</div>
 
@@ -380,7 +382,8 @@ const Index = () => {
 
           <div className="waitlist-note" style={{ marginTop: '24px' }}>🔒 No spam. Only high-signal operator updates.</div>
         </div>
-      </section>
+        </section>
+      </main>
 
       {/* FOOTER */}
       <footer>
