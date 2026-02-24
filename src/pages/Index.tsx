@@ -184,7 +184,7 @@ const Index = () => {
         <header className="hero">
         <div className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
-          Early Access Open — 2,400+ Operators on Waitlist
+          Early Access Open — free trial for first 500 Operators
         </div>
         <h1>
           Stop<br />
@@ -222,7 +222,7 @@ const Index = () => {
             <div className="hero-stat-label">AI Agents Working for You</div>
           </div>
           <div>
-            <div className="hero-stat-num">2,400+</div>
+            <div className="hero-stat-num">100+</div>
             <div className="hero-stat-label">Operators on Waitlist</div>
           </div>
         </div>
