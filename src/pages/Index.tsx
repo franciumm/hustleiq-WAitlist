@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { Check, Download } from 'lucide-react';
 
 // Safe, pre-filled array to prevent minifier mapping crashes
 const ContributionGrid = () => {
@@ -24,28 +25,34 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [referralCode, setReferralCode] = useState('');
+  const [registeredUser, setRegisteredUser] = useState<{ position: number | string } | null>(null);
   
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
 
-  // Safely handle localStorage inside useEffect to prevent render crashes
+  // Initialize state from LocalStorage and URL params
   useEffect(() => {
+    // 1. Check if user is already registered
+    try {
+      const savedUser = localStorage.getItem('hustleiq_user_v1');
+      if (savedUser) {
+        setRegisteredUser(JSON.parse(savedUser));
+      }
+    } catch (e) {
+      console.error('Failed to parse user data');
+    }
+
+    // 2. Handle Referral Codes
     let code = searchParams.get('ref') || '';
-    
     if (!code) {
       try {
         code = localStorage.getItem('referredBy') || '';
-      } catch (e) {
-        // Ignore restricted storage errors
-      }
+      } catch (e) { /* Ignore */ }
     } else {
       try {
         localStorage.setItem('referredBy', code);
-      } catch (e) {
-        // Ignore restricted storage errors
-      }
+      } catch (e) { /* Ignore */ }
     }
-    
     setReferralCode(code);
   }, [searchParams]);
 
@@ -58,13 +65,12 @@ const Index = () => {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const targetUrl = apiUrl.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`;
 
-      // Safely construct payload to prevent 400 validation errors
+      // Safely construct payload
       const payload: Record<string, string> = {
           email: email.trim(),
-          reason: "Fast tracked via V2 landing page" // Satisfies backend requirement
+          reason: "Fast tracked via V2 landing page" 
       };
       
-      // Only attach referralCode if it actually exists (prevents backend rejecting empty strings)
       if (referralCode) {
           payload.referralCode = referralCode;
       }
@@ -75,7 +81,6 @@ const Index = () => {
         body: JSON.stringify(payload),
       });
 
-      // Safely parse JSON to prevent crash on non-JSON error responses (like 502 HTML pages)
       const text = await response.text();
       let res: any = {};
       try {
@@ -89,17 +94,27 @@ const Index = () => {
         throw new Error(errorMessage);
       }
 
+      // Success!
       setStatus('success');
+      
+      const userData = {
+        position: res.data?.currentPosition || 'N/A'
+      };
+
+      // Save to LocalStorage
+      localStorage.setItem('hustleiq_user_v1', JSON.stringify(userData));
+      setRegisteredUser(userData);
+
       toast({
         title: "Welcome to the Diamond Circle",
-        description: res.data?.currentPosition 
-            ? `You've successfully joined the waitlist. Position #${res.data.currentPosition}`
+        description: userData.position !== 'N/A'
+            ? `You've successfully joined the waitlist. Position #${userData.position}`
             : "You've successfully joined the waitlist.",
       });
+      
       setEmail('');
     } catch (error: any) {
       setStatus('idle');
-      // Coerce error message to string to ensure Toast doesn't crash trying to render an object
       const safeErrorMessage = typeof error.message === 'string' ? error.message : 'Please try again later.';
       
       toast({
@@ -162,10 +177,10 @@ const Index = () => {
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                 </a>
                 
-                {/* View Demo changed to Download Book */}
+                {/* Download Book Link */}
                 <a href="/2026_Niche_Discovery.pdf" target="_blank" rel="noopener noreferrer" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
                   <span>Download Book</span>
-                  <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
+                  <Download className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -304,37 +319,65 @@ const Index = () => {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden p-8 md:p-12 text-center border border-slate-100">
               <div className="absolute top-0 left-0 w-full h-[3px] bg-primary"></div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to become an Operator?</h2>
-              <p className="text-slate-500 mb-10 font-normal">Join 2,400+ builders in the waitlist. We onboard 50 new operators every Monday.</p>
+              
+              {!registeredUser ? (
+                <>
+                  <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to become an Operator?</h2>
+                  <p className="text-slate-500 mb-10 font-normal">Join 2,400+ builders in the waitlist. We onboard 50 new operators every Monday.</p>
 
-              <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-                <label htmlFor="email-address" className="sr-only">Email address</label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  required
-                  disabled={status === 'loading'}
-                  className="flex-1 rounded-xl border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all disabled:opacity-70"
-                  placeholder="enter@your-email.com"
-                />
+                  <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                    <label htmlFor="email-address" className="sr-only">Email address</label>
+                    <input
+                      id="email-address"
+                      name="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      autoComplete="email"
+                      required
+                      disabled={status === 'loading'}
+                      className="flex-1 rounded-xl border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all disabled:opacity-70"
+                      placeholder="enter@your-email.com"
+                    />
 
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-                </button>
-              </form>
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                    </button>
+                  </form>
 
-              <p className="mt-6 text-xs text-slate-400 font-normal flex items-center justify-center gap-1">
-                <span className="material-symbols-outlined text-sm text-primary" aria-hidden="true">lock</span>
-                No spam. Only high-signal updates.
-              </p>
+                  <p className="mt-6 text-xs text-slate-400 font-normal flex items-center justify-center gap-1">
+                    <span className="material-symbols-outlined text-sm text-primary" aria-hidden="true">lock</span>
+                    No spam. Only high-signal updates.
+                  </p>
+                </>
+              ) : (
+                <div className="animate-fade-in-up">
+                  <div className="mx-auto w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-6">
+                    <Check className="w-8 h-8 text-primary" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-slate-900 mb-2">You're on the list!</h2>
+                  <p className="text-primary font-bold font-mono text-xl mb-6 tracking-wide">
+                    POSITION #{registeredUser.position}
+                  </p>
+                  <p className="text-slate-500 mb-8 max-w-md mx-auto">
+                    Your spot is secured. While you wait, download the 2026 Operator's Blueprint to get a head start.
+                  </p>
+                  
+                  <a 
+                    href="/2026_Niche_Discovery.pdf" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  >
+                    <Download className="w-5 h-5" />
+                    <span>Download Blueprint</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </section>
