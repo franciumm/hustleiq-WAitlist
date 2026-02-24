@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import tailwindcssAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 export default {
   darkMode: ["class"],
@@ -15,19 +17,20 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", ...fontFamily.sans],
-        mono: ["JetBrains Mono", ...fontFamily.mono],
+        sans: ["DM Sans", ...fontFamily.sans],
+        syne: ["Syne", ...fontFamily.sans],
+        mono: ["DM Mono", ...fontFamily.mono],
       },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: "#050A06",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#15803d", // Changed from #2eb82e to pass contrast check
-          hover: "#166534",   // Darkened hover state
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#1DFF7A",
+          hover: "#18E66D",
+          foreground: "#050A06",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -72,13 +75,22 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        "marquee": {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        "spin-border": {
+          "to": { transform: "rotate(1turn)" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-green": "pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "marquee": "marquee 25s linear infinite",
+        "spin-border": "spin-border 4s linear infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [tailwindcssAnimate, typography],
 } satisfies Config;

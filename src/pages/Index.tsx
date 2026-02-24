@@ -1,20 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { Check, Download } from 'lucide-react';
+import { Check, Download, ArrowRight, Lock } from 'lucide-react';
+import { TerminalWindow } from '@/components/TerminalWindow';
+import { CustomCursor } from '@/components/CustomCursor';
+import { AgentIcon } from '@/components/AgentIcon';
 
-// Safe, pre-filled array to prevent minifier mapping crashes
-const ContributionGrid = () => {
-  const squares = new Array(280).fill(0);
-  
+const ManifestoTicker = () => (
+  <div className="w-full bg-primary border-y-2 border-primary overflow-hidden py-4 select-none">
+    <div className="flex animate-marquee whitespace-nowrap">
+      {[...Array(10)].map((_, i) => (
+        <span key={i} className="text-background font-syne font-bold text-2xl uppercase tracking-tighter mx-4">
+          Ship or Stay Stuck • Execution &gt; Planning • Ideas Are Worthless •
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+const StreakGrid = () => {
+  const squares = new Array(28 * 7).fill(0).map(() => Math.random());
+
   return (
-    <div id="contribution-grid" className="grid grid-flow-col grid-rows-7 gap-1.5">
-      {squares.map((_, i) => (
+    <div className="grid grid-cols-[repeat(28,1fr)] gap-1 w-full max-w-2xl">
+      {squares.map((val, i) => (
         <div
-          key={`square-${i}`}
-          className={`w-3 h-3 rounded-sm transition-colors duration-300 ${
-            i === 279 ? 'bg-primary animate-pulse-green' : i > 268 ? 'bg-primary' : 'bg-slate-100'
-          }`}
+          key={i}
+          className="aspect-square border border-primary/10 transition-colors duration-500"
+          style={{
+            backgroundColor: val > 0.8 ? '#1DFF7A' : val > 0.5 ? 'rgba(29,255,122,0.4)' : val > 0.3 ? 'rgba(29,255,122,0.1)' : 'transparent',
+            opacity: val > 0.2 ? 1 : 0.3
+          }}
         />
       ))}
     </div>
@@ -26,23 +42,18 @@ const Index = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [referralCode, setReferralCode] = useState('');
   const [registeredUser, setRegisteredUser] = useState<{ position: number | string } | null>(null);
-  
+
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
 
-  // Initialize state from LocalStorage and URL params
   useEffect(() => {
-    // 1. Check if user is already registered
     try {
       const savedUser = localStorage.getItem('hustleiq_user_v1');
-      if (savedUser) {
-        setRegisteredUser(JSON.parse(savedUser));
-      }
+      if (savedUser) setRegisteredUser(JSON.parse(savedUser));
     } catch (e) {
       console.error('Failed to parse user data');
     }
 
-    // 2. Handle Referral Codes
     let code = searchParams.get('ref') || '';
     if (!code) {
       try {
@@ -65,15 +76,12 @@ const Index = () => {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const targetUrl = apiUrl.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`;
 
-      // Safely construct payload
       const payload: Record<string, string> = {
-          email: email.trim(),
-          reason: "Fast tracked via V2 landing page" 
+        email: email.trim(),
+        reason: "Fast tracked via V2 Neo-Brutalist page"
       };
-      
-      if (referralCode) {
-          payload.referralCode = referralCode;
-      }
+
+      if (referralCode) payload.referralCode = referralCode;
 
       const response = await fetch(targetUrl, {
         method: 'POST',
@@ -83,300 +91,189 @@ const Index = () => {
 
       const text = await response.text();
       let res: any = {};
-      try {
-        res = text ? JSON.parse(text) : {};
-      } catch (parseError) {
-        console.warn("Non-JSON response received");
-      }
+      try { res = text ? JSON.parse(text) : {}; } catch (e) { }
 
-      if (!response.ok) {
-        const errorMessage = res.message || res.error || `Server error: ${response.status}`;
-        throw new Error(errorMessage);
-      }
+      if (!response.ok) throw new Error(res.message || res.error || `Server error: ${response.status}`);
 
-      // Success!
-      setStatus('success');
-      
-      const userData = {
-        position: res.data?.currentPosition || 'N/A'
-      };
-
-      // Save to LocalStorage
+      const userData = { position: res.data?.currentPosition || 'N/A' };
       localStorage.setItem('hustleiq_user_v1', JSON.stringify(userData));
       setRegisteredUser(userData);
 
       toast({
         title: "Welcome to the Diamond Circle",
-        description: userData.position !== 'N/A'
-            ? `You've successfully joined the waitlist. Position #${userData.position}`
-            : "You've successfully joined the waitlist.",
+        description: `Position #${userData.position}`,
       });
-      
       setEmail('');
-    } catch (error: any) {
+    } catch (error: unknown) {
       setStatus('idle');
-      const safeErrorMessage = typeof error.message === 'string' ? error.message : 'Please try again later.';
-      
+      const errorMessage = error instanceof Error ? error.message : 'Please try again later.';
       toast({
         variant: 'destructive',
         title: 'Something went wrong',
-        description: safeErrorMessage,
+        description: errorMessage,
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-primary selection:text-white">
+    <div className="flex flex-col min-h-screen">
+      <CustomCursor />
+      <ManifestoTicker />
 
-      {/* NAVIGATION */}
-      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200" aria-label="Main Navigation">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <a href="/" className="flex-shrink-0 flex items-center gap-3 group" aria-label="HustleIQ Home">
-              <span className="font-bold text-xl tracking-tight text-slate-900">HustleIQ</span>
-            </a>
-            <div className="hidden md:flex items-center space-x-8">
-              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
-              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#gamification">Gamification</a>
-              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#waitlist">Manifesto</a>
-            </div>
-            <div className="flex items-center">
-              <a href="#waitlist" className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                Join the Diamond Circle
-              </a>
-            </div>
+      {/* NAV */}
+      <nav className="border-b-2 border-primary bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="font-syne font-bold text-2xl tracking-tighter text-primary">HUSTLEIQ</div>
+          <div className="hidden md:flex gap-8 text-xs font-mono uppercase tracking-widest text-white/40">
+            <a href="#gamification" className="hover:text-primary transition-colors">Gamification</a>
+            <a href="#pipeline" className="hover:text-primary transition-colors">Pipeline</a>
+            <a href="#waitlist" className="hover:text-primary transition-colors">Join</a>
           </div>
+          <a href="#waitlist" className="neo-brutalist-border bg-primary px-4 py-2 text-xs font-mono font-bold uppercase translate-y-[-2px] hover:translate-y-[0px] transition-transform">
+            Get Started
+          </a>
         </div>
       </nav>
 
-      <main className="pt-32 pb-20">
-        {/* HERO SECTION */}
-        <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="flex flex-col space-y-8">
-              <div className="inline-flex items-center space-x-2 bg-green-50 border border-green-100 rounded-full px-3 py-1 w-fit" role="status">
-                <span className="flex h-2 w-2 relative" aria-hidden="true">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                <span className="text-xs font-bold text-primary tracking-wide uppercase">Early Access Open</span>
-              </div>
-
-              <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
-                We Make You an <br />
-                <span className="text-primary">Operator</span> in 30 Days.
-              </h1>
-
-              <p className="text-lg lg:text-xl text-slate-500 max-w-lg leading-relaxed font-normal">
-                Stop planning, start shipping. Our 6-agent AI pipeline scouts markets, architects solutions, and executes your side-hustle blueprint automatically.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <a href="#waitlist" className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-bold transition-all shadow-[inset_0_2px_4px_0_rgba(255,255,255,0.3),0_4px_6px_-1px_rgba(46,184,46,0.4)] flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                  <span>Start Execution</span>
-                  <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-                </a>
-                
-                {/* Download Book Link */}
-                <a href="/2026_Niche_Discovery.pdf" target="_blank" rel="noopener noreferrer" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
-                  <span>Download Book</span>
-                  <Download className="w-4 h-4" />
-                </a>
-              </div>
+      <main className="flex-1">
+        {/* HERO */}
+        <section className="max-w-7xl mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
+          <div className="flex flex-col gap-8">
+            <div className="inline-flex items-center gap-2 border border-primary/20 px-3 py-1 bg-primary/5 w-fit">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">System Online: v2.0.4</span>
             </div>
-
-            {/* LIVE PIPELINE LOG */}
-            <div className="bg-slate-900 rounded-xl p-6 font-mono text-sm text-slate-300 shadow-2xl border border-slate-800" aria-hidden="true">
-              <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
-                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                {/* Fixed text contrast here: text-slate-500 -> text-slate-400 */}
-                <span className="ml-2 text-slate-400 text-xs">pipeline_activity.log</span>
-              </div>
-              <div className="space-y-2">
-                {/* Fixed text contrast here: text-primary -> text-green-400 */}
-                <div className="flex gap-3"><span className="text-blue-400">09:41:22</span><span className="text-green-400">[Scout]</span><span>Analyzing 4 micro-SaaS niches...</span></div>
-                <div className="flex gap-3"><span className="text-blue-400">09:41:24</span><span className="text-purple-400">[Architect]</span><span>Generating MVP schema v1.2...</span></div>
-                <div className="flex gap-3"><span className="text-blue-400">09:41:28</span><span className="text-yellow-400">[Builder]</span><span className="text-white">Deploying constraints...</span></div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* GAMIFICATION SECTION */}
-        <section id="gamification" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Rewire Your Brain for Execution</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto font-normal">
-              We replaced willpower with dopamine. Gamified milestones ensure you never miss a day of progress.
+            <h1 className="font-syne font-bold text-6xl lg:text-8xl tracking-tighter leading-[0.92] uppercase text-white">
+              We Make You <br />
+              <span className="text-primary italic">An Operator</span><br />
+              In 30 Days.
+            </h1>
+            <p className="font-sans text-xl text-white/60 max-w-xl leading-relaxed">
+              Stop planning, start shipping. Our 6-agent AI pipeline scouts markets, architects solutions, and executes your side-hustle blueprint automatically.
             </p>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <a href="#waitlist" className="neo-brutalist-border bg-primary px-8 py-4 font-syne font-bold text-xl uppercase flex items-center gap-2">
+                Start Execution <ArrowRight className="w-5 h-5" />
+              </a>
+              <a href="/2026_Niche_Discovery.pdf" target="_blank" className="border-2 border-white/10 px-8 py-4 font-syne font-bold text-xl uppercase hover:bg-white/5 transition-colors">
+                Blueprint.pdf
+              </a>
+            </div>
           </div>
 
-          <div className="grid grid-cols-12 grid-rows-2 gap-6 h-auto lg:h-[600px]">
-            {/* Operator Streak Card */}
-            <article className="col-span-12 lg:col-span-8 bento-card flex flex-col justify-between overflow-hidden">
-              <div className="flex justify-between items-start mb-8">
-                <div>
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">The Operator Streak</h3>
-                  <p className="text-4xl font-bold text-slate-900">12 Day Streak</p>
-                  <p className="text-sm font-bold text-primary mt-2">Consistency Score: Top 5%</p>
-                </div>
-                <div className="bg-green-50 p-3 rounded-xl">
-                  <span className="material-symbols-outlined text-primary" aria-hidden="true">local_fire_department</span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mt-auto" aria-hidden="true">
-                <ContributionGrid />
-              </div>
-            </article>
-
-            {/* Unlock Progress Card */}
-            <article className="col-span-12 lg:col-span-4 row-span-2 bento-card flex flex-col items-center justify-between text-center">
-              <div className="w-full">
-                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8">The Unlock Progress</h3>
-                <div className="relative h-64 w-4 bg-slate-100 rounded-full mx-auto mb-8 overflow-hidden" role="progressbar" aria-label="Unlock Progress" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100}>
-                  <div className="absolute bottom-0 w-full bg-primary rounded-full transition-all duration-1000" style={{ height: '75%' }}></div>
-                </div>
-                <div className="mb-6">
-                  <span className="material-symbols-outlined text-4xl text-slate-300" aria-hidden="true">lock_open</span>
-                </div>
-                <p className="text-xl font-bold text-slate-900 mb-1">Next Unlock: CFO Agent Pro</p>
-                <p className="text-sm text-slate-500 font-normal">3 days to unlock</p>
-              </div>
-              <div className="w-full p-4 bg-slate-50 rounded-xl mt-8">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-tight mb-2">Completion Rate</p>
-                <p className="text-3xl font-bold text-slate-900">75%</p>
-              </div>
-            </article>
-
-            {/* Identity Badge Card */}
-            <article className="col-span-12 lg:col-span-8 bento-card flex items-center gap-8">
-              <div className="relative">
-                <div className="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center transform rotate-45 shadow-xl" aria-hidden="true">
-                  <span className="material-symbols-outlined text-white text-4xl -rotate-45">shield</span>
-                </div>
-                <div className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">LVL 3</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">The Identity Badge</h3>
-                <p className="text-2xl font-bold text-slate-900">Current Rank: Level 3 Builder</p>
-                <p className="text-slate-500 text-sm mt-1 font-normal">Reach Level 4 to access the Private Discord.</p>
-              </div>
-              <div className="hidden sm:block">
-                <button type="button" className="px-6 py-2 border-2 border-slate-100 rounded-lg text-sm font-bold text-slate-600 hover:border-slate-200 hover:bg-slate-50 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300">
-                  View Leaderboard
-                </button>
-              </div>
-            </article>
+          <div className="hidden lg:block min-w-0" id="pipeline">
+            <TerminalWindow />
           </div>
         </section>
 
-        {/* HOW IT WORKS */}
-        <section id="how-it-works" className="py-20 bg-white border-y border-slate-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">The Execution Engine</h2>
-              <p className="text-slate-500 max-w-2xl mx-auto font-normal">
-                Transforming fuzzy ideas into operational businesses through rigorous, AI-driven constraints.
-              </p>
+        {/* GAMIFICATION */}
+        <section id="gamification" className="border-t-2 border-primary/20 py-24 bg-primary/[0.02]">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="font-syne font-bold text-4xl lg:text-6xl tracking-tighter uppercase mb-16 text-white text-center">
+              Rewire Your Brain For <span className="text-primary">Dopamine</span>
+            </h2>
+
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Streak */}
+              <div className="lg:col-span-2 neo-brutalist-card flex flex-col gap-12">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Operational Consistency</h3>
+                    <div className="font-syne font-bold text-5xl text-white tracking-tighter">12 DAY STREAK</div>
+                  </div>
+                  <div className="w-12 h-12 border-2 border-primary flex items-center justify-center text-primary">
+                    <Rocket className="w-6 h-6" />
+                  </div>
+                </div>
+                <StreakGrid />
+              </div>
+
+              {/* Badge */}
+              <div className="neo-brutalist-card flex flex-col items-center justify-center gap-8 text-center min-h-[400px]">
+                <div className="relative p-[4px] rounded-full overflow-hidden group">
+                  <div className="absolute inset-0 bg-conic-gradient from-primary via-primary/20 to-primary animate-spin-border"
+                    style={{ background: 'conic-gradient(from 0deg, #1DFF7A, rgba(29,255,122,0.1), #1DFF7A)' }} />
+                  <div className="relative bg-background rounded-full w-32 h-32 flex items-center justify-center">
+                    <AgentIcon name="Launchpad" className="w-16 h-16 text-primary" />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-primary text-background px-3 py-1 font-mono font-bold text-[10px] uppercase">
+                    LVL 3
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-syne font-bold text-2xl text-white tracking-tight uppercase">Level 3 Builder</h3>
+                  <p className="font-mono text-[10px] text-white/40 mt-2 uppercase tracking-widest">Reach Lvl 4 for Alpha Access</p>
+                </div>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <article className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-6 text-slate-600 shadow-sm border border-slate-100">
-                  <span className="material-symbols-outlined" aria-hidden="true">filter_list</span>
+        {/* AGENTS BENTO */}
+        <section className="py-24 border-t-2 border-primary/20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {['Scout', 'Strategist', 'Marketer', 'CFO', 'QA', 'Launchpad'].map((agent) => (
+                <div key={agent} className="neo-brutalist-card group hover:border-primary/60 transition-colors">
+                  <AgentIcon name={agent} className="w-8 h-8 text-primary mb-6" />
+                  <h4 className="font-syne font-bold text-2xl text-white mb-2 uppercase tracking-tighter">The {agent}</h4>
+                  <p className="text-white/40 text-sm leading-relaxed">
+                    Custom-tuned LLM designed specifically for {agent === 'Scout' ? 'market arbitrage' : 'high-velocity execution'}.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">1. Define Your Constraints</h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-normal">
-                  Input your time, budget, and skill parameters. The engine locks them in to prevent scope creep before it starts.
-                </p>
-              </article>
-
-              <article className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-6 text-slate-600 shadow-sm border border-slate-100">
-                  <span className="material-symbols-outlined" aria-hidden="true">radar</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">2. Deploy the Scout</h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-normal">
-                  Our AI agents scan thousands of market signals to find opportunities that match your specific operator profile.
-                </p>
-              </article>
-
-              <article className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-6 text-slate-600 shadow-sm border border-slate-100">
-                  <span className="material-symbols-outlined" aria-hidden="true">done_all</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">3. Execute the Blueprint</h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-normal">
-                  Receive a day-by-day execution plan. Use our tools to automate the setup, marketing, and first sale.
-                </p>
-              </article>
+              ))}
             </div>
           </div>
         </section>
 
         {/* WAITLIST */}
-        <section id="waitlist" className="py-32">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden p-8 md:p-12 text-center border border-slate-100">
-              <div className="absolute top-0 left-0 w-full h-[3px] bg-primary"></div>
-              
+        <section id="waitlist" className="py-32 border-t-2 border-primary">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="neo-brutalist-card neo-brutalist-border p-12 lg:p-20 text-center">
               {!registeredUser ? (
-                <>
-                  <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to become an Operator?</h2>
-                  <p className="text-slate-500 mb-10 font-normal">Join 2,400+ builders in the waitlist. We onboard 50 new operators every Monday.</p>
+                <div className="flex flex-col gap-8">
+                  <h2 className="font-syne font-bold text-5xl lg:text-7xl tracking-tighter uppercase text-white leading-none">
+                    Enter the <br /> <span className="text-primary italic">Engine Room</span>
+                  </h2>
+                  <p className="font-sans text-white/60 text-lg max-w-xl mx-auto">
+                    We onboard 50 new operators every Monday. Secure your frequency.
+                  </p>
 
-                  <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-                    <label htmlFor="email-address" className="sr-only">Email address</label>
+                  <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto w-full pt-4">
                     <input
-                      id="email-address"
-                      name="email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      autoComplete="email"
+                      placeholder="OPERATOR@MAIL.COM"
                       required
-                      disabled={status === 'loading'}
-                      className="flex-1 rounded-xl border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all disabled:opacity-70"
-                      placeholder="enter@your-email.com"
+                      className="flex-1 bg-white/5 border-2 border-white/10 px-6 py-4 font-mono text-primary placeholder:text-white/10 focus:border-primary focus:outline-none transition-colors"
                     />
-
                     <button
                       type="submit"
                       disabled={status === 'loading'}
-                      className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="bg-primary px-8 py-4 font-syne font-bold text-xl uppercase text-background hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
                     >
-                      {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                      {status === 'loading' ? 'SYCHRONIZING...' : 'JOIN NOW'}
                     </button>
                   </form>
-
-                  <p className="mt-6 text-xs text-slate-500 font-normal flex items-center justify-center gap-1">
-                    <span className="material-symbols-outlined text-sm text-primary" aria-hidden="true">lock</span>
-                    No spam. Only high-signal updates.
-                  </p>
-                </>
-              ) : (
-                <div className="animate-fade-in-up">
-                  <div className="mx-auto w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-6">
-                    <Check className="w-8 h-8 text-primary" />
+                  <div className="flex items-center justify-center gap-2 text-white/30 font-mono text-[10px] uppercase tracking-widest mt-4">
+                    <Lock className="w-3 h-3" /> Encrypted Transmission Protocol
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-900 mb-2">You're on the list!</h2>
-                  <p className="text-primary font-bold font-mono text-xl mb-6 tracking-wide">
-                    POSITION #{registeredUser.position}
-                  </p>
-                  <p className="text-slate-500 mb-8 max-w-md mx-auto">
-                    Your spot is secured. While you wait, download the 2026 Operator's Blueprint to get a head start.
-                  </p>
-                  
-                  <a 
-                    href="/2026_Niche_Discovery.pdf" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                  >
-                    <Download className="w-5 h-5" />
-                    <span>Download Blueprint</span>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-8 animate-in fade-in zoom-in duration-500">
+                  <div className="w-20 h-20 bg-primary mx-auto flex items-center justify-center">
+                    <Check className="w-10 h-10 text-background" />
+                  </div>
+                  <h2 className="font-syne font-bold text-5xl lg:text-7xl tracking-tighter uppercase text-white">
+                    VERIFIED.
+                  </h2>
+                  <div className="font-mono text-primary text-4xl font-bold tracking-[0.2em]">
+                    POS #{registeredUser.position}
+                  </div>
+                  <p className="text-white/60">Spot secured. Prepare for deployment instructions.</p>
+                  <a href="/2026_Niche_Discovery.pdf" target="_blank" className="neo-brutalist-border bg-primary px-8 py-4 font-syne font-bold text-xl uppercase text-background w-fit mx-auto flex items-center gap-2">
+                    <Download className="w-6 h-6" /> Download Blueprint
                   </a>
                 </div>
               )}
@@ -386,18 +283,15 @@ const Index = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-white border-t border-slate-200 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <img alt="HustleIQ Logo" className="h-6 w-6 object-contain opacity-40 grayscale" src="/logo.png" />
-            <span className="text-sm text-slate-500 font-normal">&copy; 2026 HustleIQ Inc. All rights reserved.</span>
+      <footer className="border-t-2 border-primary/20 py-12 bg-background">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="font-syne font-bold text-lg text-primary">HUSTLEIQ_INC</div>
+          <div className="flex gap-12 text-[10px] font-mono uppercase tracking-widest text-white/20">
+            <a href="#" className="hover:text-primary">Privacy</a>
+            <a href="#" className="hover:text-primary">Terms</a>
+            <a href="https://twitter.com/hustleiq" className="hover:text-primary">X / Twitter</a>
           </div>
-
-          <div className="flex gap-8">
-            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="#">Privacy Policy</a>
-            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="#">Terms</a>
-            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="https://twitter.com/hustleiq" target="_blank" rel="noreferrer">Twitter</a>
-          </div>
+          <div className="text-[10px] font-mono text-white/10 uppercase">&copy; 2026 EXECUTION_ENGINE</div>
         </div>
       </footer>
     </div>
