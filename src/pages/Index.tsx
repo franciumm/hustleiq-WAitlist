@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { TerminalWindow } from '@/components/TerminalWindow';
 import { CustomCursor } from '@/components/CustomCursor';
+import { Download } from 'lucide-react';
 
 const ManifestoTicker = () => {
   const items = ['Ship or Stay Stuck', 'Execution > Planning', 'Ideas Are Worthless', 'Build in Public', 'Operator Mindset', 'No Zero Days', '30 Days to First Sale'];
@@ -28,22 +29,25 @@ const ManifestoTicker = () => {
 const StreakGrid = () => {
   const cols = 28;
   const levels = [null, null, null, 'lvl1', 'lvl1', 'lvl2', 'lvl2', 'lvl3', 'lvl3', 'lvl4'];
-  const gridItems = [];
 
-  for (let c = 0; c < cols; c++) {
-    for (let r = 0; r < 7; r++) {
-      const isRecent = c > cols - 13;
-      let cls = 'sq';
-      if (isRecent) {
-        const idx = Math.floor(Math.random() * levels.length);
-        if (levels[idx]) cls += ' ' + levels[idx];
-        if (c === cols - 1 && r === 3) cls += ' pulse';
-      } else if (Math.random() > 0.55) {
-        cls += ' lvl1';
+  const gridItems = useMemo(() => {
+    const items = [];
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < 7; r++) {
+        const isRecent = c > cols - 13;
+        let cls = 'sq';
+        if (isRecent) {
+          const idx = Math.floor(Math.random() * levels.length);
+          if (levels[idx]) cls += ' ' + levels[idx];
+          if (c === cols - 1 && r === 3) cls += ' pulse';
+        } else if (Math.random() > 0.55) {
+          cls += ' lvl1';
+        }
+        items.push(<div key={`${c}-${r}`} className={cls} />);
       }
-      gridItems.push(<div key={`${c}-${r}`} className={cls} />);
     }
-  }
+    return items;
+  }, []);
 
   return (
     <div id="contribution-grid">
@@ -57,8 +61,16 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [registeredUser, setRegisteredUser] = useState<{ position: number | string } | null>(null);
 
   useEffect(() => {
+    // Check for existing user
+    const savedUser = localStorage.getItem('hustleiq_user_v1');
+    if (savedUser) {
+      setRegisteredUser(JSON.parse(savedUser));
+      setStatus('success');
+    }
+
     const ref = searchParams.get('ref');
     if (ref) localStorage.setItem('hustleiq_ref', ref);
 
@@ -93,6 +105,7 @@ const Index = () => {
 
       const userData = { position: res.data?.currentPosition || 'N/A' };
       localStorage.setItem('hustleiq_user_v1', JSON.stringify(userData));
+      setRegisteredUser(userData);
       setStatus('success');
 
       toast({
@@ -149,12 +162,14 @@ const Index = () => {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          <a href="#steps" className="btn-ghost">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.2" />
-              <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
-            </svg>
-            View Demo
+          <a
+            href="/2026_Niche_Discovery.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost"
+          >
+            <Download className="w-4 h-4" />
+            Download Blueprint
           </a>
         </div>
         <div className="hero-stats">
@@ -281,28 +296,51 @@ const Index = () => {
       <section id="waitlist" className="section-waitlist">
         <div className="waitlist-inner fade-in">
           <div className="section-label" style={{ textAlign: 'center' }}>// Join the Circle</div>
-          <h2 className="section-title" style={{ marginBottom: '20px' }}>Ready to Become<br />an Operator?</h2>
-          <p className="waitlist-sub">50 new operators onboarded every Monday. Join 2,400+ builders already in the waitlist.</p>
-          <form className="waitlist-form" onSubmit={handleJoinWaitlist}>
-            <input
-              className="waitlist-input"
-              type="email"
-              placeholder="enter@your-email.com"
-              required
-              id="waitlist-email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="btn-primary"
-              style={{ cursor: 'none', border: 'none' }}
-              disabled={status === 'loading' || status === 'success'}
-            >
-              {status === 'loading' ? 'Joining...' : status === 'success' ? "✓ You're on the List" : 'Join Waitlist'}
-            </button>
-          </form>
-          <div className="waitlist-note">🔒 No spam. Only high-signal operator updates.</div>
+
+          {status === 'success' && registeredUser ? (
+            <div className="success-view animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <h2 className="font-syne font-extrabold text-[clamp(44px,6vw,72px)] leading-none tracking-[-3px] text-[var(--green)] mb-5">
+                POSITION #{registeredUser.position}
+              </h2>
+              <p className="waitlist-sub">You've successfully secured your spot. The 2026 Operator's Blueprint is now available for you.</p>
+              <div className="flex justify-center mt-10">
+                <a
+                  href="/2026_Niche_Discovery.pdf"
+                  download
+                  className="btn-primary px-12 py-5"
+                >
+                  Download 2026 Operator's Blueprint
+                </a>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h2 className="section-title" style={{ marginBottom: '20px' }}>Ready to Become<br />an Operator?</h2>
+              <p className="waitlist-sub">50 new operators onboarded every Monday. Join 2,400+ builders already in the waitlist.</p>
+              <form className="waitlist-form" onSubmit={handleJoinWaitlist}>
+                <input
+                  className="waitlist-input"
+                  type="email"
+                  placeholder="enter@your-email.com"
+                  required
+                  id="waitlist-email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={status === 'loading'}
+                />
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{ cursor: 'none', border: 'none' }}
+                  disabled={status === 'loading'}
+                >
+                  {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                </button>
+              </form>
+            </>
+          )}
+
+          <div className="waitlist-note mt-6">🔒 No spam. Only high-signal operator updates.</div>
         </div>
       </section>
 
