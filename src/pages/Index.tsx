@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { useToast } from '@/hooks/use-toast';
 
 // Replaces the vanilla JS grid with a clean React Component
 const ContributionGrid = () => {
+  const squares = Array.from({ length: 280 });
+  
   return (
     <div id="contribution-grid" className="grid grid-flow-col grid-rows-7 gap-1.5">
-      {Array.from({ length: 280 }).map((_, i) => (
+      {squares.map((_, i) => (
         <div
           key={i}
           className={`w-3 h-3 rounded-sm transition-colors duration-300 ${
@@ -22,15 +23,30 @@ const ContributionGrid = () => {
 const Index = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [referralCode, setReferralCode] = useState('');
+  
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const referralCode = searchParams.get('ref') || localStorage.getItem('referredBy');
 
-  // Preserve referral code if user lands from an invite link
+  // Safely handle localStorage inside useEffect to prevent render crashes
   useEffect(() => {
-    if (searchParams.get('ref')) {
-      localStorage.setItem('referredBy', searchParams.get('ref') as string);
+    let code = searchParams.get('ref') || '';
+    
+    if (!code) {
+      try {
+        code = localStorage.getItem('referredBy') || '';
+      } catch (e) {
+        // Ignore restricted storage errors
+      }
+    } else {
+      try {
+        localStorage.setItem('referredBy', code);
+      } catch (e) {
+        // Ignore restricted storage errors
+      }
     }
+    
+    setReferralCode(code);
   }, [searchParams]);
 
   const handleJoinWaitlist = async (e: React.FormEvent) => {
@@ -45,13 +61,24 @@ const Index = () => {
       const response = await fetch(targetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), referralCode: referralCode || '' }),
+        body: JSON.stringify({ 
+            email: email.trim(), 
+            reason: "Fast tracked via V2 landing page", // ⚡️ Fixes the 400 Bad Request error
+            referralCode: referralCode 
+        }),
       });
 
-      const res = await response.json();
+      // Safely parse JSON to prevent crash on non-JSON error responses
+      const text = await response.text();
+      let res;
+      try {
+        res = JSON.parse(text);
+      } catch (parseError) {
+        res = { message: text };
+      }
 
       if (!response.ok) {
-        throw new Error(res.message || 'Failed to join waitlist');
+        throw new Error(res.message || res.error || `Failed to join waitlist (Error ${response.status})`);
       }
 
       setStatus('success');
@@ -74,13 +101,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-primary selection:text-white">
-      <Helmet>
-        <title>HustleIQ | The Agentic SaaS Execution Engine</title>
-        <meta property="og:title" content="We Make You an Operator in 30 Days." />
-        <meta property="og:description" content="The Swiss-engineered execution engine for side-hustlers. Let our AI agents build your daily blueprint using live 2026 data." />
-        <meta property="twitter:title" content="HustleIQ | The Agentic SaaS Execution Engine" />
-        <meta property="twitter:description" content="Stop planning, start shipping. We make you an Operator in 30 days." />
-      </Helmet>
 
       {/* NAVIGATION */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200" aria-label="Main Navigation">
@@ -92,7 +112,7 @@ const Index = () => {
             <div className="hidden md:flex items-center space-x-8">
               <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
               <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#gamification">Gamification</a>
-              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#pricing">Manifesto</a>
+              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#waitlist">Manifesto</a>
             </div>
             <div className="flex items-center">
               <a href="#waitlist" className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -130,10 +150,12 @@ const Index = () => {
                   <span>Start Execution</span>
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                 </a>
-                <button type="button" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
-                  <span>View Demo</span>
-                  <span className="material-symbols-outlined text-sm" aria-hidden="true">play_circle</span>
-                </button>
+                
+                {/* ⚡️ View Demo changed to Download Book */}
+                <a href="/2026_Niche_Discovery.pdf" target="_blank" rel="noopener noreferrer" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
+                  <span>Download Book</span>
+                  <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
+                </a>
               </div>
             </div>
 
@@ -147,7 +169,7 @@ const Index = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex gap-3"><span className="text-blue-400">09:41:22</span><span className="text-primary">[Scout]</span><span>Analyzing 4 micro-SaaS niches...</span></div>
-                <div className="flex gap-3"><span class="text-blue-400">09:41:24</span><span className="text-purple-400">[Architect]</span><span>Generating MVP schema v1.2...</span></div>
+                <div className="flex gap-3"><span className="text-blue-400">09:41:24</span><span className="text-purple-400">[Architect]</span><span>Generating MVP schema v1.2...</span></div>
                 <div className="flex gap-3"><span className="text-blue-400">09:41:28</span><span className="text-yellow-400">[Builder]</span><span className="text-white">Deploying constraints...</span></div>
               </div>
             </div>
