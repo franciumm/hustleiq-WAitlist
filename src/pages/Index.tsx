@@ -191,10 +191,12 @@ const Index = () => {
                 <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-                <span className="ml-2 text-slate-500 text-xs">pipeline_activity.log</span>
+                {/* Fixed text contrast here: text-slate-500 -> text-slate-400 */}
+                <span className="ml-2 text-slate-400 text-xs">pipeline_activity.log</span>
               </div>
               <div className="space-y-2">
-                <div className="flex gap-3"><span className="text-blue-400">09:41:22</span><span className="text-primary">[Scout]</span><span>Analyzing 4 micro-SaaS niches...</span></div>
+                {/* Fixed text contrast here: text-primary -> text-green-400 */}
+                <div className="flex gap-3"><span className="text-blue-400">09:41:22</span><span className="text-green-400">[Scout]</span><span>Analyzing 4 micro-SaaS niches...</span></div>
                 <div className="flex gap-3"><span className="text-blue-400">09:41:24</span><span className="text-purple-400">[Architect]</span><span>Generating MVP schema v1.2...</span></div>
                 <div className="flex gap-3"><span className="text-blue-400">09:41:28</span><span className="text-yellow-400">[Builder]</span><span className="text-white">Deploying constraints...</span></div>
               </div>
