@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
-// Replaces the vanilla JS grid with a clean React Component
+// Safe, pre-filled array to prevent minifier mapping crashes
 const ContributionGrid = () => {
-  const squares = Array.from({ length: 280 });
+  const squares = new Array(280).fill(0);
   
   return (
     <div id="contribution-grid" className="grid grid-flow-col grid-rows-7 gap-1.5">
       {squares.map((_, i) => (
         <div
-          key={i}
+          key={`square-${i}`}
           className={`w-3 h-3 rounded-sm transition-colors duration-300 ${
             i === 279 ? 'bg-primary animate-pulse-green' : i > 268 ? 'bg-primary' : 'bg-slate-100'
           }`}
@@ -58,27 +58,35 @@ const Index = () => {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const targetUrl = apiUrl.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`;
 
+      // Safely construct payload to prevent 400 validation errors
+      const payload: Record<string, string> = {
+          email: email.trim(),
+          reason: "Fast tracked via V2 landing page" // Satisfies backend requirement
+      };
+      
+      // Only attach referralCode if it actually exists (prevents backend rejecting empty strings)
+      if (referralCode) {
+          payload.referralCode = referralCode;
+      }
+
       const response = await fetch(targetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            email: email.trim(), 
-            reason: "Fast tracked via V2 landing page", // ⚡️ Fixes the 400 Bad Request error
-            referralCode: referralCode 
-        }),
+        body: JSON.stringify(payload),
       });
 
-      // Safely parse JSON to prevent crash on non-JSON error responses
+      // Safely parse JSON to prevent crash on non-JSON error responses (like 502 HTML pages)
       const text = await response.text();
-      let res;
+      let res: any = {};
       try {
-        res = JSON.parse(text);
+        res = text ? JSON.parse(text) : {};
       } catch (parseError) {
-        res = { message: text };
+        console.warn("Non-JSON response received");
       }
 
       if (!response.ok) {
-        throw new Error(res.message || res.error || `Failed to join waitlist (Error ${response.status})`);
+        const errorMessage = res.message || res.error || `Server error: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
       setStatus('success');
@@ -91,10 +99,13 @@ const Index = () => {
       setEmail('');
     } catch (error: any) {
       setStatus('idle');
+      // Coerce error message to string to ensure Toast doesn't crash trying to render an object
+      const safeErrorMessage = typeof error.message === 'string' ? error.message : 'Please try again later.';
+      
       toast({
         variant: 'destructive',
         title: 'Something went wrong',
-        description: error.message || 'Please try again later.',
+        description: safeErrorMessage,
       });
     }
   };
@@ -151,7 +162,7 @@ const Index = () => {
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                 </a>
                 
-                {/* ⚡️ View Demo changed to Download Book */}
+                {/* View Demo changed to Download Book */}
                 <a href="/2026_Niche_Discovery.pdf" target="_blank" rel="noopener noreferrer" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
                   <span>Download Book</span>
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
