@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useToast } from '@/hooks/use-toast';
 
+const HelmetFixed = Helmet as any;
+
 // Replaces the vanilla JS grid with a clean React Component
 const ContributionGrid = () => {
   return (
@@ -47,7 +49,7 @@ const Index = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
             email: email.trim(), 
-            reason: "Fast tracked via V2 landing page", // Added to satisfy backend validation
+            reason: "Fast tracked via V2 landing page", // ⚡️ Fixes the 400 Bad Request error
             referralCode: referralCode || '' 
         }),
       });
@@ -83,13 +85,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-primary selection:text-white">
-      <Helmet>
+      <HelmetFixed>
         <title>HustleIQ | The Agentic SaaS Execution Engine</title>
         <meta property="og:title" content="We Make You an Operator in 30 Days." />
         <meta property="og:description" content="The Swiss-engineered execution engine for side-hustlers. Let our AI agents build your daily blueprint using live 2026 data." />
         <meta property="twitter:title" content="HustleIQ | The Agentic SaaS Execution Engine" />
         <meta property="twitter:description" content="Stop planning, start shipping. We make you an Operator in 30 days." />
-      </Helmet>
+      </HelmetFixed>
 
       {/* NAVIGATION */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200" aria-label="Main Navigation">
@@ -101,7 +103,7 @@ const Index = () => {
             <div className="hidden md:flex items-center space-x-8">
               <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
               <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#gamification">Gamification</a>
-              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#pricing">Manifesto</a>
+              <a className="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#waitlist">Manifesto</a>
             </div>
             <div className="flex items-center">
               <a href="#waitlist" className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -139,7 +141,8 @@ const Index = () => {
                   <span>Start Execution</span>
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                 </a>
-                {/* Changed from View Demo to Download Book link */}
+                
+                {/* ⚡️ View Demo changed to Download Book */}
                 <a href="/2026_Niche_Discovery.pdf" target="_blank" rel="noopener noreferrer" className="bg-transparent border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
                   <span>Download Book</span>
                   <span className="material-symbols-outlined text-sm" aria-hidden="true">download</span>
