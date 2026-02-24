@@ -24,11 +24,13 @@ export default {
         mono: ["DM Mono", ...fontFamily.mono],
       },
       colors: {
-        border: "hsl(var(--border))",
+        border: "rgba(29, 255, 122, 0.12)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "#050A06",
-        foreground: "hsl(var(--foreground))",
+        foreground: "#F0FFF4",
+        surface: "#0C130D",
+        "surface-2": "#121A13",
         primary: {
           DEFAULT: "#1DFF7A",
           hover: "#18E66D",
@@ -83,6 +85,14 @@ export default {
         },
         "spin-border": {
           "to": { transform: "rotate(1turn)" }
+        },
+        "blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.2" }
+        },
+        "sq-pulse": {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(29, 255, 122, 0.4)" },
+          "50%": { boxShadow: "0 0 0 5px rgba(29, 255, 122, 0)" }
         }
       },
       animation: {
@@ -91,6 +101,8 @@ export default {
         "pulse-green": "pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "marquee": "marquee 25s linear infinite",
         "spin-border": "spin-border 4s linear infinite",
+        "blink": "blink 1.5s ease-in-out infinite",
+        "sq-pulse": "sq-pulse 2s ease-in-out infinite",
       },
     },
   },

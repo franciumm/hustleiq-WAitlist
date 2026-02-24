@@ -4,52 +4,81 @@
 
 @layer base {
   :root {
-    --background: 130 50% 3%;
-    --foreground: 0 0% 98%;
-    --primary-foreground: 130 50% 3%;
-    --border: 130 20% 12%;
+    --green: #1DFF7A;
+    --green-dim: #0fcc5e;
+    --green-glow: rgba(29, 255, 122, 0.15);
+    --black: #050A06;
+    --surface: #0C130D;
+    --surface-2: #121A13;
+    --border: rgba(29, 255, 122, 0.12);
+    --border-bright: rgba(29, 255, 122, 0.3);
+    --text-primary: #F0FFF4;
+    --text-muted: rgba(240, 255, 244, 0.45);
+    --text-dim: rgba(240, 255, 244, 0.25);
     --radius: 0rem;
   }
 
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-background;
-    font-feature-settings: "ss01", "ss03", "cv08", "cv11";
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: 'Syne', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'DM Mono', monospace;
   }
 }
 
 @layer components {
   .noise-overlay {
-    @apply fixed inset-0 z-[100] pointer-events-none opacity-[0.04];
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    @apply fixed inset-0 z-0 pointer-events-none opacity-50;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
   .grid-bg {
-    @apply fixed inset-0 -z-10 pointer-events-none opacity-20;
-    background-image: 
-      linear-gradient(to right, #1DFF7A1A 1px, transparent 1px),
-      linear-gradient(to bottom, #1DFF7A1A 1px, transparent 1px);
+    @apply fixed inset-0 z-0 pointer-events-none;
+    background-image:
+      linear-gradient(rgba(29, 255, 122, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(29, 255, 122, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
-  }
-
-  .neo-brutalist-border {
-    @apply border-2 border-primary shadow-[4px_4px_0px_0px_rgba(29,255,122,1)];
-  }
-
-  .neo-brutalist-card {
-    @apply bg-background border border-primary/20 p-8 relative overflow-hidden;
   }
 }
 
 /* Custom Cursor */
 @media (pointer: fine) {
-  .custom-cursor {
-    @apply fixed top-0 left-0 w-8 h-8 rounded-full border border-primary z-[9999] pointer-events-none mix-blend-difference transition-transform duration-100 ease-out;
-    transform: translate(-50%, -50%);
+  .cursor-dot {
+    @apply fixed w-[10px] h-[10px] bg-primary rounded-full pointer-events-none z-[9999];
+    transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+  }
+
+  .cursor-ring {
+    @apply fixed w-[36px] h-[36px] border border-primary/50 rounded-full pointer-events-none z-[9998];
+    transition: transform 0.15s ease-out, width 0.2s, height 0.2s, opacity 0.2s;
   }
 }
 
 @media (pointer: coarse) {
-  .custom-cursor {
+
+  .cursor-dot,
+  .cursor-ring {
     display: none !important;
   }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
 }

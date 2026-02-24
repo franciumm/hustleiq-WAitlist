@@ -1,64 +1,41 @@
 import { useEffect, useState, useRef } from 'react';
 
-const AGENTS = ['Scout', 'Strategist', 'Marketer', 'CFO', 'QA', 'Launchpad'];
-const MESSAGES = [
-    'Analyzing market gaps...',
-    'Architecting tech stack...',
-    'Optimizing conversion loops...',
-    'Calculating burn rate...',
-    'Running integration tests...',
-    'Preparing for deployment...',
-    'Scraping niche signals...',
-    'Validating MVP schema...',
-    'Generating copy assets...',
-    'Setting up stripe hooks...',
+const LOGS = [
+    { time: '09:41:22', tag: '[Scout]', msg: 'Scanning 4 micro-SaaS niches...', color: 'text-[#1DFF7A]' },
+    { time: '09:41:24', tag: '[Strategist]', msg: 'Roadmap & Moat v2.1 validated', color: 'text-[#B59AFF]' },
+    { time: '09:41:28', tag: '[Marketer]', msg: 'Growth loops locked. Routing...', color: 'text-[#FF6B9D]', bright: true },
+    { time: '09:41:35', tag: '[CFO]', msg: 'Runway: 92 days @ $500/mo', color: 'text-[#06D6FF]' },
+    { time: '09:41:40', tag: '[QA]', msg: 'Plan audit score: 9.8/10', color: 'text-[#28C840]' },
+    { time: '09:41:48', tag: '[Launchpad]', msg: 'Day 1 blueprint ready.', color: 'text-[#FF9A3C]', bright: true, cursor: true },
 ];
 
 export const TerminalWindow = () => {
-    const [logs, setLogs] = useState<{ id: number; time: string; agent: string; msg: string; color: string }[]>([]);
-    const scrollRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const time = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const agent = AGENTS[Math.floor(Math.random() * AGENTS.length)];
-            const msg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
-            const colors = ['text-green-400', 'text-blue-400', 'text-purple-400', 'text-yellow-400', 'text-cyan-400'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            setLogs((prev) => [...prev.slice(-8), { id: Date.now(), time, agent, msg, color }]);
-        }, 2000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, [logs]);
-
     return (
-        <div className="neo-brutalist-card font-mono text-sm h-64 flex flex-col">
-            <div className="flex items-center gap-2 mb-4 border-b border-primary/20 pb-2">
-                <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-                </div>
-                <span className="text-primary/40 text-[10px] uppercase tracking-widest">pipeline_activity.log</span>
+        <div className="w-[440px] bg-surface border border-border rounded-[16px] overflow-hidden shadow-[0_0_80px_rgba(29,255,122,0.06),0_40px_80px_rgba(0,0,0,0.5)]">
+            <div className="bg-surface-2 px-[18px] py-[14px] flex items-center gap-[8px] border-b border-border">
+                <div className="w-[10px] h-[10px] rounded-full bg-[#FF5F57]"></div>
+                <div className="w-[10px] h-[10px] rounded-full bg-[#FFBD2E]"></div>
+                <div className="w-[10px] h-[10px] rounded-full bg-[#28C840]"></div>
+                <span className="ml-[8px] font-mono text-[11px] text-white/20">pipeline_activity.log</span>
             </div>
-            <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-1 scrollbar-hide">
-                {logs.map((log) => (
-                    <div key={log.id} className="flex gap-3 animate-in fade-in slide-in-from-left-2 duration-300">
-                        <span className="text-white/20 whitespace-nowrap">{log.time}</span>
-                        <span className={`${log.color} font-bold whitespace-nowrap`}>[{log.agent}]</span>
-                        <span className="text-white/80">{log.msg}</span>
+            <div className="p-[24px]">
+                {LOGS.map((log, i) => (
+                    <div key={i} className="font-mono text-[12px] leading-[2] flex gap-[12px] items-start">
+                        <span className="text-primary/35 min-w-[70px]">{log.time}</span>
+                        <span className={log.color}>{log.tag}</span>
+                        <span className={`${log.bright ? 'text-foreground font-medium' : 'text-foreground/70'}`}>
+                            {log.msg}
+                            {log.cursor && <span className="inline-block w-[7px] h-[13px] bg-primary ml-[4px] align-middle animate-pulse" />}
+                        </span>
                     </div>
                 ))}
-                {logs.length === 0 && (
-                    <div className="text-primary animate-pulse">Initializing agents...</div>
-                )}
+            </div>
+            <div className="px-[24px] py-[14px] border-top border-border flex items-center gap-[10px]">
+                <span className="font-mono text-[11px] text-primary">68%</span>
+                <div className="flex-1 h-[3px] bg-surface-2 rounded-full overflow-hidden">
+                    <div className="h-full w-[68%] bg-primary rounded-full shadow-[0_0_8px_var(--green)] animate-pulse" />
+                </div>
+                <span className="font-mono text-[11px] text-primary">Pipeline running</span>
             </div>
         </div>
     );
