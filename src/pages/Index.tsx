@@ -216,7 +216,7 @@ const Index = () => {
             <article className="col-span-12 lg:col-span-8 bento-card flex flex-col justify-between overflow-hidden">
               <div className="flex justify-between items-start mb-8">
                 <div>
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">The Operator Streak</h3>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">The Operator Streak</h3>
                   <p className="text-4xl font-bold text-slate-900">12 Day Streak</p>
                   <p className="text-sm font-bold text-primary mt-2">Consistency Score: Top 5%</p>
                 </div>
@@ -232,8 +232,8 @@ const Index = () => {
             {/* Unlock Progress Card */}
             <article className="col-span-12 lg:col-span-4 row-span-2 bento-card flex flex-col items-center justify-between text-center">
               <div className="w-full">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-8">The Unlock Progress</h3>
-                <div className="relative h-64 w-4 bg-slate-100 rounded-full mx-auto mb-8 overflow-hidden" role="progressbar" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100}>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8">The Unlock Progress</h3>
+                <div className="relative h-64 w-4 bg-slate-100 rounded-full mx-auto mb-8 overflow-hidden" role="progressbar" aria-label="Unlock Progress" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100}>
                   <div className="absolute bottom-0 w-full bg-primary rounded-full transition-all duration-1000" style={{ height: '75%' }}></div>
                 </div>
                 <div className="mb-6">
@@ -243,7 +243,7 @@ const Index = () => {
                 <p className="text-sm text-slate-500 font-normal">3 days to unlock</p>
               </div>
               <div className="w-full p-4 bg-slate-50 rounded-xl mt-8">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-tight mb-2">Completion Rate</p>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-tight mb-2">Completion Rate</p>
                 <p className="text-3xl font-bold text-slate-900">75%</p>
               </div>
             </article>
@@ -257,7 +257,7 @@ const Index = () => {
                 <div className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">LVL 3</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">The Identity Badge</h3>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">The Identity Badge</h3>
                 <p className="text-2xl font-bold text-slate-900">Current Rank: Level 3 Builder</p>
                 <p className="text-slate-500 text-sm mt-1 font-normal">Reach Level 4 to access the Private Discord.</p>
               </div>
@@ -349,7 +349,7 @@ const Index = () => {
                     </button>
                   </form>
 
-                  <p className="mt-6 text-xs text-slate-400 font-normal flex items-center justify-center gap-1">
+                  <p className="mt-6 text-xs text-slate-500 font-normal flex items-center justify-center gap-1">
                     <span className="material-symbols-outlined text-sm text-primary" aria-hidden="true">lock</span>
                     No spam. Only high-signal updates.
                   </p>
@@ -388,13 +388,13 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <img alt="HustleIQ Logo" className="h-6 w-6 object-contain opacity-40 grayscale" src="/logo.png" />
-            <span className="text-sm text-slate-400 font-normal">&copy; 2026 HustleIQ Inc. All rights reserved.</span>
+            <span className="text-sm text-slate-500 font-normal">&copy; 2026 HustleIQ Inc. All rights reserved.</span>
           </div>
 
           <div className="flex gap-8">
-            <a className="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Privacy Policy</a>
-            <a className="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Terms</a>
-            <a className="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="https://twitter.com/hustleiq" target="_blank" rel="noreferrer">Twitter</a>
+            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="#">Privacy Policy</a>
+            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="#">Terms</a>
+            <a className="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="https://twitter.com/hustleiq" target="_blank" rel="noreferrer">Twitter</a>
           </div>
         </div>
       </footer>

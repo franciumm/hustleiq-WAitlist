@@ -25,8 +25,8 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#2eb82e",
-          hover: "#259625",
+          DEFAULT: "#15803d", // Changed from #2eb82e to pass contrast check
+          hover: "#166534",   // Darkened hover state
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
