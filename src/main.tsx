@@ -13,8 +13,6 @@ import '@fontsource/dm-mono/500.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
-      <div className="noise-overlay" />
-      <div className="grid-bg" />
       <App />
     </HelmetProvider>
   </React.StrictMode>,
