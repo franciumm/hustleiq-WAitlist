@@ -112,7 +112,8 @@ const Index = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          referralCode: localStorage.getItem('hustleiq_ref')
+          referralCode: localStorage.getItem('hustleiq_ref'),
+          reason: 'waitlist'
         }),
       });
 
