@@ -5,8 +5,8 @@ import './index.css'
 import { HelmetProvider } from 'react-helmet-async'
 
 // Fonts
-import '@fontsource/syne/variable.css';
-import '@fontsource/dm-sans/variable.css';
+import '@fontsource-variable/syne/index.css';
+import '@fontsource-variable/dm-sans/index.css';
 import '@fontsource/dm-mono/400.css';
 import '@fontsource/dm-mono/500.css';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { Check, Download, ArrowRight, Lock } from 'lucide-react';
+import { Check, Download, ArrowRight, Lock, Rocket } from 'lucide-react';
 import { TerminalWindow } from '@/components/TerminalWindow';
 import { CustomCursor } from '@/components/CustomCursor';
 import { AgentIcon } from '@/components/AgentIcon';
@@ -161,7 +161,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="hidden lg:block min-w-0" id="pipeline">
+          <div className="hidden terminal:block min-w-0" id="pipeline">
             <TerminalWindow />
           </div>
         </section>
@@ -173,9 +173,9 @@ const Index = () => {
               Rewire Your Brain For <span className="text-primary">Dopamine</span>
             </h2>
 
-            <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid terminal:grid-cols-3 gap-8">
               {/* Streak */}
-              <div className="lg:col-span-2 neo-brutalist-card flex flex-col gap-12">
+              <div className="terminal:col-span-2 neo-brutalist-card flex flex-col gap-12 overflow-x-auto">
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-2">Operational Consistency</h3>
@@ -185,7 +185,9 @@ const Index = () => {
                     <Rocket className="w-6 h-6" />
                   </div>
                 </div>
-                <StreakGrid />
+                <div className="min-w-fit">
+                  <StreakGrid />
+                </div>
               </div>
 
               {/* Badge */}
@@ -212,7 +214,7 @@ const Index = () => {
         {/* AGENTS BENTO */}
         <section className="py-24 border-t-2 border-primary/20">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid stack:grid-cols-2 terminal:grid-cols-3 gap-6">
               {['Scout', 'Strategist', 'Marketer', 'CFO', 'QA', 'Launchpad'].map((agent) => (
                 <div key={agent} className="neo-brutalist-card group hover:border-primary/60 transition-colors">
                   <AgentIcon name={agent} className="w-8 h-8 text-primary mb-6" />
