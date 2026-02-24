@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from "@vercel/analytics/react";
 
-const Index = lazy(() => import("./pages/Index")); 
+const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -21,14 +21,12 @@ const App = () => (
       <SpeedInsights />
 
       <BrowserRouter>
-        <main className="relative z-10 min-h-[100dvh]">
-          <Suspense fallback={<div className="bg-[#F8FAFC] min-h-screen" />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </main>
+        <Suspense fallback={<div className="min-h-screen bg-transparent" />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
