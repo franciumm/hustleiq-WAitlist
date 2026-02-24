@@ -97,10 +97,17 @@ const Index = () => {
     e.preventDefault();
     setStatus('loading');
 
-    try {      
-      const apiUrl = import.meta.env.VITE_API_URL || '';
-      const resp = await fetch(apiUrl.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`,
-         {
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL?.trim() || '';
+      if (!rawApiUrl) {
+        console.warn('[waitlist] VITE_API_URL is not set, using same-origin /api base.');
+      }
+      const apiBase = rawApiUrl;
+      const endpoint = apiBase
+        ? (apiBase.endsWith('/') ? `${apiBase}api/waitlist/join` : `${apiBase}/api/waitlist/join`)
+        : '/api/waitlist/join';
+
+      const resp = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -109,8 +116,18 @@ const Index = () => {
         }),
       });
 
-      const res = await resp.json();
-      if (!resp.ok) throw new Error(res.message || 'Server error');
+      const res = await resp.json().catch(() => ({}));
+
+      if (!resp.ok) {
+        console.error('[waitlist] join failed', {
+          endpoint,
+          status: resp.status,
+          statusText: resp.statusText,
+          body: res,
+        });
+        const message = (res && (res.message || res.error)) || `Request failed with status ${resp.status}`;
+        throw new Error(message);
+      }
 
       const userData = { position: res.data?.currentPosition || 'N/A' };
       localStorage.setItem('hustleiq_user_v1', JSON.stringify(userData));
@@ -122,11 +139,13 @@ const Index = () => {
         description: `Position #${userData.position}`,
       });
     } catch (error: any) {
+      console.error('[waitlist] join error', error);
       setStatus('idle');
+      const description = error?.message || 'Something went wrong while joining the waitlist.';
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: error.message,
+        description,
       });
     }
   };
