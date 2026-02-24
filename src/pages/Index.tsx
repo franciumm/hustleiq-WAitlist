@@ -97,8 +97,10 @@ const Index = () => {
     e.preventDefault();
     setStatus('loading');
 
-    try {
-      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/waitlist/join`, {
+    try {      
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const resp = await fetch(apiUrl.endsWith('/') ? `${apiUrl}api/waitlist/join` : `${apiUrl}/api/waitlist/join`,
+         {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
