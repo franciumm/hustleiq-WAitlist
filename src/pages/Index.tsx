@@ -374,7 +374,7 @@ const [email, setEmail] = useState('');
           ) : (
             <>
               <h2 className="section-title" style={{ marginBottom: '20px', textAlign: 'center' }}>Ready to Become<br />an Operator?</h2>
-              <p className="waitlist-sub">50 new operators onboarded every Monday. Join 2,400+ builders already in the waitlist.</p>
+              <p className="waitlist-sub">50 new operators onboarded every Monday. Join Elite 500 builders Circle.</p>
               <form className="waitlist-form" onSubmit={handleJoinWaitlist}>
                 <input
                   className="waitlist-input"
