@@ -20,8 +20,8 @@
   --border-bright: rgba(29, 255, 122, 0.3);
   --text-primary: #F0FFF4;
   /* Higher contrast for small text on dark background */
-  --text-muted: rgba(240, 255, 244, 0.74);
-  --text-dim: rgba(240, 255, 244, 0.58);
+  --text-muted: rgba(240, 255, 244, 0.85);
+  --text-dim: rgba(240, 255, 244, 0.65);
   --font-display: 'Syne', sans-serif;
   --font-mono: 'DM Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
@@ -190,8 +190,10 @@ nav {
   transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: var(--green);
+  font-weight: 700;
 }
 
 .nav-cta {
@@ -207,12 +209,14 @@ nav {
   transition: box-shadow 0.2s, transform 0.2s;
   text-decoration: none;
   letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(29, 255, 122, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .nav-cta:hover {
-  box-shadow: 0 0 24px rgba(29, 255, 122, 0.45);
+  box-shadow: 0 0 24px rgba(29, 255, 122, 0.45), 0 6px 16px rgba(29, 255, 122, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
 }
+
 
 /* SECTIONS BASE */
 section,
@@ -303,7 +307,7 @@ header {
   font-weight: 300;
   color: var(--text-muted);
   max-width: 480px;
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 52px;
 }
 
@@ -312,7 +316,6 @@ header {
   align-items: center;
   gap: 20px;
 }
-
 .btn-primary {
   font-family: var(--font-display);
   font-size: 14px;
@@ -329,10 +332,11 @@ header {
   align-items: center;
   gap: 10px;
   letter-spacing: 0.01em;
+  box-shadow: 0 4px 14px rgba(29, 255, 122, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 40px rgba(29, 255, 122, 0.5), 0 8px 24px rgba(29, 255, 122, 0.2);
+  box-shadow: 0 0 40px rgba(29, 255, 122, 0.5), 0 8px 24px rgba(29, 255, 122, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
@@ -562,10 +566,9 @@ header {
   font-weight: 300;
   color: var(--text-muted);
   max-width: 480px;
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 64px;
 }
-
 .agents-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -580,6 +583,7 @@ header {
   padding: 36px 32px;
   position: relative;
   transition: background 0.3s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .agent-card:hover {
@@ -626,7 +630,7 @@ header {
   font-size: 13px;
   font-weight: 300;
   color: var(--text-muted);
-  line-height: 1.65;
+  line-height: 1.8;
 }
 
 .agent-tag {
@@ -661,6 +665,7 @@ header {
   position: relative;
   overflow: hidden;
   transition: border-color 0.3s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .game-card:hover {
@@ -819,7 +824,7 @@ header {
   font-size: 13px;
   color: var(--text-muted);
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 20px;
 }
 
@@ -904,6 +909,7 @@ header {
   padding: 48px 36px;
   position: relative;
   transition: background 0.3s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .step:hover {
@@ -945,7 +951,7 @@ header {
   font-size: 14px;
   font-weight: 300;
   color: var(--text-muted);
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .step-connector {
@@ -982,7 +988,7 @@ header {
   color: var(--text-muted);
   font-weight: 300;
   margin-bottom: 48px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .waitlist-form {
@@ -1052,13 +1058,14 @@ header {
   font-size: 13px;
   font-weight: 700;
   color: var(--text-dim);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 0 32px;
   display: flex;
   align-items: center;
   gap: 32px;
 }
+
 
 .ticker-item .dot {
   width: 4px;

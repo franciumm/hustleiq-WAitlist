@@ -60,9 +60,11 @@ const StreakGrid = () => {
 const Index = () => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [registeredUser, setRegisteredUser] = useState<{ position: number | string } | null>(null);
+const [email, setEmail] = useState('');
+  const [activeSection, setActiveSection] = useState<string>('hero');
+
 
   useEffect(() => {
     // Check for existing user
@@ -82,7 +84,7 @@ const Index = () => {
     const ref = searchParams.get('ref');
     if (ref) localStorage.setItem('hustleiq_ref', ref);
 
-    const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
           setTimeout(() => e.target.classList.add('visible'), i * 80);
@@ -92,6 +94,21 @@ const Index = () => {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    document.querySelectorAll('section, header').forEach(el => sectionObserver.observe(el));
+
+    return () => {
+      sectionObserver.disconnect();
+      observer.disconnect();
+    };
   }, [searchParams]);
 
   const handleJoinWaitlist = async (e: React.FormEvent) => {
@@ -172,16 +189,16 @@ const Index = () => {
           HustleIQ
         </a>
         <ul className="nav-links">
-          <li><a href="#agents">The Engine</a></li>
-          <li><a href="#gamification">Gamification</a></li>
-          <li><a href="#steps">How It Works</a></li>
+          <li><a href="#agents" className={activeSection === 'agents' ? 'active' : ''}>The Engine</a></li>
+          <li><a href="#gamification" className={activeSection === 'gamification' ? 'active' : ''}>Gamification</a></li>
+          <li><a href="#steps" className={activeSection === 'steps' ? 'active' : ''}>How It Works</a></li>
         </ul>
         <a href="#waitlist" className="nav-cta">Join the Circle →</a>
       </nav>
 
       <main id="main-content">
         {/* HERO */}
-        <header className="hero">
+        <header id="hero" className="hero">
         <div className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
           Early Access Open — free trial for first 500 Operators
@@ -191,10 +208,10 @@ const Index = () => {
           <span className="strike">Planning.</span><br />
           Start <span className="accent">Shipping.</span>
         </h1>
-        <p className="hero-body">
-          Our 6-agent AI pipeline scouts markets, architects solutions, and executes your side-hustle blueprint —
-          automatically. Become an Operator in 30 days.
+       <p className="hero-body">
+          AI scouts niches, builds roadmaps, and executes your SaaS blueprint. Launch in 30 days.
         </p>
+
         <div className="hero-actions">
           <a href="#waitlist" className="btn-primary">
             Start Execution
@@ -242,13 +259,13 @@ const Index = () => {
         </div>
         <div className="agents-grid fade-in">
           {[
-            { id: '01', icon: '🎯', name: 'Scout', desc: 'Analyzes thousands of market signals in real-time to surface high-ROI micro-SaaS niches matching your operator profile.', tag: 'MARKET INTEL', bg: 'rgba(29,255,122,0.08)', color: 'var(--green)' },
-            { id: '02', icon: '♟️', name: 'Strategist', desc: 'Develops your execution roadmap and defines your competitive moat. No scope creep. Only high-leverage moves.', tag: 'STRATEGY', bg: 'rgba(181,154,255,0.08)', color: '#B59AFF' },
-            { id: '03', icon: '📡', name: 'Marketer', desc: 'Writes cold outreach sequences, landing copy, and social content. Trained on 2026 conversion data. Ships ready-to-send.', tag: 'GROWTH', bg: 'rgba(255,107,157,0.08)', color: '#FF6B9D' },
-            { id: '04', icon: '💰', name: 'CFO', desc: 'Builds live financial models: runway, pricing strategy, and break-even targets calibrated to your bootstrap budget.', tag: 'FINANCE', bg: 'rgba(6,214,255,0.08)', color: '#06D6FF' },
-            { id: '05', icon: '🔍', name: 'QA', desc: 'Audits every output. Reads the plans and assures the final one is perfect, catching logic gaps before they hit production.', tag: 'VALIDATION', bg: 'rgba(40,200,64,0.08)', color: '#28C840' },
-            { id: '06', icon: '🚀', name: 'Launchpad', desc: 'Orchestrates your 30-day daily blueprint. Task by task. No decision fatigue. Just open the app and execute the next step.', tag: 'LAUNCH OPS', bg: 'rgba(255,154,60,0.08)', color: '#FF9A3C' }
-          ].map((agent) => (
+            { id: '01', icon: '🎯', name: 'Scout', desc: 'Analyzes live market signals to surface high-ROI micro-SaaS niches.', tag: 'MARKET INTEL', bg: 'rgba(29,255,122,0.08)', color: 'var(--green)' },
+            { id: '02', icon: '♟️', name: 'Strategist', desc: 'Develops your execution roadmap and competitive moat. Zero scope creep.', tag: 'STRATEGY', bg: 'rgba(181,154,255,0.08)', color: '#B59AFF' },
+            { id: '03', icon: '📡', name: 'Marketer', desc: 'Writes outreach, landing pages, and social content. Ready to send.', tag: 'GROWTH', bg: 'rgba(255,107,157,0.08)', color: '#FF6B9D' },
+            { id: '04', icon: '💰', name: 'CFO', desc: 'Builds financial models: runway, pricing, and break-even targets.', tag: 'FINANCE', bg: 'rgba(6,214,255,0.08)', color: '#06D6FF' },
+            { id: '05', icon: '🔍', name: 'QA', desc: 'Audits every output. Catches logic gaps before they hit production.', tag: 'VALIDATION', bg: 'rgba(40,200,64,0.08)', color: '#28C840' },
+            { id: '06', icon: '🚀', name: 'Launchpad', desc: 'Orchestrates your 30-day daily blueprint. Open the app and execute.', tag: 'LAUNCH OPS', bg: 'rgba(255,154,60,0.08)', color: '#FF9A3C' }
+              ].map((agent) => (
             <div key={agent.id} className="agent-card">
               <div className="agent-num">AG-{agent.id}</div>
               <div className="agent-icon" style={{ background: agent.bg }}>{agent.icon}</div>
@@ -317,10 +334,10 @@ const Index = () => {
         </div>
         <div className="steps-grid fade-in">
           {[
-            { num: '01', icon: '⚙️', title: 'Define Your Constraints', desc: 'Input your time, capital, and skills. The engine locks them to prevent scope creep before the first agent fires.', connector: true },
-            { num: '02', icon: '📡', title: 'Deploy the Scout', desc: 'AI agents scan thousands of live market signals to surface the highest-probability opportunity matching your exact profile.', connector: true },
-            { num: '03', icon: '✅', title: 'Start Real productivity', desc: 'Receive a day-by-day operator guide. Use built-in tools to automate, setup, outreach, and your first paying customers.' }
-          ].map((step) => (
+           { num: '01', icon: '⚙️', title: 'Define Your Constraints', desc: 'Input your time, capital, and skills. The engine locks them to prevent scope creep.', connector: true },
+            { num: '02', icon: '📡', title: 'Deploy the Scout', desc: 'AI agents scan live market signals to surface the highest-probability opportunity.', connector: true },
+            { num: '03', icon: '✅', title: 'Start Real productivity', desc: 'Receive a day-by-day operator guide. Use built-in tools to launch and get paying customers.' }
+           ].map((step) => (
             <div key={step.num} className="step">
               <div className="step-num">{step.num}</div>
               <div className="step-icon-wrap">{step.icon}</div>
