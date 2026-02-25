@@ -203,12 +203,18 @@ const [email, setEmail] = useState('');
           <span className="hero-eyebrow-dot" />
           Early Access Open — free trial for first 500 Operators
         </div>
-        <h1>
+       <h1>
           Stop<br />
           <span className="strike">Planning.</span><br />
           Start <span className="accent">Shipping.</span>
         </h1>
-       <p className="hero-body">
+        
+        <div className="authority-badge fade-in">
+          <span className="authority-badge-icon">✓</span>
+          VERIFIED: 2026 LIVE MARKET INTEL
+        </div>
+
+        <p className="hero-body">
           AI scouts niches, builds roadmaps, and executes your SaaS blueprint. Launch in 30 days.
         </p>
 
@@ -284,11 +290,14 @@ const [email, setEmail] = useState('');
           <h2 className="section-title">HustleIQ makes<br />Productivity <br /> addictive.<br /></h2>
           <p className="section-sub">Streaks, ranks, and unlockable agents keep you executing — even when motivation dies.</p>
         </div>
-        <div className="game-grid fade-in">
+     <div className="game-grid fade-in">
           <div className="game-card">
             <div className="game-card-label">Operator Streak</div>
             <div className="game-card-title">12 Day Streak 🔥</div>
-            <div className="game-card-sub">Consistency Score: Top 5% of Operators</div>
+            <div className="game-card-sub" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>Status: Command [Operator]</span>
+              <span style={{ fontSize: '10px', background: 'rgba(29, 255, 122, 0.1)', padding: '4px 8px', borderRadius: '4px' }}>🛡️ Soft Landing Active</span>
+            </div>
             <StreakGrid />
           </div>
 

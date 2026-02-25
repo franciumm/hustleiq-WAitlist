@@ -16,12 +16,13 @@
   --black: #050A06;
   --surface: #0C130D;
   --surface-2: #121A13;
-  --border: rgba(29, 255, 122, 0.12);
+ -border: rgba(29, 255, 122, 0.12);
   --border-bright: rgba(29, 255, 122, 0.3);
-  --text-primary: #F0FFF4;
-  /* Higher contrast for small text on dark background */
-  --text-muted: rgba(240, 255, 244, 0.85);
-  --text-dim: rgba(240, 255, 244, 0.65);
+  --text-primary: #FFFFFF;
+  --text-muted: #E0E0E0;
+  --text-dim: rgba(255, 255, 255, 0.65);
+  --amber: #FF9F0A;
+  --red: #FF453A;
   --font-display: 'Syne', sans-serif;
   --font-mono: 'DM Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
@@ -302,6 +303,27 @@ header {
   transform: translateY(-50%);
 }
 
+.authority-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-bright);
+  border-radius: 99px;
+  padding: 8px 16px;
+  background: rgba(29, 255, 122, 0.05);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  width: fit-content;
+}
+
+.authority-badge-icon {
+  color: var(--green);
+  font-size: 14px;
+}
 .hero-body {
   font-size: 17px;
   font-weight: 300;
