@@ -201,7 +201,7 @@ const [email, setEmail] = useState('');
         <header id="hero" className="hero">
         <div className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
-          Early Access Open — free trial for first 500 Operators
+          Early Access Open — free trial for first 100 Operators
         </div>
        <h1>
           Stop<br />
@@ -383,7 +383,7 @@ const [email, setEmail] = useState('');
           ) : (
             <>
               <h2 className="section-title" style={{ marginBottom: '20px', textAlign: 'center' }}>Ready to Become<br />an Operator?</h2>
-              <p className="waitlist-sub">50 new operators onboarded every Monday. Join Elite 500 builders Circle.</p>
+              <p className="waitlist-sub">50 new operators onboarded every Monday. Join Elite 100 builders Circle.</p>
               <form className="waitlist-form" onSubmit={handleJoinWaitlist}>
                 <input
                   className="waitlist-input"
